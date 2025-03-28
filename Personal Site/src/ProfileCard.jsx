@@ -4,6 +4,9 @@ function ProfileCard(){
 
     return(
         <div className="card">
+             <div>
+                <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
+            </div>
             <div>
             <h2>Eric Zwierzynski</h2>
             <h3>Software Engineer</h3>
@@ -13,9 +16,7 @@ function ProfileCard(){
             </div>
             <div className='second-link'><a> <FaLinkedin size={30} /></a><a><FaGithub size={30} /></a></div>
             </div>
-            <div>
-                <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
-            </div>
+           
         </div>
         
     )
