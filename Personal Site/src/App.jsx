@@ -4,6 +4,9 @@ import ProfileCard  from './ProfileCard.jsx'
 import About from './about.jsx'
 import Footer from './footer.jsx'
 import Experience from './experience.jsx'
+import Skills from './skills.jsx'
+import Projects from './projects.jsx'
+import Connect from './connect.jsx'
 
 function App() {
   
@@ -14,6 +17,9 @@ function App() {
       <ProfileCard/>
       <About/>
       <Experience/>
+      <Skills/>
+      <Projects/>
+      <Connect/>
       <Footer/>
 
       

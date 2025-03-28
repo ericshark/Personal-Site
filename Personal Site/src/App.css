@@ -4,13 +4,14 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 .NavBar{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  background-color: rgb(45, 45, 45);
+  background-color: rgb(25, 25, 25);
   border-bottom: 1.5px solid rgba(167, 167, 167, 0.5);
   position: fixed;
   width: 100%;
@@ -18,28 +19,72 @@ html {
   height: 80px;
   top: 0;
   z-index: 1000;
+  
 
 }
 .NavBar h1{
   color: white;
-  font-size: 2em;
+  font-size: 2.3em;
   margin: 0;
   padding: 0.5em;
   font-weight: normal;
+  margin-left: 70px;
+}
+.NavBar a{
+  text-decoration: none;
 }
 
 .NavBarLinks{
   list-style: none;
-  width: 50%;
+  width: 40%;
   display: flex;
   justify-content: space-evenly;
+
 }
 
 .NavBarLinks a {
   text-decoration: None;
   color: white;
-  font-size: 1.5em;
+  font-size: 1.4em;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
 }
+
+.NavBarLinks a.active {
+  color: rgb(50, 166, 205);
+}
+
+.NavBarLinks a.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(50, 166, 205);
+}
+
+.NavBarLinks a:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.NavBarLinks a:hover:not(.active)::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: scaleX(0.7);
+  transition: transform 0.3s ease;
+}
+
+.NavBarLinks a:hover:not(.active)::after {
+  transform: scaleX(1);
+}
+
 .profile-pic{
   width: 300px;
   margin: 0 auto;
@@ -49,12 +94,11 @@ html {
 }
 
 .card{
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 50%;
-  margin: 230px auto;
+  margin: 120px auto;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -67,7 +111,7 @@ html {
   margin: 0;
 }
 .card h3{
-  font-size: 2em;
+  font-size: 2.4em;
   margin: 0;
   color: lightblue;
   margin-bottom: 12px;
@@ -87,7 +131,7 @@ html {
     margin: 20px 20px 10px 0;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -95,6 +139,8 @@ html {
 .first-link .first{
   background-color: rgb(50, 166, 205);
   border: 3px solid rgb(50, 166, 205);
+  text-decoration: none;
+  color: white;
   
 }
 .first-link .first:hover{
@@ -107,6 +153,7 @@ html {
    background-color: transparent;
     border: 3px solid white;
     color: white;
+    text-decoration: none;
 }
 .first-link .second:hover{
    background-color: white;
@@ -120,12 +167,14 @@ html {
   font-size: 1.2em;
   border-radius: 10px;
   cursor: pointer;
+  
 }
 .second-link a{
   display: inline-block;
   margin-top: 10px;
   margin-right: 10px;
   transition: color 0.9s ease; 
+  color: white;
 }
 .second-link a:hover{
   color: aqua;
@@ -148,5 +197,731 @@ html {
   
 }
 
+/* Common section styling */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
 
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-top: -100px;
+  margin-bottom: 10px;
+  position: relative;
+  color: white;
+}
 
+.section-title::after {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 3px;
+  background-color: rgb(50, 166, 205);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 1.2rem;
+  margin-bottom: 50px;
+}
+
+/* Full-page section styling */
+
+.experience-section, 
+
+.projects-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+  position: relative;
+ 
+  color: white;
+  border-bottom: 1px solid rgba(167, 167, 167, 0.2);
+}
+.about-section{
+padding: 80px 0;
+  position: relative;
+  color: white;
+  border-bottom: 1px solid rgba(167, 167, 167, 0.2);
+}
+
+.skills-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+  position: relative;
+  color: white;
+  border-bottom: 1px solid rgba(167, 167, 167, 0.2);
+}
+
+/* About Section */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.about-text {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 30px;
+}
+
+.about-card {
+  display: flex;
+  background-color: rgba(50, 50, 50, 0.7);
+  border-radius: 10px;
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about-icon {
+  font-size: 2rem;
+  color: rgb(50, 166, 205);
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.about-info h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: rgb(50, 166, 205);
+}
+
+.about-info p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Experience Section - New Card Layout */
+.experience-section {
+  position: relative;
+  
+  padding: 60px 0;
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.experience-card {
+  
+  background-color: rgb(30, 30, 30);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.experience-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.experience-title-section {
+  margin-right: 20px;
+}
+
+.experience-title {
+  margin: 0;
+  color: rgb(50, 166, 205);
+  font-size: 1.4rem;
+}
+
+.experience-company {
+  margin: 5px 0 0 0;
+  color: #ddd;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.experience-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #aaa;
+}
+
+.experience-location, .experience-period {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.experience-icon {
+  margin-right: 8px;
+  color: rgb(50, 166, 205);
+}
+
+.experience-card-body {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+}
+
+.experience-description {
+  padding-left: 20px;
+  margin: 0 0 15px 0;
+}
+
+.experience-description li {
+  margin-bottom: 10px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.experience-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.experience-tech-tag {
+  background-color: rgba(50, 166, 205, 0.2);
+  color: rgb(50, 166, 205);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Media Queries for Experience Section */
+@media screen and (max-width: 768px) {
+  .experience-card-header {
+    flex-direction: column;
+  }
+  
+  .experience-meta {
+    margin-top: 10px;
+  }
+  
+  .experience-title-section {
+    margin-right: 0;
+  }
+}
+
+/* Timeline Section */
+.timeline {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: rgb(50, 166, 205);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  width: 50%;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
+
+.timeline-item:nth-child(odd) {
+  left: 0;
+}
+
+.timeline-item:nth-child(even) {
+  left: 50%;
+}
+
+.timeline-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(50, 166, 205);
+  border-radius: 50%;
+  top: 15px;
+  right: -10px;
+  z-index: 1;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+  left: -10px;
+}
+
+.timeline-content {
+  padding: 20px;
+  background-color: rgba(50, 50, 50, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.experience-header h2 {
+  margin-top: 0;
+  color: rgb(50, 166, 205);
+  font-size: 1.5rem;
+}
+
+.company-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.company-info .icon {
+  margin-right: 5px;
+  color: rgb(50, 166, 205);
+}
+
+.responsibility-list {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.responsibility-list li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.tech-stack h4 {
+  margin-bottom: 10px;
+  color: #aaa;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  background-color: rgba(50, 166, 205, 0.2);
+  color: rgb(50, 166, 205);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* Skills Section - Clean Icon Layout */
+.skills-section {
+  padding: 60px 0;
+  position: relative;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.skill-card {
+  background-color: rgb(30, 30, 30);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.skill-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.skill-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #61dafb;
+}
+
+.skill-name {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Media queries for skills section */
+@media screen and (max-width: 992px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Projects Section */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.project-card {
+  background-color: rgba(50, 50, 50, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.project-image {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.1);
+}
+
+.project-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-links {
+  opacity: 1;
+}
+
+.project-link {
+  background-color: rgb(50, 166, 205);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.project-link:hover {
+  transform: scale(1.1);
+  background-color: white;
+  color: rgb(50, 166, 205);
+}
+
+.project-info {
+  padding: 20px;
+}
+
+.project-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: rgb(50, 166, 205);
+  font-size: 1.3rem;
+}
+
+.project-description {
+  color: #ddd;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Footer styling */
+.footer-container {
+  background-color: rgb(25, 25, 25);
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1024px) {
+  .section-container {
+    padding: 60px 20px;
+  }
+  
+  .about-text {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline::before {
+    left: 30px;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 20px;
+  }
+  
+  .timeline-item:nth-child(even) {
+    left: 0;
+  }
+  
+  .timeline-dot {
+    left: 20px;
+    right: auto;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-dot {
+    left: 20px;
+  }
+}
+
+@media screen and (max-width: 1224px) {
+  .NavBar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 0;
+  }
+  
+  .NavBarLinks {
+    width: 100%;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .NavBarLinks li {
+    margin: 5px 10px;
+  }
+  
+  .card {
+    flex-direction: column;
+    width: 90%;
+    text-align: center;
+    margin-top: 150px;
+  }
+  
+  .about-card {
+    flex-direction: column;
+  }
+  
+  .about-icon {
+    margin-right: 0;
+    margin-bottom: 15px;
+    justify-content: center;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .NavBarLinks a {
+    font-size: 1.2rem;
+  }
+  
+  .card h2 {
+    font-size: 2.5em;
+  }
+  
+  .card h3 {
+    font-size: 1.5em;
+  }
+  
+  .first-link .first, .first-link .second {
+    padding: 10px 20px;
+    font-size: 1em;
+    display: block;
+    margin: 10px auto;
+    width: 80%;
+  }
+  
+  .company-info {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+/* Connect Section Styling */
+.connect-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  color: white;
+  border-bottom: 1px solid rgba(167, 167, 167, 0.2);
+}
+
+.connect-content {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.connect-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.connect-item {
+  flex: 1;
+  min-width: 300px;
+  background-color: rgba(50, 50, 50, 0.7);
+  border-radius: 10px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.connect-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  background-color: rgba(40, 40, 40, 0.9);
+}
+
+.connect-item a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.connect-item a:hover {
+  color: inherit;
+}
+
+.connect-item a:active, .connect-item a:focus {
+  outline: none;
+  color: inherit;
+}
+
+.connect-icon {
+  font-size: 2.5rem;
+  color: rgb(50, 166, 205);
+  margin-bottom: 20px;
+}
+
+.connect-details h3 {
+  color: rgb(50, 166, 205);
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.connect-details p {
+  margin: 0 0 10px 0;
+  color: #ddd;
+  font-size: 1.1rem;
+}
+
+.connect-description {
+  color: #aaa !important;
+  font-size: 0.9rem !important;
+  margin-top: 15px !important;
+}
+
+/* Media queries for connect section */
+@media screen and (max-width: 768px) {
+  .connect-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .connect-item {
+    width: 100%;
+  }
+}

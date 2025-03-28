@@ -3,18 +3,22 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 function ProfileCard(){
 
     return(
-        <div className="card">
-             <div>
-                <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
-            </div>
+        <div className="card" id="home">
+            
             <div>
             <h2>Eric Zwierzynski</h2>
             <h3>Software Engineer</h3>
             <p>Location: New York, NY</p>
-            <p>Hello I'm an aspiring Software Engineer enjoy my page!</p>
-            <div className='first-link'><a className="first">Contact</a><a className="second">Resume</a>
+            <p>Building tech solutions and chasing good stories—welcome to my corner of the web!</p>
+            <div className='first-link'>
+                <a href="#connect" className="first">Contact</a>
+                <a href="/Eric_Zwierzynski_Resume.pdf" className="second" download>Resume</a>
             </div>
-            <div className='second-link'><a> <FaLinkedin size={30} /></a><a><FaGithub size={30} /></a></div>
+            <div className='second-link'><a href="https://www.linkedin.com/in/eric-zwierzynski/" target="_blank"> 
+            <FaLinkedin size={40} /></a><a href="https://github.com/ericshark" target="_blank"><FaGithub size={40} /></a></div>
+            </div>
+            <div>
+                <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
             </div>
            
         </div>
@@ -23,4 +27,4 @@ function ProfileCard(){
 
 }
 
-export default ProfileCard 
+export default ProfileCard
