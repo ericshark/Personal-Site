@@ -98,7 +98,6 @@ html {
   justify-content: space-between;
   align-items: center;
   width: 50%;
-  margin: 120px auto;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -268,6 +267,7 @@ padding: 80px 0;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  
 }
 
 .about-text {
@@ -590,18 +590,13 @@ padding: 80px 0;
   font-weight: 500;
 }
 
-/* Media queries for skills section */
-@media screen and (max-width: 992px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media screen and (max-width: 400px) {
+  #about .section-title {
+    margin-top: 0;
   }
 }
 
-@media screen and (max-width: 576px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* Projects Section */
 .projects-grid {
@@ -719,6 +714,7 @@ padding: 80px 0;
     grid-template-columns: 1fr;
   }
   
+  
   .timeline::before {
     left: 30px;
   }
@@ -767,23 +763,21 @@ padding: 80px 0;
     text-align: center;
     margin-top: 150px;
   }
-  
-  .about-card {
-    flex-direction: column;
-  }
+
   
   .about-icon {
-    margin-right: 0;
+    margin-right: 10px;
     margin-bottom: 15px;
     justify-content: center;
   }
-  
-  .skills-grid {
-    grid-template-columns: 1fr;
+  .about-content {
+    
   }
   
+
+  
   .projects-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
   }
 }
 
@@ -822,9 +816,70 @@ padding: 80px 0;
   }
 }
 
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  /* Prevent horizontal scrolling */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Navbar alignment for mobile */
+  .NavBar {
+    justify-content: center;
+    padding-bottom: 30px;
+    padding-top: 0px;
+  }
+  
+  
+  
+  .NavBar h1 {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .NavBarLinks {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .NavBarLinks li {
+    margin: 0 10px;
+  }
+  
+  /* About section fit for mobile */
+  .about-section {
+    width: 90%;
+  }
+  
+  .about-text {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Skills section fit for mobile */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Connect section fit for mobile */
+  .connect-content {
+    width: 90%;
+  }
+  
+  .connect-item {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+
+
 /* Connect Section Styling */
 .connect-section {
-  min-height: 100vh;
+  min-height: 120vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
