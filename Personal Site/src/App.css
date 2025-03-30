@@ -121,6 +121,14 @@ html {
   margin: 0;
   line-height: 1.5em;
   letter-spacing: .1px;
+  
+}
+
+@media (min-width: 1444px) {
+  .card p{
+   width: 70%;
+  }
+
 }
 .first-link .second, .first-link  .first{
   display: inline-block;
