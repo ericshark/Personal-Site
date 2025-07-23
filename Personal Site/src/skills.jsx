@@ -9,7 +9,18 @@ import {
   FaPhp, 
   FaDocker 
 } from 'react-icons/fa';
-import { SiCplusplus, SiExpress, SiPostgresql, SiMongodb, SiMysql } from 'react-icons/si';
+import { 
+  SiCplusplus, 
+  SiExpress, 
+  SiPostgresql, 
+  SiMongodb, 
+  SiMysql,
+  SiFastapi,
+  SiPytest,
+  SiPandas,
+  SiNumpy,
+  SiSqlalchemy
+} from 'react-icons/si';
 
 function Skills() {
   const skills = [
@@ -17,11 +28,11 @@ function Skills() {
     { name: "Python", icon: <FaPython /> },
     { name: "Java", icon: <FaJava /> },
     { name: "SQL", icon: <FaDatabase /> },
-    { name: "FastAPI", icon: <SiCplusplus /> },
-    { name: "Pytest", icon: <SiCplusplus /> },
-    { name: "Pandas", icon: <SiCplusplus /> },
-    { name: "NumPy", icon: <SiCplusplus /> },
-    { name: "SQLAlchemy", icon: <SiCplusplus /> },
+    { name: "FastAPI", icon: <SiFastapi /> },
+    { name: "Pytest", icon: <SiPytest /> },
+    { name: "Pandas", icon: <SiPandas /> },
+    { name: "NumPy", icon: <SiNumpy /> },
+    { name: "SQLAlchemy", icon: <SiSqlalchemy /> },
     { name: "React", icon: <FaReact /> },
     { name: "Node.js", icon: <FaNode /> },
     { name: "Express.js", icon: <SiExpress /> },
