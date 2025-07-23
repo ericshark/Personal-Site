@@ -17,7 +17,7 @@ function About() {
               <div className="about-info">
                 <h3>Who I Am</h3>
                 <p>
-                I’m Eric, a student wrapping up my degree in Computer Science. I’m into coding and technology, with experience in various programming languages and tools. I’ve worked on projects and helped others learn tech skills along the way. Outside of that, I enjoy keeping up with new developments in the field and sharpening my abilities.
+                Hi, I'm Eric, a software developer passionate about turning complex problems into clean, user-friendly applications. I enjoy working with Python, databases, and cloud technologies to create impactful solutions.
                 </p>
                
               </div>
@@ -51,7 +51,7 @@ Communications and Security, Database Systems, Object Oriented Software Design, 
               <div className="about-info">
                 <h3>Outside of Coding</h3>
                 <p>
-                When I’m not coding, you’ll probably find me at the gym—lifting some weights or just blowing off steam on the treadmill. I’m also big into shows like Breaking Bad and Game of Thrones. I love getting sucked into those intense stories; the crazy plot twists and badass characters always keep me coming back for more.
+                When I’m not behind the keyboard, I enjoy fitness training, discovering new music, and exploring healthy recipes to fuel my day.
                 </p>
                
               </div>

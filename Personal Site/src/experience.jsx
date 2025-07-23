@@ -4,10 +4,25 @@ import { FaBriefcase, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 function Experience() {
     const experiences = [
         {
+            title: "Software Developer Intern",
+            company: "GeoComm",
+            location: "Remot",
+            period: "May 2025 - Present",
+            description: [
+                "Contributed to backend development using Python, supporting public safety GIS applications designed for emergency response systems.",
+                "Developed custom Airflow DAGs automating recurring workflows, reducing manual tasks by 30%.",
+                "Wrote 40+ Pytest unit cases, increasing code coverage from 32% to 90%",
+                "Implemented structured logging, reducing incident triage time by 40%.",
+                "Refactored existing codebase, enhancing readability, performance, and maintainability."
+             
+            ],
+            technologies: ["Python, Fast API, SQLAlchemy, SQL, Apache Airflow"]
+        },
+        {
             title: "Google Software Engineering Program (G-SWEP)",
             company: "Google",
             location: "New York, NY",
-            period: "Jan 2024 - Present",
+            period: "Jan 2024 - May 2025",
             description: [
                 "Received guidance from a Google engineering mentor on advanced problem-solving, system design, and real-world software engineering best practices.",
                 "Enhanced proficiency in algorithms, data structures, and coding efficiency through technical workshops and mock interviews for large-scale applications.",
@@ -19,7 +34,7 @@ function Experience() {
             title: "Computer Science Teaching Assistant",
             company: "City University of New York, College of Staten Island",
             location: "Staten Island, NY",
-            period: "January 2025 – Present",
+            period: "January 2025 – May 2025",
             description: [
                 "Collaborated with the professor to support over 25 students per lab session in mastering debugging techniques and technical concepts.",
                 "Resolved coding errors with precise troubleshooting, increasing lab assignment completion rates by 20% across sessions.",
@@ -32,7 +47,7 @@ function Experience() {
             title: "Mathematics and Computer Science Tutor",
             company: "City University of New York, College of Staten Island",
             location: "Staten Island, NY",
-            period: "September 2024 – Present",
+            period: "September 2024 – May 2025",
             description: [
                 "Conducted one-on-one and group tutoring sessions in Mathematics and Computer Science, focusing on calculus, algebra, data structures, and languages like Python and JavaScript.",
                 "Designed individualized learning strategies to tackle specific student challenges, boosting comprehension and grades for over 30 students weekly.",
@@ -55,17 +70,17 @@ function Experience() {
             technologies: ["Procore", "Excel", "Budget Management"]
         },
         {
-            title: "Undergraduate Research Assistant",
-            company: "Queens College",
+            title: "Software Developer Intern",
+            company: "Research Foundation of The City University of New York",
             location: "New York, NY",
             period: "Feb 2024 - May 2024",
             description: [
-                "Produced engaging content and developed a website to simplify computer science concepts for non-technical audiences.",
-                "Supported a research team in advancing public understanding of computer science through collaborative efforts.",
-                "Designed accessible educational materials to bridge technical knowledge gaps for diverse learners.",
-                "Contributed to team projects by researching and presenting insights on AI and related technologies."
+                "Designed and built an internship-finder web app using React, Next.js, Node.js, and the OpenAI API.",
+                "Integrated intelligent search and recommendation features to assist students in discovering relevant internships.",
+                "Collaborated with researchers on computer science outreach projects and led development efforts to improve internship matchmaking.",
+                "Produced engaging content and a website to simplify AI and cryptography concepts for non-technical audiences."
                 ],
-            technologies: ["JavaScript", "React", "OpenAI API", "Bootstrap", "Git"]
+            technologies: ["JavaScript", "React","Next.js","Node.js", "CSS", "OpenAI API", "Bootstrap", "Git"]
         }
     ];
 
