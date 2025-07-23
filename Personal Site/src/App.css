@@ -28,14 +28,19 @@ html {
   padding: 6px;
   border-radius: 50%;
   background: conic-gradient(
-    #00c3ff, #ffff1c, #ff00c8, #00c3ff
+    #007cf0, #00dfd8, #0099ff, #005bea, #007cf0
   );
-  animation: spin 2s linear infinite;
+  animation: bubble-scale 3s ease-in-out infinite;
 }
 
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
+@keyframes bubble-scale {
+  0%, 100% {
+    box-shadow: 0 0 30px 10px rgba(0, 124, 240, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 50px 20px rgba(0, 223, 216, 0.3);
+    transform: scale(1.05);
   }
 }
 
@@ -1005,6 +1010,12 @@ padding: 80px 0;
   .connect-info {
     flex-direction: column;
     gap: 20px;
+  }
+  
+  .connect-item {
+    width: 100%;
+  }
+}
   }
   
   .connect-item {
