@@ -19,8 +19,30 @@ html {
   height: 80px;
   top: 0;
   z-index: 1000;
-  
 
+
+}
+
+.animated-border {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00c3ff, #ffff1c, #ff00c8, #00c3ff
+  );
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-pic {
+  display: block;
+  border-radius: 50%;
+  background: #fff;
 }
 .NavBar h1{
   color: white;

@@ -18,7 +18,9 @@ function ProfileCard(){
             <FaLinkedin size={40} /></a><a href="https://github.com/ericshark" target="_blank"><FaGithub size={40} /></a></div>
             </div>
             <div>
-                <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
+                <div className="animated-border">
+                    <img src="ProfilePic.jpg" alt="Profile Picture" className="profile-pic"/>
+                </div>
             </div>
            
         </div>
