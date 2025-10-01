@@ -6,7 +6,7 @@ function Experience() {
         {
             title: "Software Developer Intern",
             company: "GeoComm",
-            location: "Remote",
+            location: "Remot",
             period: "May 2025 - Present",
             description: [
                 "Contributed to backend development using Python, supporting public safety GIS applications designed for emergency response systems.",
