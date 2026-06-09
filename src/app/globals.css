@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  /* Keep anchored sections from hiding under the top edge. */
+  scroll-padding-top: 5rem;
+}
+
+::selection {
+  background: theme("colors.accent");
+  color: theme("colors.paper");
+}
+
+@layer base {
+  body {
+    text-rendering: optimizeLegibility;
+  }
+
+  a:focus-visible {
+    @apply rounded-sm outline outline-2 outline-offset-4 outline-accent;
+  }
+}
+
+@layer components {
+  /* Quiet editorial link: hairline underline that picks up the accent on hover. */
+  .link-quiet {
+    @apply underline decoration-neutral-300 decoration-1 underline-offset-4 transition-colors duration-200 hover:text-accent hover:decoration-accent;
+  }
+}
