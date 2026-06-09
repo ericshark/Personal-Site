@@ -48,7 +48,7 @@ export const profile: Profile = {
   location: "New York, NY",
   email: "ericzwierzynski1@gmail.com",
   headline:
-    "I build backend-heavy systems, automation tools, and full-stack products that make complex workflows easier to use.",
+    "I build full-stack tools with strong backend foundations — APIs, automation systems, and data-driven workflows that are reliable, testable, and easy to use.",
   subline:
     "Recently focused on authentication, FastAPI, Postgres, testing, and turning messy technical problems into reliable software.",
   links: {
@@ -70,6 +70,7 @@ export const projects: Project[] = [
       "Built TOTP two-factor authentication with QR enrollment and hashed backup codes.",
       "Added Redis-backed account lockout before database access to reduce brute-force load.",
     ],
+    url: "https://github.com/ericshark/authentication-authorization-api.git",
   },
   {
     name: "Portfolio Optimizer Dashboard",
@@ -83,6 +84,7 @@ export const projects: Project[] = [
       "Containerized the full app with Docker Compose for local orchestration.",
       "Built React and Plotly views that make quantitative outputs readable.",
     ],
+    url: "https://github.com/ericshark/Stock-Sense.git",
   },
 ];
 

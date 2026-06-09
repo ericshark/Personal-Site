@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 /**
@@ -16,14 +17,26 @@ export default function Reveal({
   className?: string;
 }) {
   const reduceMotion = useReducedMotion();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const shouldReduceMotion = hasMounted && reduceMotion;
 
   return (
     <motion.div
+      key={hasMounted ? (shouldReduceMotion ? "reduced" : "motion") : "static"}
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={hasMounted && !shouldReduceMotion ? { opacity: 0, y: 16 } : false}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.55, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0 }
+          : { duration: 0.55, delay, ease: [0.21, 0.47, 0.32, 0.98] }
+      }
     >
       {children}
     </motion.div>

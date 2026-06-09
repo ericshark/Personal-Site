@@ -14,7 +14,7 @@ const config: Config = {
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       maxWidth: {
-        site: "44rem",
+        site: "48rem",
       },
     },
   },

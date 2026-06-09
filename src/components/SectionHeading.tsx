@@ -1,5 +1,5 @@
 /**
- * Numbered editorial section label: hairline rule, mono index, title.
+ * Numbered editorial section label: hairline rule, mono index, clear title.
  */
 export default function SectionHeading({
   index,
@@ -11,13 +11,12 @@ export default function SectionHeading({
   id: string;
 }) {
   return (
-    <div className="border-t border-neutral-200 pt-6">
-      <h2
-        id={id}
-        className="flex items-baseline gap-4 font-mono text-xs uppercase tracking-[0.2em] text-neutral-500"
-      >
-        <span aria-hidden="true">{index}</span>
-        {title}
+    <div className="border-t border-neutral-200 pt-8">
+      <h2 id={id} className="flex items-baseline gap-5 scroll-mt-24">
+        <span aria-hidden="true" className="font-mono text-xs text-neutral-400">
+          {index}
+        </span>
+        <span className="text-xl font-medium tracking-tight">{title}</span>
       </h2>
     </div>
   );

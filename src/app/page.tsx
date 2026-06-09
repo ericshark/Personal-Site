@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Header hasResume={hasResume} />
-      <main className="mx-auto w-full max-w-site px-6">
+      <main className="mx-auto w-full max-w-site px-6 sm:px-8">
         <Hero />
         <Projects />
         <Experience />

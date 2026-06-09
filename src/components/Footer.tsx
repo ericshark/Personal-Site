@@ -4,20 +4,23 @@ import { profile } from "@/data/portfolio";
 
 export default function Footer() {
   return (
-    <footer className="mx-auto w-full max-w-site px-6 pb-12">
+    <footer className="mx-auto w-full max-w-site px-6 pb-12 sm:px-8">
       <section aria-labelledby="contact">
         <SectionHeading index="03" title="Contact" id="contact" />
 
-        <Reveal className="mt-14 sm:mt-16">
-          <h3 className="max-w-[24ch] text-2xl font-medium tracking-tight sm:text-3xl">
-            Working on something backend-heavy? Get in touch.
+        <Reveal className="mt-12 sm:mt-16">
+          <h3 className="max-w-[26ch] text-balance text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
+            Have a project, role, or technical problem in mind? Reach out.
           </h3>
-          <p className="mt-8 font-mono text-sm sm:text-base">
-            <a className="link-quiet" href={`mailto:${profile.email}`}>
+          <p className="mt-9">
+            <a
+              className="link-quiet font-mono text-base sm:text-lg"
+              href={`mailto:${profile.email}`}
+            >
               {profile.email}
             </a>
           </p>
-          <ul className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-xs text-neutral-500">
+          <ul className="mt-7 flex flex-wrap items-baseline gap-x-7 gap-y-2 font-mono text-xs text-neutral-500">
             <li>
               <a
                 className="transition-colors duration-200 hover:text-ink"
