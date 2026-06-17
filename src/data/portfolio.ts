@@ -60,7 +60,7 @@ export const profile: Profile = {
 export const projects: Project[] = [
   {
     name: "Authentication & Authorization API",
-    date: "March 2026",
+    date: "June 2026",
     stack: ["FastAPI", "PostgreSQL", "Redis", "Pytest"],
     description:
       "A pluggable authentication backend supporting JWT, session auth, OAuth, two-factor authentication, refresh token rotation, and role-based access control.",
@@ -71,6 +71,20 @@ export const projects: Project[] = [
       "Added Redis-backed account lockout before database access to reduce brute-force load.",
     ],
     url: "https://github.com/ericshark/authentication-authorization-api.git",
+  },
+  {
+    name: "TickerWord — Company Acronym Generator",
+    date: "May 2026",
+    stack: ["JavaScript", "CSS3", "Python", "GitHub Pages"],
+    description:
+      "A single-page web app that turns any letter input into real English words, then maps each letter to a publicly traded company — the same way FANG stands for Facebook, Amazon, Netflix, Google. Zero dependencies, no framework, no backend.",
+    details: [
+      "Built a bitmask matching engine that encodes each word as a 26-bit mask, scanning 8,700+ words in under 1 ms with a single AND-NOT operation per candidate.",
+      "Implemented smart company assignment so repeated letters get distinct companies, with per-letter swap buttons and shuffle for exploring alternatives.",
+      "Designed a frequency-ranked wordlist pre-sorted by Google Trillion Word Corpus data — array index doubles as recognizability score, eliminating a separate scoring model.",
+      "Shipped a polished finance-dashboard UI with staggered animations, S&P 500 filtering, shareable URLs, and clipboard export — all in ~110 KB of vanilla JS with no runtime dependencies.",
+    ],
+    url: "https://fangnamegen.netlify.app/",
   },
   {
     name: "Portfolio Optimizer Dashboard",

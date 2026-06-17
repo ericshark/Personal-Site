@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
-import StackLine from "@/components/StackLine";
 
 export default function Home() {
   // Build-time check: the Resume link only renders if the file actually exists.
@@ -20,7 +19,6 @@ export default function Home() {
         <Hero />
         <Projects />
         <Experience />
-        <StackLine />
       </main>
       <Footer />
     </>
