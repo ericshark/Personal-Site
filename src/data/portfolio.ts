@@ -48,9 +48,9 @@ export const profile: Profile = {
   location: "New York, NY",
   email: "ericzwierzynski1@gmail.com",
   headline:
-    "I build full-stack tools with strong backend foundations — APIs, automation systems, and data-driven workflows that are reliable, testable, and easy to use.",
+    "I build software end to end, from the database to the details people notice.",
   subline:
-    "Recently focused on authentication, FastAPI, Postgres, testing, and turning messy technical problems into reliable software.",
+    "A full-stack engineer who cares as much about how something feels to use as how it’s built.",
   links: {
     github: "https://github.com/ericshark",
     linkedin: "https://www.linkedin.com/in/eric-zwierzynski/",
@@ -59,46 +59,39 @@ export const profile: Profile = {
 
 export const projects: Project[] = [
   {
-    name: "Authentication & Authorization API",
+    name: "Agent Tracer — AI Agent Observability Platform",
+    date: "August 2026",
+    stack: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "OpenTelemetry",
+    ],
+    description:
+      "A developer platform for debugging and understanding AI-agent executions: a Python SDK, a FastAPI ingest backend, and a React dashboard for inspecting every LLM and tool call.",
+    details: [
+      "Built an observability platform for AI agents: a Python SDK traces LLM and tool calls as nested spans, and an OTLP/HTTP endpoint ingests OpenTelemetry/OpenInference traces into a FastAPI and PostgreSQL backend.",
+      "Developed a React/TypeScript dashboard with waterfall span timelines, per-step input/output/error inspection, and latency, token, and cost tracking, updated live via Server-Sent Events.",
+      "Implemented side-effect-free replay of individual model calls against OpenAI/Anthropic, plus trace comparison that aligns span trees to surface status flips, drift, and latency/cost deltas.",
+      "Added hashed API keys, Docker Compose, and GitHub Actions CI running 74 tests on SQLite and PostgreSQL.",
+    ],
+    url: "https://github.com/ericshark/agent-tracer",
+  },
+  {
+    name: "AuthCore — Identity & Access API",
     date: "June 2026",
-    stack: ["FastAPI", "PostgreSQL", "Redis", "Pytest"],
+    stack: ["FastAPI", "PostgreSQL", "Redis", "Celery", "Docker", "Nginx"],
     description:
-      "A pluggable authentication backend supporting JWT, session auth, OAuth, two-factor authentication, refresh token rotation, and role-based access control.",
+      "An open-source authentication and authorization backend: password, OAuth, and magic-link login, TOTP two-factor authentication, swappable JWT or session auth, and role-based access control.",
     details: [
-      "Designed a pluggable auth architecture using the Strategy pattern — JWT and session auth share one interface and swap via configuration, without touching route handlers.",
-      "Implemented refresh token rotation with reuse detection and token-family revocation.",
-      "Built TOTP two-factor authentication with QR enrollment and hashed backup codes.",
-      "Added Redis-backed account lockout before database access to reduce brute-force load.",
+      "Built an authentication and authorization API in FastAPI with JWT and Redis-backed sessions, OAuth2 (Google/GitHub), magic-link login, and TOTP 2FA with encrypted secrets and hashed backup codes.",
+      "Designed a pluggable auth backend using the Strategy pattern, switching between JWT and session authentication via a single environment variable with shared login, logout, and revocation interfaces.",
+      "Implemented refresh token rotation with reuse-family revocation, Argon2 password hashing, Redis-backed brute-force lockout with atomic operations, per-route RBAC, and per-device session management.",
+      "Containerized FastAPI, Celery, PostgreSQL, and Redis with Docker Compose and Alembic migrations; covered 29 endpoints with 130+ pytest tests; previously deployed on a DigitalOcean VPS behind Nginx.",
     ],
-    url: "https://github.com/ericshark/authentication-authorization-api.git",
-  },
-  {
-    name: "TickerWord — Company Acronym Generator",
-    date: "May 2026",
-    stack: ["JavaScript", "CSS3", "Python", "GitHub Pages"],
-    description:
-      "A single-page web app that turns any letter input into real English words, then maps each letter to a publicly traded company — the same way FANG stands for Facebook, Amazon, Netflix, Google. Zero dependencies, no framework, no backend.",
-    details: [
-      "Built a bitmask matching engine that encodes each word as a 26-bit mask, scanning 8,700+ words in under 1 ms with a single AND-NOT operation per candidate.",
-      "Implemented smart company assignment so repeated letters get distinct companies, with per-letter swap buttons and shuffle for exploring alternatives.",
-      "Designed a frequency-ranked wordlist pre-sorted by Google Trillion Word Corpus data — array index doubles as recognizability score, eliminating a separate scoring model.",
-      "Shipped a polished finance-dashboard UI with staggered animations, S&P 500 filtering, shareable URLs, and clipboard export — all in ~110 KB of vanilla JS with no runtime dependencies.",
-    ],
-    url: "https://fangnamegen.netlify.app/",
-  },
-  {
-    name: "Portfolio Optimizer Dashboard",
-    date: "November 2025",
-    stack: ["React", "Python", "FastAPI", "PostgreSQL", "Pytest", "Docker"],
-    description:
-      "A full-stack dashboard for running portfolio optimization models and visualizing risk, allocation, and historical stock data.",
-    details: [
-      "Implemented Mean-Variance, Kelly, and Vol-Targeting optimization workflows.",
-      "Stored and queried historical stock price data in PostgreSQL.",
-      "Containerized the full app with Docker Compose for local orchestration.",
-      "Built React and Plotly views that make quantitative outputs readable.",
-    ],
-    url: "https://github.com/ericshark/Stock-Sense.git",
+    url: "https://github.com/ericshark/authentication-authorization-api",
   },
 ];
 
@@ -108,37 +101,44 @@ export const experience: Experience[] = [
     org: "GeoComm",
     location: "Remote",
     period: "May 2025 – Sep 2025",
-    stack: ["Python", "FastAPI", "SQLAlchemy", "SQL", "Apache Airflow"],
+    stack: ["Python", "FastAPI", "Apache Airflow", "Pytest"],
     description:
-      "Backend systems for public safety GIS applications supporting emergency response workflows.",
+      "Backend team at a public-safety GIS company whose software routes 9-1-1 calls and guides emergency responders for agencies in 49 states.",
     details: [
-      "Developed custom Airflow DAGs to automate recurring workflows and reduce manual tasks.",
-      "Wrote 40+ Pytest unit tests, increasing coverage from 32% to 90%.",
-      "Added structured logging to improve incident triage and backend observability.",
-      "Refactored backend code for readability, performance, and maintainability.",
+      "Built backend Python and FastAPI services powering public-safety GIS workflows for 9-1-1 dispatch, processing real-time geospatial data to support accurate and timely emergency response routing.",
+      "Developed Airflow DAGs to track whether required files were present across all tenants, generating automated reports and reducing manual validation effort by ~30%.",
+      "Added structured JSON logging with trace IDs across FastAPI services, cutting incident triage time by ~40%.",
+      "Wrote 40+ pytest unit tests, increasing code coverage from 32% to 90%.",
     ],
   },
   {
     role: "Software Engineering Program Participant",
     org: "Google G-SWEP",
     location: "New York, NY",
-    period: "Jan 2024 – May 2025",
-    stack: ["Python"],
+    period: "Feb 2025 – May 2025",
+    stack: [],
     description:
-      "Mentorship program — worked with a Google engineering mentor on algorithms, data structures, system design, and software engineering practices.",
+      "Competitively selected for Google's software engineering mentorship program; sharpened algorithms and system design through weekly 1:1 mentorship with a Google engineer, code reviews, and engineer-led workshops.",
   },
   {
     role: "Software Developer Intern",
     org: "Research Foundation of CUNY",
-    location: "New York, NY",
-    period: "Feb 2024 – May 2024",
-    stack: ["JavaScript", "React", "Next.js", "Node.js", "OpenAI API"],
+    location: "Queens, NY",
+    period: "Jan 2024 – May 2024",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "OpenAI API",
+    ],
     description:
-      "Built an internship-finder web app and AI-assisted discovery tools for student career exploration.",
+      "Built an internship finder and AI career advisor for students on a 5-person team in a CUNY AI research lab.",
     details: [
-      "Designed and built an internship-finder web app using React, Next.js, Node.js, and the OpenAI API.",
-      "Integrated intelligent search and recommendation features to help students discover relevant internships.",
-      "Collaborated on outreach projects explaining AI and cryptography to non-technical audiences.",
+      "Built a full-stack Next.js/TypeScript internship platform with keyword search, multi-filter sorting, and an application tracker used by dozens of students.",
+      "Aggregated scattered internship postings from GitHub internship lists and job sites into one searchable database.",
+      "Integrated the OpenAI API to normalize postings into structured, searchable fields and power a GPT-based career advisor that gave students resume feedback.",
     ],
   },
   {
@@ -146,9 +146,9 @@ export const experience: Experience[] = [
     org: "CUNY, College of Staten Island",
     location: "Staten Island, NY",
     period: "Jan 2025 – May 2025",
-    stack: ["Python", "C++"],
+    stack: ["Python", "Java", "JavaScript", "C++"],
     description:
-      "Supported students in debugging, programming fundamentals, loops, data structures, and lab assignments.",
+      "Assisted a professor in coding labs of 25+ students, guiding hands-on exercises and helping students debug and understand Python, Java, JavaScript, and C++.",
     compact: true,
   },
   {
@@ -158,7 +158,7 @@ export const experience: Experience[] = [
     period: "Sep 2024 – May 2025",
     stack: ["Python", "Java", "JavaScript", "C++"],
     description:
-      "Tutored students in calculus, algebra, data structures, and programming across Python, Java, JavaScript, and C++.",
+      "Tutored 50+ students weekly (1,000+ sessions) in calculus, algebra, data structures, and programming in Python, Java, JavaScript, and C++; created practice sets and review checklists for exam prep.",
     compact: true,
   },
 ];
@@ -171,16 +171,13 @@ export const earlierExperience: Experience[] = [
     period: "May 2024 – Aug 2024",
     stack: [],
     description:
-      "Coordinated construction project workflows, documentation, task progress, and team communication using Procore and Excel.",
+      "Coordinated daily workflows across trades and subcontractors on interior commercial construction projects, managing documentation in Procore and schedules in Microsoft Project and Excel; streamlined documentation to reduce scheduling delays by 25%.",
     compact: true,
   },
 ];
 
-export const stackLine =
-  "Mostly working with Python, FastAPI, PostgreSQL, Redis, Docker, Pytest, React, TypeScript, SQLAlchemy, Pandas, NumPy, and Linux.";
-
 export const siteMeta = {
-  title: "Eric Zwierzynski — Software Engineer",
+  title: "Eric Zwierzynski — Full-Stack Engineer",
   description:
-    "Software engineer in New York building backend-heavy systems, automation tools, and full-stack products. Focused on authentication, FastAPI, Postgres, and testing.",
+    "Full-stack engineer in New York building software end to end — Python, FastAPI, PostgreSQL, React, and TypeScript.",
 };

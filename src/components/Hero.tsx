@@ -28,7 +28,7 @@ export default function Hero() {
           </li>
           <li>
             <a
-              className="text-neutral-500 transition-colors duration-200 hover:text-ink"
+              className="text-neutral-500"
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
@@ -38,7 +38,7 @@ export default function Hero() {
           </li>
           <li>
             <a
-              className="text-neutral-500 transition-colors duration-200 hover:text-ink"
+              className="text-neutral-500"
               href={profile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"

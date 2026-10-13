@@ -23,7 +23,6 @@ export default function Footer() {
           <ul className="mt-7 flex flex-wrap items-baseline gap-x-7 gap-y-2 font-mono text-xs text-neutral-500">
             <li>
               <a
-                className="transition-colors duration-200 hover:text-ink"
                 href={profile.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -33,7 +32,6 @@ export default function Footer() {
             </li>
             <li>
               <a
-                className="transition-colors duration-200 hover:text-ink"
                 href={profile.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"

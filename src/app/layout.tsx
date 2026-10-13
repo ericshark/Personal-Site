@@ -3,12 +3,13 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import SmoothScroll from "@/components/SmoothScroll";
 import { siteMeta } from "@/data/portfolio";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
   // Set NEXT_PUBLIC_SITE_URL to the deployed URL so OG/Twitter images resolve absolutely.
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ericzwierzynski.dev",
   ),
   title: siteMeta.title,
   description: siteMeta.description,

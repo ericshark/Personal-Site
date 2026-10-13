@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  /* Keep anchored sections from hiding under the top edge. */
-  scroll-padding-top: 5rem;
-}
-
 ::selection {
   background: theme("colors.accent");
   color: theme("colors.paper");
@@ -17,14 +12,40 @@ html {
     text-rendering: optimizeLegibility;
   }
 
-  a:focus-visible {
-    @apply rounded-sm outline outline-2 outline-offset-4 outline-accent;
+  /*
+   * Interactive elements invert into a sharp ink block on hover/focus.
+   * Padding is cancelled by negative inline margin so the box grows around
+   * the text without shifting layout.
+   */
+  a,
+  button {
+    @apply -mx-1.5 rounded-none px-1.5 py-0.5 transition-colors duration-100;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* The nav link for the section currently in view stays inverted. */
+  a[aria-current="location"] {
+    @apply bg-ink text-paper;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    @apply bg-ink text-paper decoration-transparent outline outline-2 outline-offset-2 outline-accent;
+  }
+
+  /* Hover-capable pointers only, so taps on touch screens don't leave a stuck highlight. */
+  @media (hover: hover) {
+    a:hover,
+    button:hover {
+      @apply bg-ink text-paper decoration-transparent;
+    }
   }
 }
 
 @layer components {
-  /* Quiet editorial link: hairline underline that picks up the accent on hover. */
+  /* Quiet editorial link: hairline underline at rest. */
   .link-quiet {
-    @apply underline decoration-neutral-300 decoration-1 underline-offset-4 transition-colors duration-200 hover:text-accent hover:decoration-accent;
+    @apply underline decoration-neutral-300 decoration-1 underline-offset-4;
   }
 }
