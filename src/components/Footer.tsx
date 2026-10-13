@@ -2,7 +2,7 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { profile } from "@/data/portfolio";
 
-export default function Footer() {
+export default function Footer({ hasResume }: { hasResume: boolean }) {
   return (
     <footer className="mx-auto w-full max-w-site px-6 pb-12 sm:px-8">
       <section aria-labelledby="contact">
@@ -21,6 +21,13 @@ export default function Footer() {
             </a>
           </p>
           <ul className="mt-7 flex flex-wrap items-baseline gap-x-7 gap-y-2 font-mono text-xs text-neutral-500">
+            {hasResume && (
+              <li>
+                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                  Resume ↗
+                </a>
+              </li>
+            )}
             <li>
               <a
                 href={profile.links.github}

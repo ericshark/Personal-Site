@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { profile } from "@/data/portfolio";
 
 const sections = [
@@ -66,8 +67,9 @@ function useScrollState() {
   return { isScrolled, activeId };
 }
 
-export default function Header({ hasResume }: { hasResume: boolean }) {
+export default function Header() {
   const { isScrolled, activeId } = useScrollState();
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
     <header
@@ -88,28 +90,42 @@ export default function Header({ hasResume }: { hasResume: boolean }) {
           <span className="hidden sm:inline">{profile.name}</span>
         </a>
         <nav aria-label="Site" className="min-w-0">
-          <ul className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]">
-            {sections.map(({ id, label }) => (
-              <li key={id}>
-                <a
-                  href={`#${id}`}
-                  aria-current={activeId === id ? "location" : undefined}
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-            {hasResume && (
-              <li>
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Resume
-                </a>
-              </li>
-            )}
+          <ul
+            className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]"
+            onPointerLeave={() => setHoveredId(null)}
+          >
+            {sections.map(({ id, label }) => {
+              // The pill follows the pointer, and rests on the active section otherwise.
+              const isHighlighted = (hoveredId ?? activeId) === id;
+
+              return (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    data-nav
+                    aria-current={activeId === id ? "location" : undefined}
+                    className={`relative isolate inline-block transition-colors duration-150 sm:-mx-2.5 sm:px-2.5 sm:py-1 ${
+                      isHighlighted ? "text-paper" : ""
+                    }`}
+                    onPointerEnter={(event) => {
+                      if (event.pointerType === "mouse") {
+                        setHoveredId(id);
+                      }
+                    }}
+                  >
+                    {isHighlighted && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        aria-hidden="true"
+                        className="absolute inset-0 -z-10 rounded-md bg-ink"
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.4 }}
+                      />
+                    )}
+                    {label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>

@@ -1,7 +1,7 @@
 import Reveal from "@/components/Reveal";
 import { profile } from "@/data/portfolio";
 
-export default function Hero() {
+export default function Hero({ hasResume }: { hasResume: boolean }) {
   return (
     <section aria-label="Introduction" className="pb-24 pt-20 sm:pb-36 sm:pt-32">
       <Reveal>
@@ -26,6 +26,18 @@ export default function Hero() {
               {profile.email}
             </a>
           </li>
+          {hasResume && (
+            <li>
+              <a
+                className="text-neutral-500"
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Resume ↗
+              </a>
+            </li>
+          )}
           <li>
             <a
               className="text-neutral-500"

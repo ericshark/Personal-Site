@@ -13,20 +13,15 @@
   }
 
   /*
-   * Interactive elements invert into a sharp ink block on hover/focus.
+   * Interactive elements invert into a rounded ink block on hover/focus.
    * Padding is cancelled by negative inline margin so the box grows around
    * the text without shifting layout.
    */
   a,
   button {
-    @apply -mx-1.5 rounded-none px-1.5 py-0.5 transition-colors duration-100;
+    @apply -mx-1.5 rounded-md px-1.5 py-0.5 transition-colors duration-150;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
-  }
-
-  /* The nav link for the section currently in view stays inverted. */
-  a[aria-current="location"] {
-    @apply bg-ink text-paper;
   }
 
   a:focus-visible,
@@ -34,9 +29,12 @@
     @apply bg-ink text-paper decoration-transparent outline outline-2 outline-offset-2 outline-accent;
   }
 
-  /* Hover-capable pointers only, so taps on touch screens don't leave a stuck highlight. */
+  /*
+   * Hover-capable pointers only, so taps on touch screens don't leave a stuck highlight.
+   * Header nav links ([data-nav]) use a sliding pill instead (see Header.tsx).
+   */
   @media (hover: hover) {
-    a:hover,
+    a:not([data-nav]):hover,
     button:hover {
       @apply bg-ink text-paper decoration-transparent;
     }

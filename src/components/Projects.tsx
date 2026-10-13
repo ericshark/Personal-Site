@@ -10,7 +10,7 @@ export default function Projects() {
       <div className="mt-8 space-y-10 sm:space-y-14">
         {projects.map((project) => (
           <Reveal key={project.name}>
-            <article className="rounded-xl border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8">
+            <article className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-balance text-xl font-semibold tracking-tight sm:text-2xl">
                   {project.url ? (

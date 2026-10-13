@@ -14,13 +14,13 @@ export default function Home() {
 
   return (
     <>
-      <Header hasResume={hasResume} />
+      <Header />
       <main className="mx-auto w-full max-w-site px-6 sm:px-8">
-        <Hero />
+        <Hero hasResume={hasResume} />
         <Projects />
         <Experience />
       </main>
-      <Footer />
+      <Footer hasResume={hasResume} />
     </>
   );
 }
