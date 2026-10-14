@@ -1,19 +1,21 @@
 import Reveal from "@/components/Reveal";
+import SplitWords from "@/components/SplitWords";
 import { profile } from "@/data/portfolio";
 
 export default function Hero({ hasResume }: { hasResume: boolean }) {
   return (
-    <section aria-label="Introduction" className="pb-24 pt-20 sm:pb-36 sm:pt-32">
+    <section
+      aria-label="Introduction"
+      className="pb-24 pt-20 sm:pb-36 sm:pt-32"
+    >
       <Reveal>
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500">
           {profile.role} — {profile.location}
         </p>
       </Reveal>
-      <Reveal delay={0.08}>
-        <h1 className="mt-7 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
-          {profile.headline}
-        </h1>
-      </Reveal>
+      <h1 className="mt-7 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
+        <SplitWords text={profile.headline} delay={0.08} />
+      </h1>
       <Reveal delay={0.16}>
         <p className="mt-7 max-w-[58ch] text-pretty leading-relaxed text-neutral-600 sm:text-lg sm:leading-relaxed">
           {profile.subline}

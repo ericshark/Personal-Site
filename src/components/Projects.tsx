@@ -1,4 +1,5 @@
 import Reveal from "@/components/Reveal";
+import SpotlightCard from "@/components/SpotlightCard";
 import SectionHeading from "@/components/SectionHeading";
 import { projects } from "@/data/portfolio";
 
@@ -10,15 +11,11 @@ export default function Projects() {
       <div className="mt-8 space-y-10 sm:space-y-14">
         {projects.map((project) => (
           <Reveal key={project.name}>
-            <article className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8">
+            <SpotlightCard className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-balance text-xl font-semibold tracking-tight sm:text-2xl">
                   {project.url ? (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a href={project.url} target="_blank" rel="noreferrer">
                       {project.name}
                     </a>
                   ) : (
@@ -30,7 +27,10 @@ export default function Projects() {
                 </time>
               </div>
 
-              <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Built with">
+              <ul
+                className="mt-3 flex flex-wrap gap-1.5"
+                aria-label="Built with"
+              >
                 {project.stack.map((tech) => (
                   <li
                     key={tech}
@@ -59,7 +59,7 @@ export default function Projects() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </SpotlightCard>
           </Reveal>
         ))}
       </div>
