@@ -10,8 +10,15 @@ export type Profile = {
   email: string;
   /** Hero headline — the one-sentence positioning statement. */
   headline: string;
-  /** Hero supporting line — current focus. */
-  subline: string;
+  about: {
+    title: string;
+    description: string;
+    /** Manually update this date when revising the introduction. */
+    updated: {
+      dateTime: string;
+      label: string;
+    };
+  };
   links: {
     github: string;
     linkedin: string;
@@ -49,8 +56,15 @@ export const profile: Profile = {
   email: "ericzwierzynski1@gmail.com",
   headline:
     "I build software end to end, from the database to the details people notice.",
-  subline:
-    "A full-stack engineer who cares as much about how something feels to use as how it’s built.",
+  about: {
+    title: "A little about me",
+    description:
+      "I’m a full-stack engineer who likes figuring out how things fit together, from the backend to what people interact with. Lately, I’ve been especially interested in AI systems and the harnesses around them, and what makes them useful and dependable.",
+    updated: {
+      dateTime: "2026-10",
+      label: "October 2026",
+    },
+  },
   links: {
     github: "https://github.com/ericshark",
     linkedin: "https://www.linkedin.com/in/eric-zwierzynski/",

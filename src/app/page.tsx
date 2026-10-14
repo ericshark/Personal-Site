@@ -9,7 +9,7 @@ import Projects from "@/components/Projects";
 export default function Home() {
   // Build-time check: the Resume link only renders if the file actually exists.
   const hasResume = fs.existsSync(
-    path.join(process.cwd(), "public", "resume.pdf")
+    path.join(process.cwd(), "public", "resume.pdf"),
   );
 
   return (
