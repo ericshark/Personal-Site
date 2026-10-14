@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
+import ThankYou from "@/components/ThankYou";
 
 export default function Home() {
   // Build-time check: the Resume link only renders if the file actually exists.
@@ -21,6 +22,7 @@ export default function Home() {
         <Experience />
       </main>
       <Footer hasResume={hasResume} />
+      <ThankYou />
     </>
   );
 }

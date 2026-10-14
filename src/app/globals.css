@@ -46,4 +46,43 @@
   .link-quiet {
     @apply underline decoration-neutral-300 decoration-1 underline-offset-4;
   }
+
+  /* Finale word: the black head leads, white outlined copies trail behind it. */
+  .thank-you-copy,
+  .thank-you-head {
+    position: absolute;
+    /* Starts high so the word is already in view just below Contact. */
+    top: 25%;
+    left: 50%;
+    white-space: nowrap;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    font-family:
+      -apple-system, BlinkMacSystemFont, "SF Pro Display",
+      var(--font-geist-sans), system-ui, sans-serif;
+    font-size: clamp(3.5rem, 11vw, 9rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+  }
+
+  .thank-you-head {
+    color: theme("colors.ink");
+  }
+
+  .thank-you-copy {
+    visibility: hidden;
+    color: #fff;
+    -webkit-text-stroke: 1px theme("colors.ink");
+    paint-order: stroke fill;
+  }
+
+  /*
+   * Own compositor layers force grayscale antialiasing; Windows' subpixel
+   * (ClearType) rendering otherwise tints the thin outlines red and blue.
+   */
+  .thank-you-copy,
+  .thank-you-head {
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
+  }
 }
