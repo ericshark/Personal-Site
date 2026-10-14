@@ -1,4 +1,5 @@
 import Reveal from "@/components/Reveal";
+import SplitWords from "@/components/SplitWords";
 import { profile } from "@/data/portfolio";
 
 export default function Hero({ hasResume }: { hasResume: boolean }) {
@@ -12,11 +13,9 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
           {profile.role} — {profile.location}
         </p>
       </Reveal>
-      <Reveal delay={0.08}>
-        <h1 className="mt-7 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
-          {profile.headline}
-        </h1>
-      </Reveal>
+      <h1 className="mt-7 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
+        <SplitWords text={profile.headline} delay={0.08} />
+      </h1>
       <Reveal delay={0.16}>
         <ul className="mt-9 flex flex-wrap items-baseline gap-x-7 gap-y-3 font-mono text-sm">
           <li>
