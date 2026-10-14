@@ -59,7 +59,7 @@ export const profile: Profile = {
   about: {
     title: "A little about me",
     description:
-      "I’m a full-stack engineer who likes figuring out how things fit together, from the backend to what people interact with. Lately, I’ve been especially interested in AI systems and the harnesses around them, and what makes them useful and dependable.",
+      "I like understanding how every layer of a system works, from the interface people use to the infrastructure underneath it. I’ve built across the stack and worked hands-on with deployment, Docker, Nginx, VPS hosting, DNS, and TLS along the way. Lately, I’ve been going deeper into AI application engineering, especially RAG, agent workflows, agent harnesses, observability, evals, and the UX around AI systems.",
     updated: {
       dateTime: "2026-10",
       label: "October 2026",

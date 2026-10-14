@@ -35,7 +35,7 @@ export default function SpotlightCard({
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 [@media(hover:hover)]:group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(360px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgb(29 78 216 / 0.07), transparent 70%)",
+            "radial-gradient(360px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgb(23 23 23 / 0.07), transparent 70%)",
         }}
       />
       <div className="relative">{children}</div>
