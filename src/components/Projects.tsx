@@ -9,9 +9,12 @@ export default function Projects() {
       <SectionHeading index="01" title="Projects" id="projects" />
 
       <div className="mt-8 space-y-10 sm:space-y-14">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <Reveal key={project.name}>
-            <SpotlightCard className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8">
+            <SpotlightCard
+              trail={index === 0}
+              className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8"
+            >
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-balance text-xl font-semibold tracking-tight sm:text-2xl">
                   {project.url ? (

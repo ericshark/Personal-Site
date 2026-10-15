@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 
 /**
  * Reveals text one word at a time, each rising out of a clipped line box.
@@ -16,15 +16,14 @@ export default function SplitWords({
   delay?: number;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  // Keep server and initial client markup identical before reading motion preferences.
-  const shouldAnimate = hasMounted && !reduceMotion;
+  // Keep server and initial client markup identical; animate only after mount.
+  const shouldAnimate = hasMounted;
   const words = text.split(" ");
 
   return (

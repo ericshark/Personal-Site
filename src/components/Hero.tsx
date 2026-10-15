@@ -1,5 +1,6 @@
 import Reveal from "@/components/Reveal";
 import SplitWords from "@/components/SplitWords";
+import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { profile } from "@/data/portfolio";
 
 export default function Hero({ hasResume }: { hasResume: boolean }) {
@@ -73,9 +74,16 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
               </time>
             </p>
           </div>
-          <p className="text-pretty leading-relaxed text-neutral-600">
+          <TextEffect
+            per="char"
+            preset="fade"
+            as="p"
+            delay={0.4}
+            speedReveal={4}
+            className="text-pretty leading-relaxed text-neutral-600"
+          >
             {profile.about.description}
-          </p>
+          </TextEffect>
         </aside>
       </Reveal>
     </section>

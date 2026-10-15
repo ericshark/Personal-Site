@@ -1,11 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { InView } from "@/components/motion-primitives/in-view";
 
 /**
- * One-time fade-up as content scrolls into view.
- * Renders static (no initial state, no transform) under prefers-reduced-motion.
+ * Blur-and-fade-up as content scrolls into view (motion-primitives InView, "Basic" example).
+ * Plays regardless of prefers-reduced-motion (see CLAUDE.md).
  */
 export default function Reveal({
   children,
@@ -16,29 +13,17 @@ export default function Reveal({
   delay?: number;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  const shouldReduceMotion = hasMounted && reduceMotion;
-
   return (
-    <motion.div
-      key={hasMounted ? (shouldReduceMotion ? "reduced" : "motion") : "static"}
-      className={className}
-      initial={hasMounted && !shouldReduceMotion ? { opacity: 0, y: 16 } : false}
-      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={
-        shouldReduceMotion
-          ? { duration: 0 }
-          : { duration: 0.55, delay, ease: [0.21, 0.47, 0.32, 0.98] }
-      }
+    <InView
+      variants={{
+        hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
+        visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+      }}
+      viewOptions={{ margin: "0px 0px -200px 0px" }}
+      transition={{ duration: 0.3, ease: "easeInOut", delay }}
+      once
     >
-      {children}
-    </motion.div>
+      <div className={className}>{children}</div>
+    </InView>
   );
 }

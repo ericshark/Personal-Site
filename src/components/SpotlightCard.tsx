@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { BorderTrail } from "@/components/motion-primitives/border-trail";
 
 /**
  * Card with a soft radial highlight that follows the pointer.
@@ -10,9 +11,12 @@ import { useRef } from "react";
 export default function SpotlightCard({
   children,
   className = "",
+  trail = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Adds an animated light trail around the border to mark a featured card. */
+  trail?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -28,7 +32,7 @@ export default function SpotlightCard({
     <article
       ref={ref}
       onPointerMove={onPointerMove}
-      className={`group relative overflow-hidden transition-[transform,border-color] duration-300 hover:border-neutral-300 motion-safe:hover:-translate-y-0.5 ${className}`}
+      className={`group relative overflow-hidden transition-[transform,border-color] duration-300 hover:border-neutral-300 hover:-translate-y-0.5 ${className}`}
     >
       <div
         aria-hidden="true"
@@ -38,6 +42,13 @@ export default function SpotlightCard({
             "radial-gradient(360px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgb(23 23 23 / 0.07), transparent 70%)",
         }}
       />
+      {trail && (
+        <BorderTrail
+          size={120}
+          className="bg-transparent bg-gradient-to-r from-transparent via-neutral-900/25 to-transparent"
+          transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+        />
+      )}
       <div className="relative">{children}</div>
     </article>
   );
