@@ -10,6 +10,8 @@ export type Profile = {
   email: string;
   /** Hero headline — the one-sentence positioning statement. */
   headline: string;
+  introduction: string;
+  contactHeadline: string;
   about: {
     title: string;
     description: string;
@@ -27,12 +29,14 @@ export type Profile = {
 
 export type Project = {
   name: string;
+  category: string;
   date: string;
   stack: string[];
   description: string;
+  highlights: string[];
   /** Curated highlights — keep to 3–4 readable bullets. */
   details: string[];
-  /** Optional. Omit rather than invent — absent links render as "Case study coming soon". */
+  /** Optional repository link. Omit rather than invent. */
   url?: string;
 };
 
@@ -56,6 +60,10 @@ export const profile: Profile = {
   email: "ericzwierzynski1@gmail.com",
   headline:
     "I build software end to end, from the database to the details people notice.",
+  introduction:
+    "I’m Eric, a software engineer in New York building full-stack products and AI tools.",
+  contactHeadline:
+    "Have a project, role, or technical problem in mind? Reach out.",
   about: {
     title: "A little about me",
     description:
@@ -73,7 +81,8 @@ export const profile: Profile = {
 
 export const projects: Project[] = [
   {
-    name: "Agent Tracer — AI Agent Observability Platform",
+    name: "Agent Tracer",
+    category: "AI agent observability",
     date: "August 2026",
     stack: [
       "Python",
@@ -84,7 +93,11 @@ export const projects: Project[] = [
       "OpenTelemetry",
     ],
     description:
-      "A developer platform for debugging and understanding AI-agent executions: a Python SDK, a FastAPI ingest backend, and a React dashboard for inspecting every LLM and tool call.",
+      "A developer platform that makes AI-agent executions understandable, from the first model call to the last tool response.",
+    highlights: [
+      "Live timelines for every LLM and tool call",
+      "Model-call replay and trace comparison",
+    ],
     details: [
       "Built an observability platform for AI agents: a Python SDK traces LLM and tool calls as nested spans, and an OTLP/HTTP endpoint ingests OpenTelemetry/OpenInference traces into a FastAPI and PostgreSQL backend.",
       "Developed a React/TypeScript dashboard with waterfall span timelines, per-step input/output/error inspection, and latency, token, and cost tracking, updated live via Server-Sent Events.",
@@ -94,11 +107,16 @@ export const projects: Project[] = [
     url: "https://github.com/ericshark/agent-tracer",
   },
   {
-    name: "AuthCore — Identity & Access API",
+    name: "AuthCore",
+    category: "Identity & access API",
     date: "June 2026",
     stack: ["FastAPI", "PostgreSQL", "Redis", "Celery", "Docker", "Nginx"],
     description:
-      "An open-source authentication and authorization backend: password, OAuth, and magic-link login, TOTP two-factor authentication, swappable JWT or session auth, and role-based access control.",
+      "An open-source authentication backend with flexible sign-in flows, swappable auth strategies, and fine-grained access control.",
+    highlights: [
+      "Password, OAuth, magic links, and two-factor auth",
+      "Session security and role-based access control",
+    ],
     details: [
       "Built an authentication and authorization API in FastAPI with JWT and Redis-backed sessions, OAuth2 (Google/GitHub), magic-link login, and TOTP 2FA with encrypted secrets and hashed backup codes.",
       "Designed a pluggable auth backend using the Strategy pattern, switching between JWT and session authentication via a single environment variable with shared login, logout, and revocation interfaces.",

@@ -1,69 +1,101 @@
+import { ArrowUpRight, Plus } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import SpotlightCard from "@/components/SpotlightCard";
 import SectionHeading from "@/components/SectionHeading";
 import { projects } from "@/data/portfolio";
 
 export default function Projects() {
   return (
-    <section aria-labelledby="projects" className="pb-24 sm:pb-32">
+    <section aria-labelledby="projects" className="pb-20 sm:pb-28">
       <SectionHeading index="01" title="Projects" id="projects" />
 
-      <div className="mt-8 space-y-10 sm:space-y-14">
-        {projects.map((project, index) => (
-          <Reveal key={project.name}>
-            <SpotlightCard
-              trail={index === 0}
-              className="rounded-lg border border-neutral-200 bg-neutral-50/60 p-6 sm:p-8"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 className="text-balance text-xl font-semibold tracking-tight sm:text-2xl">
-                  {project.url ? (
-                    <a href={project.url} target="_blank" rel="noreferrer">
-                      {project.name}
-                    </a>
-                  ) : (
-                    project.name
-                  )}
-                </h3>
-                <time className="font-mono text-xs text-neutral-400">
+      <div className="mt-9 divide-y divide-neutral-300/70 sm:mt-12">
+        {projects.map((project) => (
+          <article
+            key={project.name}
+            className="py-9 first:pt-0 last:pb-0 sm:py-12"
+          >
+            <Reveal className="studio-grid">
+              <div className="flex items-baseline justify-between gap-5 font-mono text-[11px] leading-relaxed md:block">
+                <p className="max-w-[19ch] text-neutral-600">
+                  {project.category}
+                </p>
+                <p className="shrink-0 text-neutral-500 md:mt-3">
                   {project.date}
-                </time>
+                </p>
               </div>
 
-              <ul
-                className="mt-3 flex flex-wrap gap-1.5"
-                aria-label="Built with"
-              >
-                {project.stack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="rounded-md bg-neutral-200/70 px-2.5 py-0.5 font-mono text-[0.6875rem] font-medium text-neutral-600"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+              <div className="min-w-0">
+                <h3 className="font-display text-[2.5rem] leading-[1.1] tracking-[-0.025em] sm:text-5xl">
+                  {project.name}
+                </h3>
+                <p className="mt-4 max-w-[59ch] text-pretty text-base leading-relaxed text-neutral-600">
+                  {project.description}
+                </p>
 
-              <p className="mt-5 max-w-[62ch] text-pretty text-[0.9375rem] leading-relaxed text-neutral-600">
-                {project.description}
-              </p>
+                <ul className="mt-5 space-y-2 text-sm leading-relaxed text-neutral-700">
+                  {project.highlights.map((highlight) => (
+                    <li key={highlight} className="flex gap-3">
+                      <span aria-hidden="true" className="text-neutral-400">
+                        —
+                      </span>
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
 
-              <ul className="mt-6 space-y-3 border-t border-neutral-200 pt-5">
-                {project.details.map((detail) => (
-                  <li
-                    key={detail}
-                    className="flex gap-3 text-[0.875rem] leading-relaxed text-neutral-700"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-300"
-                    />
-                    <span className="max-w-[58ch]">{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </SpotlightCard>
-          </Reveal>
+                <p className="mt-6 font-mono text-[11px] leading-loose text-neutral-500">
+                  <span className="sr-only">Built with: </span>
+                  {project.stack.join(" · ")}
+                </p>
+
+                <div className="relative mt-5 border-t border-neutral-200 pt-2">
+                  <details className="group">
+                    <summary className="flex min-h-11 w-fit max-w-[calc(100%-6rem)] cursor-pointer items-center gap-3 font-mono text-xs text-neutral-600 transition-colors hover:text-ink sm:max-w-[calc(100%-9rem)]">
+                      Technical details
+                      <span className="sr-only"> for {project.name}</span>
+                      <Plus
+                        size={14}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                        className="shrink-0 transition-transform duration-200 group-open:rotate-45"
+                      />
+                    </summary>
+                    <ul className="mt-3 space-y-4 border-t border-neutral-200 pb-2 pt-5 text-sm leading-relaxed text-neutral-600">
+                      {project.details.map((detail) => (
+                        <li key={detail} className="flex gap-3">
+                          <span
+                            aria-hidden="true"
+                            className="mt-2 h-1 w-1 shrink-0 rounded-full bg-neutral-400"
+                          />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${project.name} on GitHub`}
+                      className="link-arrow link-quiet absolute right-0 top-2 font-mono text-xs text-neutral-600"
+                    >
+                      <span>
+                        <span className="hidden sm:inline">View on </span>
+                        GitHub
+                      </span>
+                      <ArrowUpRight
+                        size={14}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          </article>
         ))}
       </div>
     </section>

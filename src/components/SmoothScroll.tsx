@@ -49,8 +49,9 @@ export default function SmoothScroll({
       if (target === null) return;
 
       event.preventDefault();
+      // Lenis honors the heading's scroll-margin-top, just like native anchors.
       lenis.scrollTo(target, {
-        duration: 1.1,
+        duration: 0.6,
         easing: easeOutExpo,
       });
       if (window.location.hash !== hash) {

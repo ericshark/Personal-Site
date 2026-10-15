@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -20,6 +21,7 @@ export default function Home() {
       <main className="mx-auto w-full max-w-site px-6 sm:px-8">
         <Hero hasResume={hasResume} />
         <Projects />
+        <About />
         <Experience />
       </main>
       <Footer hasResume={hasResume} />

@@ -12,38 +12,47 @@
     text-rendering: optimizeLegibility;
   }
 
-  /*
-   * Interactive elements invert into a rounded ink block on hover/focus.
-   * Padding is cancelled by negative inline margin so the box grows around
-   * the text without shifting layout.
-   */
   a,
-  button {
-    @apply -mx-1.5 rounded-md px-1.5 py-0.5 transition-colors duration-150;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
+  button,
+  summary {
+    -webkit-tap-highlight-color: transparent;
   }
 
   a:focus-visible,
-  button:focus-visible {
-    @apply bg-ink text-paper decoration-transparent outline outline-2 outline-offset-2 outline-accent;
+  button:focus-visible,
+  summary:focus-visible {
+    @apply rounded-sm outline outline-2 outline-offset-4 outline-accent;
   }
 
-  /*
-   * Hover-capable pointers only, so taps on touch screens don't leave a stuck highlight.
-   * Header nav links ([data-nav]) use a sliding pill instead (see Header.tsx).
-   */
-  @media (hover: hover) {
-    a:not([data-nav]):hover,
-    button:hover {
-      @apply bg-ink text-paper decoration-transparent;
-    }
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
   }
 }
 
 @layer components {
-  /* Quiet editorial link: hairline underline at rest. */
+  .studio-grid {
+    @apply grid min-w-0 gap-y-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-x-12;
+  }
+
   .link-quiet {
-    @apply underline decoration-neutral-300 decoration-1 underline-offset-4;
+    @apply decoration-neutral-300 decoration-1 underline-offset-[5px] transition-[color,text-decoration-color] duration-150 hover:text-ink hover:underline hover:decoration-ink;
+  }
+
+  .link-arrow {
+    @apply inline-flex min-h-11 items-center gap-2;
+  }
+
+  .link-arrow svg {
+    @apply shrink-0 transition-transform duration-200;
+  }
+
+  @media (hover: hover) {
+    .link-arrow:hover svg {
+      transform: translate(2px, -2px);
+    }
   }
 }
