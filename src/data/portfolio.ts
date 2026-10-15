@@ -135,7 +135,7 @@ export const experience: Experience[] = [
     period: "May 2025 – Sep 2025",
     stack: ["Python", "FastAPI", "Apache Airflow", "Pytest"],
     description:
-      "Backend team at a public-safety GIS company whose software routes 9-1-1 calls and guides emergency responders for agencies in 49 states.",
+      "Worked on backend software that helps emergency dispatch teams use accurate location data. I automated routine data checks, made service issues easier to investigate, and improved test coverage so the team could maintain its public-safety systems more confidently.",
     details: [
       "Built backend Python and FastAPI services powering public-safety GIS workflows for 9-1-1 dispatch, processing real-time geospatial data to support accurate and timely emergency response routing.",
       "Developed Airflow DAGs to track whether required files were present across all tenants, generating automated reports and reducing manual validation effort by ~30%.",
@@ -166,7 +166,7 @@ export const experience: Experience[] = [
       "OpenAI API",
     ],
     description:
-      "Built an internship finder and AI career advisor for students on a 5-person team in a CUNY AI research lab.",
+      "Worked with a five-person research team to help students find internships and prepare their applications. I built tools for searching opportunities and tracking applications, along with an AI career advisor that offered resume feedback.",
     details: [
       "Built a full-stack Next.js/TypeScript internship platform with keyword search, multi-filter sorting, and an application tracker used by dozens of students.",
       "Aggregated scattered internship postings from GitHub internship lists and job sites into one searchable database.",
@@ -203,7 +203,7 @@ export const earlierExperience: Experience[] = [
     period: "May 2024 – Aug 2024",
     stack: [],
     description:
-      "Coordinated daily workflows across trades and subcontractors on interior commercial construction projects, managing documentation in Procore and schedules in Microsoft Project and Excel; streamlined documentation to reduce scheduling delays by 25%.",
+      "Helped keep commercial interior construction projects organized by coordinating daily work across trades and subcontractors. I maintained project documents and schedules, keeping teams informed about upcoming work and changes.",
     compact: true,
   },
 ];

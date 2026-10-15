@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Instrument_Serif } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import SmoothScroll from "@/components/SmoothScroll";
 import { siteMeta } from "@/data/portfolio";
 import "lenis/dist/lenis.css";
 import "./globals.css";
-
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-instrument-serif",
-});
 
 export const metadata: Metadata = {
   // Set NEXT_PUBLIC_SITE_URL to the deployed URL so OG/Twitter images resolve absolutely.
@@ -40,10 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${instrumentSerif.variable} ${GeistSans.variable} ${GeistMono.variable}`}
-    >
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="bg-paper font-sans text-ink antialiased">
         <SmoothScroll>{children}</SmoothScroll>
       </body>

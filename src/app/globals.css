@@ -13,6 +13,13 @@
   }
 
   a,
+  button {
+    @apply -mx-1.5 rounded-md px-1.5 py-0.5 transition-colors duration-150;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  a,
   button,
   summary {
     -webkit-tap-highlight-color: transparent;
@@ -21,7 +28,21 @@
   a:focus-visible,
   button:focus-visible,
   summary:focus-visible {
-    @apply rounded-sm outline outline-2 outline-offset-4 outline-accent;
+    @apply rounded-md outline outline-2 outline-offset-2 outline-accent;
+  }
+
+  a:not(.action-quiet):focus-visible,
+  button:not(.action-quiet):focus-visible,
+  summary:not(.action-quiet):focus-visible {
+    @apply bg-ink text-paper decoration-transparent;
+  }
+
+  @media (hover: hover) {
+    a:not([data-nav]):not(.action-quiet):hover,
+    button:not(.action-quiet):hover,
+    summary:not(.action-quiet):hover {
+      @apply bg-ink text-paper decoration-transparent;
+    }
   }
 
   summary {
@@ -39,7 +60,21 @@
   }
 
   .link-quiet {
-    @apply decoration-neutral-300 decoration-1 underline-offset-[5px] transition-[color,text-decoration-color] duration-150 hover:text-ink hover:underline hover:decoration-ink;
+    @apply underline decoration-neutral-300 decoration-1 underline-offset-4;
+  }
+
+  .action-quiet {
+    @apply mx-0 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-transparent px-2 py-2 text-neutral-600 no-underline transition-colors duration-200 ease-out;
+  }
+
+  .action-quiet:focus-visible {
+    @apply bg-neutral-100 text-ink;
+  }
+
+  @media (hover: hover) {
+    .action-quiet:hover {
+      @apply bg-neutral-100 text-ink;
+    }
   }
 
   .link-arrow {

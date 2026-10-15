@@ -57,7 +57,7 @@ function useScrollState() {
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    // Expanding project details changes section positions without a scroll event.
+    // Disclosures can move section headings without a scroll event.
     const resizeObserver = new ResizeObserver(onScroll);
     resizeObserver.observe(document.body);
     return () => {
@@ -84,18 +84,18 @@ export default function Header() {
           : "border-transparent bg-paper"
       }`}
     >
-      <div className="mx-auto flex h-16 w-full max-w-site items-center justify-between gap-3 px-6 sm:px-8">
+      <div className="mx-auto flex h-14 w-full max-w-site items-center justify-between gap-4 px-6 sm:px-8">
         <a
           href="#top"
           aria-label={profile.name}
-          className="link-quiet flex min-h-11 shrink-0 items-center text-sm font-medium tracking-tight"
+          className="shrink-0 font-medium tracking-tight"
         >
           <span className="sm:hidden">{initials}</span>
           <span className="hidden sm:inline">{profile.name}</span>
         </a>
         <nav aria-label="Site" className="min-w-0">
           <ul
-            className="flex gap-1 font-mono text-[11px] text-neutral-500 sm:gap-4 sm:text-xs"
+            className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]"
             onPointerLeave={() => setHoveredId(null)}
           >
             {sections.map(({ id, label }) => {
@@ -108,7 +108,7 @@ export default function Header() {
                     href={`#${id}`}
                     data-nav
                     aria-current={activeId === id ? "location" : undefined}
-                    className={`relative isolate flex min-h-11 items-center px-1.5 transition-colors duration-150 sm:px-3 ${
+                    className={`relative isolate inline-block transition-colors duration-150 sm:-mx-2.5 sm:px-2.5 sm:py-1 ${
                       isHighlighted ? "text-paper" : ""
                     }`}
                     onPointerEnter={(event) => {
@@ -121,11 +121,11 @@ export default function Header() {
                       <motion.span
                         layoutId="nav-pill"
                         aria-hidden="true"
-                        className="absolute inset-x-0 inset-y-1 -z-10 rounded-sm bg-ink"
+                        className="absolute inset-0 -z-10 rounded-md bg-ink"
                         transition={{
                           type: "spring",
-                          bounce: 0,
-                          duration: 0.25,
+                          bounce: 0.15,
+                          duration: 0.4,
                         }}
                       />
                     )}

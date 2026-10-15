@@ -25,10 +25,10 @@ export default function Projects() {
               </div>
 
               <div className="min-w-0">
-                <h3 className="font-display text-[2.5rem] leading-[1.1] tracking-[-0.025em] sm:text-5xl">
+                <h3 className="text-2xl font-medium leading-[1.2] tracking-[-0.025em] sm:text-[28px]">
                   {project.name}
                 </h3>
-                <p className="mt-4 max-w-[59ch] text-pretty text-base leading-relaxed text-neutral-600">
+                <p className="mt-3 max-w-[59ch] text-pretty text-base leading-relaxed text-neutral-600">
                   {project.description}
                 </p>
 
@@ -50,14 +50,14 @@ export default function Projects() {
 
                 <div className="relative mt-5 border-t border-neutral-200 pt-2">
                   <details className="group">
-                    <summary className="flex min-h-11 w-fit max-w-[calc(100%-6rem)] cursor-pointer items-center gap-3 font-mono text-xs text-neutral-600 transition-colors hover:text-ink sm:max-w-[calc(100%-9rem)]">
+                    <summary className="action-quiet w-fit max-w-[calc(100%-6rem)] cursor-pointer font-mono text-xs sm:max-w-[calc(100%-9rem)]">
                       Technical details
                       <span className="sr-only"> for {project.name}</span>
                       <Plus
                         size={14}
                         strokeWidth={1.5}
                         aria-hidden="true"
-                        className="shrink-0 transition-transform duration-200 group-open:rotate-45"
+                        className="shrink-0 transition-transform duration-200 ease-out group-open:rotate-45"
                       />
                     </summary>
                     <ul className="mt-3 space-y-4 border-t border-neutral-200 pb-2 pt-5 text-sm leading-relaxed text-neutral-600">
@@ -79,7 +79,7 @@ export default function Projects() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`View ${project.name} on GitHub`}
-                      className="link-arrow link-quiet absolute right-0 top-2 font-mono text-xs text-neutral-600"
+                      className="action-quiet absolute right-0 top-2 font-mono text-xs"
                     >
                       <span>
                         <span className="hidden sm:inline">View on </span>
@@ -89,6 +89,7 @@ export default function Projects() {
                         size={14}
                         strokeWidth={1.5}
                         aria-hidden="true"
+                        className="shrink-0"
                       />
                     </a>
                   )}

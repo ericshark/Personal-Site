@@ -10,12 +10,11 @@ const config: Config = {
         accent: "#1d4ed8",
       },
       fontFamily: {
-        display: ["var(--font-instrument-serif)", "Georgia", "serif"],
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       maxWidth: {
-        site: "60rem",
+        site: "48rem",
       },
     },
   },
