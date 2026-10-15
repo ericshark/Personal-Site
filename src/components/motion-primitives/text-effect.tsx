@@ -114,6 +114,12 @@ const AnimationComponent: React.FC<{
   per: "line" | "word" | "char";
   segmentWrapperClassName?: string;
 }> = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
+  // Plain text so the space can collapse at a line break; an inline-block
+  // whitespace-pre span would carry a visible space to the start of the next line.
+  if (per !== "line" && /^\s+$/.test(segment)) {
+    return <>{segment}</>;
+  }
+
   const content =
     per === "line" ? (
       <motion.span variants={variants} className="block">

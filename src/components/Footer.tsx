@@ -1,3 +1,4 @@
+import CurrentYear from "@/components/CurrentYear";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { profile } from "@/data/portfolio";
@@ -10,7 +11,7 @@ export default function Footer({ hasResume }: { hasResume: boolean }) {
 
         <Reveal className="mt-12 sm:mt-16">
           <h3 className="max-w-[26ch] text-balance text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
-            Have a project, role, or technical problem in mind? Reach out.
+            {profile.contactHeadline}
           </h3>
           <p className="mt-9">
             <a
@@ -52,7 +53,7 @@ export default function Footer({ hasResume }: { hasResume: boolean }) {
       </section>
 
       <p className="mt-24 border-t border-neutral-200 pt-6 font-mono text-xs text-neutral-400">
-        © {new Date().getFullYear()} {profile.name}
+        © <CurrentYear /> {profile.name}
       </p>
     </footer>
   );

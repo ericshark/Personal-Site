@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import ThemeToggle from "@/components/ThemeToggle";
 import { profile } from "@/data/portfolio";
 
 const sections = [
@@ -93,49 +94,52 @@ export default function Header() {
           <span className="sm:hidden">{initials}</span>
           <span className="hidden sm:inline">{profile.name}</span>
         </a>
-        <nav aria-label="Site" className="min-w-0">
-          <ul
-            className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]"
-            onPointerLeave={() => setHoveredId(null)}
-          >
-            {sections.map(({ id, label }) => {
-              // The pill follows the pointer, and rests on the active section otherwise.
-              const isHighlighted = (hoveredId ?? activeId) === id;
+        <div className="flex min-w-0 items-center gap-3 max-[359px]:gap-1 sm:gap-6">
+          <nav aria-label="Site" className="min-w-0">
+            <ul
+              className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]"
+              onPointerLeave={() => setHoveredId(null)}
+            >
+              {sections.map(({ id, label }) => {
+                // The pill follows the pointer, and rests on the active section otherwise.
+                const isHighlighted = (hoveredId ?? activeId) === id;
 
-              return (
-                <li key={id}>
-                  <a
-                    href={`#${id}`}
-                    data-nav
-                    aria-current={activeId === id ? "location" : undefined}
-                    className={`relative isolate inline-block transition-colors duration-150 sm:-mx-2.5 sm:px-2.5 sm:py-1 ${
-                      isHighlighted ? "text-paper" : ""
-                    }`}
-                    onPointerEnter={(event) => {
-                      if (event.pointerType === "mouse") {
-                        setHoveredId(id);
-                      }
-                    }}
-                  >
-                    {isHighlighted && (
-                      <motion.span
-                        layoutId="nav-pill"
-                        aria-hidden="true"
-                        className="absolute inset-0 -z-10 rounded-md bg-ink"
-                        transition={{
-                          type: "spring",
-                          bounce: 0.15,
-                          duration: 0.4,
-                        }}
-                      />
-                    )}
-                    {label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+                return (
+                  <li key={id}>
+                    <a
+                      href={`#${id}`}
+                      data-nav
+                      aria-current={activeId === id ? "location" : undefined}
+                      className={`relative isolate inline-block transition-colors duration-150 sm:-mx-2.5 sm:px-2.5 sm:py-1 ${
+                        isHighlighted ? "text-paper" : ""
+                      }`}
+                      onPointerEnter={(event) => {
+                        if (event.pointerType === "mouse") {
+                          setHoveredId(id);
+                        }
+                      }}
+                    >
+                      {isHighlighted && (
+                        <motion.span
+                          layoutId="nav-pill"
+                          aria-hidden="true"
+                          className="absolute inset-0 -z-10 rounded-md bg-ink"
+                          transition={{
+                            type: "spring",
+                            bounce: 0.15,
+                            duration: 0.4,
+                          }}
+                        />
+                      )}
+                      {label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

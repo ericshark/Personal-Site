@@ -5,7 +5,7 @@ export default function ScrollProgress() {
   return (
     <div aria-hidden="true">
       <GradientProgress
-        className="fixed z-[60] h-0.5 bg-[linear-gradient(to_right,rgba(0,0,0,0),#111111_75%,#111111_100%)]"
+        className="fixed z-[60] h-0.5 bg-gradient-to-r from-transparent via-ink via-75% to-ink"
         springOptions={{ stiffness: 120, damping: 30 }}
       />
     </div>

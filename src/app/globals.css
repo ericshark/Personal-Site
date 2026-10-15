@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Space-separated RGB channels so Tailwind opacity modifiers (e.g. bg-paper/85) work. */
+:root {
+  color-scheme: light;
+  --color-paper: 250 250 249;
+  --color-ink: 24 24 27;
+  --color-accent: 29 78 216;
+  --color-neutral-100: 245 245 245;
+  --color-neutral-200: 229 229 229;
+  --color-neutral-300: 212 212 212;
+  --color-neutral-400: 163 163 163;
+  --color-neutral-500: 115 115 115;
+  --color-neutral-600: 82 82 82;
+  --color-neutral-700: 64 64 64;
+}
+
+/* The neutral scale inverts so "lighter" steps stay subtle against the dark page. */
+.dark {
+  color-scheme: dark;
+  --color-paper: 12 12 13;
+  --color-ink: 237 237 237;
+  --color-accent: 96 165 250;
+  --color-neutral-100: 30 30 32;
+  --color-neutral-200: 40 40 43;
+  --color-neutral-300: 58 58 62;
+  --color-neutral-400: 113 113 119;
+  --color-neutral-500: 150 150 156;
+  --color-neutral-600: 180 180 185;
+  --color-neutral-700: 208 208 213;
+}
+
 ::selection {
   background: theme("colors.accent");
   color: theme("colors.paper");

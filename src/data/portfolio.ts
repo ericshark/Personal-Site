@@ -10,7 +10,6 @@ export type Profile = {
   email: string;
   /** Hero headline — the one-sentence positioning statement. */
   headline: string;
-  introduction: string;
   contactHeadline: string;
   about: {
     title: string;
@@ -60,8 +59,6 @@ export const profile: Profile = {
   email: "ericzwierzynski1@gmail.com",
   headline:
     "I build software end to end, from the database to the details people notice.",
-  introduction:
-    "I’m Eric, a software engineer in New York building full-stack products and AI tools.",
   contactHeadline:
     "Have a project, role, or technical problem in mind? Reach out.",
   about: {
@@ -209,6 +206,8 @@ export const earlierExperience: Experience[] = [
 ];
 
 export const siteMeta = {
+  // Set NEXT_PUBLIC_SITE_URL to the deployed URL so OG images and the sitemap resolve absolutely.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ericzwierzynski.dev",
   title: "Eric Zwierzynski — Full-Stack Engineer",
   description:
     "Full-stack engineer in New York building software end to end — Python, FastAPI, PostgreSQL, React, and TypeScript.",

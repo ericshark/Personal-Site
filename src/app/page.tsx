@@ -6,6 +6,20 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import ScrollProgress from "@/components/ScrollProgress";
+import { profile, siteMeta } from "@/data/portfolio";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  url: siteMeta.url,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: profile.location,
+  },
+  sameAs: [profile.links.github, profile.links.linkedin],
+};
 
 export default function Home() {
   // Build-time check: the Resume link only renders if the file actually exists.
@@ -15,6 +29,13 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        // Escape "<" so profile text can't close the script tag early.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <ScrollProgress />
       <Header />
       <main className="mx-auto w-full max-w-site px-6 sm:px-8">
