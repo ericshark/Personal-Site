@@ -18,12 +18,9 @@ export default function NotFound() {
       <p className="mt-5 max-w-[46ch] text-pretty leading-relaxed text-neutral-600">
         The link may be broken, or the page may have moved.
       </p>
-      <Link
-        href="/"
-        className="action-quiet mt-9 w-fit border border-neutral-300 px-3 font-sans text-[13px] font-medium"
-      >
+      <Link href="/" className="link-arrow mt-9 w-fit">
         <ArrowLeft size={14} strokeWidth={1.5} aria-hidden="true" />
-        Back to home
+        <span>Back to home</span>
       </Link>
     </main>
   );

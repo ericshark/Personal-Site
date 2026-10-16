@@ -42,7 +42,7 @@ function Entry({ entry }: { entry: ExperienceEntry }) {
                 size={14}
                 strokeWidth={1.5}
                 aria-hidden="true"
-                className="shrink-0 transition-transform duration-200 ease-out group-open:rotate-45"
+                className="shrink-0 group-open:rotate-45"
               />
             </summary>
             <ul className="mt-3 space-y-4 border-t border-neutral-200 pb-2 pt-5 text-sm leading-relaxed text-neutral-600">

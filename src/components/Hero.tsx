@@ -86,11 +86,8 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
             >
               {profile.about.description}
             </TextEffect>
-            <a
-              href="#projects"
-              className="action-quiet mt-6 border border-neutral-300 px-3 font-sans text-[13px] font-medium"
-            >
-              View projects
+            <a href="#projects" className="link-arrow mt-6">
+              <span>View projects</span>
               <ArrowDown size={14} strokeWidth={1.5} aria-hidden="true" />
             </a>
           </div>
