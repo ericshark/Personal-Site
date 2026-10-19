@@ -53,11 +53,66 @@ test("View projects scrolls to the projects section", async ({ page }) => {
     .toBeLessThan(200);
 });
 
-test("technical details disclosures open", async ({ page }) => {
+test("a featured project opens its details on the projects page", async ({
+  page,
+}) => {
   await page.goto("/");
-  const summary = page.locator("summary").first();
-  await summary.click();
-  await expect(summary.locator("xpath=..")).toHaveAttribute("open", "");
+  await page.getByRole("link", { name: "Agent Tracer" }).click();
+
+  await expect(page).toHaveURL(/\/projects#agent-tracer$/);
+  const dialog = page.getByRole("dialog", { name: "Agent Tracer" });
+  await expect(dialog).toBeVisible();
+  await expect(
+    dialog.getByRole("link", { name: "View Agent Tracer on GitHub" }),
+  ).toHaveAttribute("rel", "noopener noreferrer");
+});
+
+test("project filters narrow the grid and update the URL", async ({ page }) => {
+  await page.goto("/projects");
+  const filters = page.getByRole("group", {
+    name: "Filter projects by category",
+  });
+  for (const name of [
+    "All",
+    "Interfaces",
+    "Games",
+    "Tools & Backends",
+    "Lab",
+  ]) {
+    await expect(filters.getByRole("button", { name })).toBeVisible();
+  }
+
+  const cards = page.locator(".project-card");
+  const total = await cards.count();
+  await filters.getByRole("button", { name: /^Games/ }).click();
+
+  await expect(page).toHaveURL(/\?category=games$/);
+  await expect(filters.getByRole("button", { name: /^Games/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect.poll(() => cards.count()).toBeLessThan(total);
+  for (const card of await cards.all()) {
+    await expect(card).toContainText("Games");
+  }
+});
+
+test("project dialog steps through projects and closes with Escape", async ({
+  page,
+}) => {
+  await page.goto("/projects");
+  await page.getByRole("button", { name: "AuthCore" }).click();
+
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toHaveAccessibleName("AuthCore");
+  await expect(page).toHaveURL(/#authcore$/);
+
+  await page.keyboard.press("ArrowRight");
+  await expect(dialog).not.toHaveAccessibleName("AuthCore");
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page).not.toHaveURL(/#/);
 });
 
 test("external links open safely", async ({ page }) => {

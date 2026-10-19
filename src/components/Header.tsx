@@ -21,7 +21,7 @@ const initials = profile.name
  * A section is "active" once its heading passes 40% of the viewport height;
  * at the very bottom the last section wins, since Contact can't reach the top.
  */
-function useScrollState() {
+function useScrollState(trackSections: boolean) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -31,6 +31,7 @@ function useScrollState() {
     function update() {
       frame = 0;
       setIsScrolled(window.scrollY > 8);
+      if (!trackSections) return;
 
       const atBottom =
         window.innerHeight + window.scrollY >=
@@ -67,13 +68,23 @@ function useScrollState() {
       window.removeEventListener("resize", onScroll);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [trackSections]);
 
   return { isScrolled, activeId };
 }
 
-export default function Header() {
-  const { isScrolled, activeId } = useScrollState();
+/**
+ * On the home page the nav scroll-spies its sections. On /projects it links
+ * back to those sections, and "Projects" points at the current page.
+ */
+export default function Header({
+  page = "home",
+}: {
+  page?: "home" | "projects";
+}) {
+  const isHome = page === "home";
+  const { isScrolled, activeId: scrolledId } = useScrollState(isHome);
+  const activeId = isHome ? scrolledId : "projects";
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
@@ -85,9 +96,13 @@ export default function Header() {
           : "border-transparent bg-paper"
       }`}
     >
-      <div className="mx-auto flex h-14 w-full max-w-site items-center justify-between gap-4 px-6 sm:px-8">
+      <div
+        className={`mx-auto flex h-14 w-full items-center justify-between gap-4 px-6 sm:px-8 ${
+          isHome ? "max-w-site" : "max-w-6xl"
+        }`}
+      >
         <a
-          href="#top"
+          href={isHome ? "#top" : "/"}
           aria-label={profile.name}
           className="shrink-0 font-medium tracking-tight"
         >
@@ -107,9 +122,21 @@ export default function Header() {
                 return (
                   <li key={id}>
                     <a
-                      href={`#${id}`}
+                      href={
+                        isHome
+                          ? `#${id}`
+                          : id === "projects"
+                            ? "/projects"
+                            : `/#${id}`
+                      }
                       data-nav
-                      aria-current={activeId === id ? "location" : undefined}
+                      aria-current={
+                        activeId === id
+                          ? isHome
+                            ? "location"
+                            : "page"
+                          : undefined
+                      }
                       className={`relative isolate inline-block transition-colors duration-150 sm:-mx-2.5 sm:px-2.5 sm:py-1 ${
                         isHighlighted ? "text-paper" : ""
                       }`}

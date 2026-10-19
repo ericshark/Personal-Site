@@ -71,7 +71,7 @@
    * rather than text-decoration so its width can animate. :where() keeps the
    * specificity low enough for .link-quiet to add its resting line.
    */
-  a:where(:not([data-nav], .action-quiet)) {
+  a:where(:not([data-nav], .action-quiet, .project-card)) {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
     background-origin: content-box;
@@ -82,14 +82,14 @@
       background-size var(--hover-out) var(--ease-soft);
   }
 
-  a:where(:not([data-nav], .action-quiet)):focus-visible {
+  a:where(:not([data-nav], .action-quiet, .project-card)):focus-visible {
     @apply text-ink;
     background-size: 100% 1px;
     transition-duration: var(--hover-in);
   }
 
   @media (hover: hover) {
-    a:where(:not([data-nav], .action-quiet)):hover {
+    a:where(:not([data-nav], .action-quiet, .project-card)):hover {
       @apply text-ink;
       background-size: 100% 1px;
       transition-duration: var(--hover-in);
@@ -207,5 +207,300 @@
     .action-quiet:hover .lucide-moon {
       transform: rotate(-15deg);
     }
+  }
+}
+
+@layer components {
+  /*
+   * Project previews and cards read their accent from --hue (set inline per
+   * project). Dark mode lifts the lightness so accents keep their contrast.
+   */
+  .accent-scope {
+    --pv: hsl(var(--hue, 221) 72% 48%);
+    --pv-soft: hsl(var(--hue, 221) 72% 48% / 0.14);
+    --pv-faint: hsl(var(--hue, 221) 72% 48% / 0.07);
+  }
+
+  .dark .accent-scope {
+    --pv: hsl(var(--hue, 221) 85% 66%);
+    --pv-soft: hsl(var(--hue, 221) 85% 66% / 0.16);
+    --pv-faint: hsl(var(--hue, 221) 85% 66% / 0.08);
+  }
+
+  .preview-surface {
+    background-color: rgb(var(--color-paper));
+    background-image: radial-gradient(
+      rgb(var(--color-neutral-300) / 0.7) 1px,
+      transparent 1px
+    );
+    background-size: 14px 14px;
+  }
+
+  .preview-stage {
+    transition: transform 600ms var(--ease-soft);
+  }
+
+  /*
+   * Bento card. The border lights up around the pointer: a radial gradient
+   * positioned by --x/--y (set in ProjectCard) and masked down to a 1px ring.
+   */
+  .project-card {
+    @apply relative m-0 flex h-full w-full flex-col rounded-2xl border border-neutral-200 bg-neutral-100/60 p-0 text-left;
+    transition:
+      transform var(--hover-out) var(--ease-soft),
+      border-color var(--hover-out) var(--ease-soft),
+      box-shadow var(--hover-out) var(--ease-soft);
+  }
+
+  .project-card::before,
+  .project-card::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--hover-out) var(--ease-soft);
+  }
+
+  .project-card::before {
+    padding: 1px;
+    background: radial-gradient(
+      220px circle at var(--x, 50%) var(--y, 50%),
+      var(--pv),
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .project-card::after {
+    background: radial-gradient(
+      320px circle at var(--x, 50%) var(--y, 50%),
+      var(--pv-faint),
+      transparent 70%
+    );
+  }
+
+  /* The focusable element is the stretched link/button inside the card. */
+  .project-card:has(:focus-visible) {
+    @apply outline outline-2 outline-offset-2 outline-accent;
+  }
+
+  .project-card:has(:focus-visible)::before,
+  .project-card:has(:focus-visible)::after {
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -24px var(--pv);
+      transition-duration: var(--hover-in);
+    }
+
+    .project-card:hover::before,
+    .project-card:hover::after {
+      opacity: 1;
+      transition-duration: var(--hover-in);
+    }
+
+    .project-card:hover .preview-stage {
+      transform: scale(1.04);
+    }
+
+    .project-card:hover .lucide-arrow-up-right {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  .project-card .lucide-arrow-up-right {
+    transition: transform var(--hover-out) var(--ease-soft);
+  }
+}
+
+/*
+ * Project detail dialog: fades and rises in, and back out on close.
+ * @starting-style and allow-discrete degrade to an instant open/close.
+ */
+.project-dialog {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition:
+    opacity 220ms var(--ease-soft),
+    transform 360ms var(--ease-soft),
+    overlay 360ms allow-discrete,
+    display 360ms allow-discrete;
+}
+
+.project-dialog[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .project-dialog[open] {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+}
+
+.project-dialog::backdrop {
+  background-color: rgb(10 10 12 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background-color 300ms var(--ease-soft),
+    backdrop-filter 300ms var(--ease-soft),
+    overlay 300ms allow-discrete,
+    display 300ms allow-discrete;
+}
+
+.project-dialog[open]::backdrop {
+  background-color: rgb(10 10 12 / 0.45);
+  backdrop-filter: blur(6px);
+}
+
+@starting-style {
+  .project-dialog[open]::backdrop {
+    background-color: rgb(10 10 12 / 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+/* Keyframes for the code-drawn project previews. */
+@keyframes pv-bar {
+  from {
+    transform: scaleY(0.45);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pv-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pv-scan {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes pv-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  45%,
+  85% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes pv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pv-type {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  12%,
+  88% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+/* Gridlock: the blocking car clears the lane, the red car drives out and back. */
+@keyframes pv-car-block {
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+  28%,
+  80% {
+    transform: translateY(100%);
+  }
+  95%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pv-car-red {
+  0%,
+  30% {
+    transform: translateX(0);
+  }
+  52%,
+  60% {
+    transform: translateX(200%);
+  }
+  76%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pv-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes pv-flip {
+  0% {
+    transform: rotateX(90deg);
+  }
+  12%,
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes pv-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pv-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }

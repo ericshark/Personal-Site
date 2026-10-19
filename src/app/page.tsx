@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -7,6 +5,7 @@ import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import ScrollProgress from "@/components/ScrollProgress";
 import { profile, siteMeta } from "@/data/portfolio";
+import { hasResumeFile } from "@/lib/resume";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -22,10 +21,7 @@ const personJsonLd = {
 };
 
 export default function Home() {
-  // Build-time check: the Resume link only renders if the file actually exists.
-  const hasResume = fs.existsSync(
-    path.join(process.cwd(), "public", "resume.pdf"),
-  );
+  const hasResume = hasResumeFile();
 
   return (
     <>

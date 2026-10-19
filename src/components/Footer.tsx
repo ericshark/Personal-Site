@@ -3,9 +3,20 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { profile } from "@/data/portfolio";
 
-export default function Footer({ hasResume }: { hasResume: boolean }) {
+export default function Footer({
+  hasResume,
+  wide = false,
+}: {
+  hasResume: boolean;
+  /** Match the wider /projects layout. */
+  wide?: boolean;
+}) {
   return (
-    <footer className="mx-auto w-full max-w-site px-6 pb-12 sm:px-8">
+    <footer
+      className={`mx-auto w-full px-6 pb-12 sm:px-8 ${
+        wide ? "max-w-6xl" : "max-w-site"
+      }`}
+    >
       <section aria-labelledby="contact">
         <SectionHeading index="03" title="Contact" id="contact" />
 
