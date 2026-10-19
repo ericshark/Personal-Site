@@ -56,11 +56,11 @@ export type Experience = {
 
 export const profile: Profile = {
   name: "Eric Zwierzynski",
-  role: "Software Engineer",
+  role: "Full-Stack Engineer · AI\u00a0Applications",
   location: "New York, NY",
   email: "ericzwierzynski1@gmail.com",
   headline:
-    "I build software end to end, from the database to the details people notice.",
+    "I like knowing how the whole system works, from the database to the interface, and lately, the model in the middle.",
   contactHeadline:
     "Have a project, role, or technical problem in mind? Reach out.",
   availability: "Open to opportunities",
@@ -214,7 +214,7 @@ export const earlierExperience: Experience[] = [
 export const siteMeta = {
   // Set NEXT_PUBLIC_SITE_URL to the deployed URL so OG images and the sitemap resolve absolutely.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ericzwierzynski.dev",
-  title: "Eric Zwierzynski — Full-Stack Engineer",
+  title: "Eric Zwierzynski — Full-Stack Engineer · AI Applications",
   description:
     "Full-stack engineer in New York building software end to end — Python, FastAPI, PostgreSQL, React, and TypeScript.",
 };
