@@ -7,7 +7,16 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  { ignores: [".next/**", "out/**", "node_modules/**", "next-env.d.ts"] },
+  // `**/` also skips build output inside nested agent worktrees under .claude/.
+  {
+    ignores: [
+      "**/.next/**",
+      "**/out/**",
+      "**/node_modules/**",
+      "next-env.d.ts",
+      ".claude/**",
+    ],
+  },
   ...compat.extends("next/core-web-vitals"),
 ];
 
