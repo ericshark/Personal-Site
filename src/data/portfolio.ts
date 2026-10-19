@@ -68,8 +68,8 @@ export const profile: Profile = {
     title: "A little about me",
     paragraphs: [
       "I’ve spent much of the past year following my curiosity down the stack. I like understanding how each layer works before deciding how the pieces should fit together.",
-      "It started on the frontend with React, TypeScript, responsive design, and motion. From there I moved into backend work with Python and FastAPI: API and schema design, caching, async workflows, and background jobs. Then I wanted to see what sits underneath the app, so I started deploying my own projects with Docker, Nginx, a VPS, DNS, and TLS.",
-      "Lately I’ve been bringing that same systems thinking to AI applications, learning how RAG, tools, memory, agent loops, tracing, and evals fit together around the model.",
+      "It started on the frontend with React, TypeScript, responsive design, and motion. From there I moved into Python and FastAPI backends: API and schema design, PostgreSQL, auth, caching, and background jobs. Then I wanted to see what sits underneath the app, so I started deploying my own projects with Docker, Nginx, a VPS, DNS, and TLS.",
+      "Lately I’ve been bringing that same systems thinking to AI applications: how RAG, tools, memory, agent loops, tracing, and evals fit together around the model. I also build with agents every day, using Claude Code and Codex with my own skills and checks to move faster without cutting corners.",
     ],
     updated: {
       dateTime: "2026-10",
