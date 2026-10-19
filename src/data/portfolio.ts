@@ -216,5 +216,5 @@ export const siteMeta = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ericzwierzynski.dev",
   title: "Eric Zwierzynski — Full-Stack Engineer · AI Applications",
   description:
-    "Full-stack engineer in New York building software end to end — Python, FastAPI, PostgreSQL, React, and TypeScript.",
+    "Full-stack engineer in New York building software end to end, now focused on AI applications — Python, FastAPI, PostgreSQL, React, and TypeScript.",
 };
