@@ -10,6 +10,13 @@ export default function Footer({ hasResume }: { hasResume: boolean }) {
         <SectionHeading index="03" title="Contact" id="contact" />
 
         <Reveal className="mt-12 sm:mt-16">
+          <p className="mb-5 flex items-center gap-2 font-mono text-xs text-neutral-500">
+            <span
+              aria-hidden="true"
+              className="size-1.5 shrink-0 rounded-full bg-accent"
+            />
+            {profile.availability}
+          </p>
           <h3 className="max-w-[26ch] text-balance text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
             {profile.contactHeadline}
           </h3>

@@ -4,6 +4,25 @@ import SplitWords from "@/components/SplitWords";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { profile } from "@/data/portfolio";
 
+const ABOUT_START_DELAY = 0.2;
+const ABOUT_SPEED_REVEAL = 6;
+// Mirrors TextEffect's per-char stagger so each paragraph starts revealing
+// where the previous one finishes, instead of all three fading in at once.
+const ABOUT_CHAR_STAGGER = 0.03 / ABOUT_SPEED_REVEAL;
+
+const paragraphRevealDelays = profile.about.paragraphs.reduce<number[]>(
+  (delays, _paragraph, index) => {
+    const previous = profile.about.paragraphs[index - 1];
+    delays.push(
+      index === 0
+        ? ABOUT_START_DELAY
+        : delays[index - 1] + previous.length * ABOUT_CHAR_STAGGER,
+    );
+    return delays;
+  },
+  [],
+);
+
 export default function Hero({ hasResume }: { hasResume: boolean }) {
   return (
     <section
@@ -62,7 +81,7 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
       <Reveal delay={0.24}>
         <aside
           aria-labelledby="hero-note-heading"
-          className="mt-12 grid gap-5 border-t border-neutral-300/70 pt-6 sm:mt-14 sm:grid-cols-[9rem_1fr] sm:gap-8 sm:pt-7"
+          className="mt-12 grid gap-5 border-t border-neutral-300/70 pt-6 sm:mt-14 sm:grid-cols-[10rem_1fr] sm:gap-8 sm:pt-7"
         >
           <div>
             <h2 id="hero-note-heading" className="font-mono text-xs text-ink">
@@ -74,18 +93,30 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
                 {profile.about.updated.label}
               </time>
             </p>
+            <p className="mt-1.5 flex items-center gap-2 whitespace-nowrap font-mono text-[11px] text-neutral-500">
+              <span
+                aria-hidden="true"
+                className="size-1.5 shrink-0 rounded-full bg-accent"
+              />
+              {profile.availability}
+            </p>
           </div>
           <div>
-            <TextEffect
-              per="char"
-              preset="fade"
-              as="p"
-              delay={0.2}
-              speedReveal={6}
-              className="text-pretty leading-relaxed text-neutral-600"
-            >
-              {profile.about.description}
-            </TextEffect>
+            <div className="space-y-4">
+              {profile.about.paragraphs.map((paragraph, index) => (
+                <TextEffect
+                  key={index}
+                  per="char"
+                  preset="fade"
+                  as="p"
+                  delay={paragraphRevealDelays[index]}
+                  speedReveal={ABOUT_SPEED_REVEAL}
+                  className="text-pretty leading-relaxed text-neutral-600"
+                >
+                  {paragraph}
+                </TextEffect>
+              ))}
+            </div>
             <a href="#projects" className="link-arrow mt-6">
               <span>View projects</span>
               <ArrowDown size={14} strokeWidth={1.5} aria-hidden="true" />

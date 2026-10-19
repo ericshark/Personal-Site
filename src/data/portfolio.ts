@@ -11,9 +11,11 @@ export type Profile = {
   /** Hero headline — the one-sentence positioning statement. */
   headline: string;
   contactHeadline: string;
+  /** Short availability status shown in the intro and contact sections. */
+  availability: string;
   about: {
     title: string;
-    description: string;
+    paragraphs: string[];
     /** Manually update this date when revising the introduction. */
     updated: {
       dateTime: string;
@@ -61,10 +63,14 @@ export const profile: Profile = {
     "I build software end to end, from the database to the details people notice.",
   contactHeadline:
     "Have a project, role, or technical problem in mind? Reach out.",
+  availability: "Open to opportunities",
   about: {
     title: "A little about me",
-    description:
-      "I like understanding how every layer of a system works, from the interface people use to the infrastructure underneath it. I’ve built across the stack and worked hands-on with deployment, Docker, Nginx, VPS hosting, DNS, and TLS along the way. Lately, I’ve been going deeper into AI application engineering, especially RAG, agent workflows, agent harnesses, observability, evals, and the UX around AI systems.",
+    paragraphs: [
+      "I’ve spent much of the past year following my curiosity down the stack. I like understanding how each layer works before deciding how the pieces should fit together.",
+      "It started on the frontend with React, TypeScript, responsive design, and motion. From there I moved into backend work with Python and FastAPI: API and schema design, caching, async workflows, and background jobs. Then I wanted to see what sits underneath the app, so I started deploying my own projects with Docker, Nginx, a VPS, DNS, and TLS.",
+      "Lately I’ve been bringing that same systems thinking to AI applications, learning how RAG, tools, memory, agent loops, tracing, and evals fit together around the model.",
+    ],
     updated: {
       dateTime: "2026-10",
       label: "October 2026",
