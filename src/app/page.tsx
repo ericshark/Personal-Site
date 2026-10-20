@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import Education from "@/components/Education";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -42,6 +43,7 @@ export default function Home() {
         <Hero hasResume={hasResume} />
         <Projects />
         <Experience />
+        <Education />
       </main>
       <Footer hasResume={hasResume} />
     </>

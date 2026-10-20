@@ -54,6 +54,15 @@ export type Experience = {
   compact?: boolean;
 };
 
+export type Education = {
+  degree: string;
+  school: string;
+  location: string;
+  graduated: string;
+  gpa: string;
+  coursework: string[];
+};
+
 export const profile: Profile = {
   name: "Eric Zwierzynski",
   role: "Full-Stack Engineer · AI\u00a0Applications",
@@ -156,6 +165,26 @@ export const experience: Experience[] = [
       "Competitively selected for Google's software engineering mentorship program; sharpened algorithms and system design through weekly 1:1 mentorship with a Google engineer, code reviews, and engineer-led workshops.",
   },
   {
+    role: "Computer Science Teaching Assistant",
+    org: "CUNY, College of Staten Island",
+    location: "Staten Island, NY",
+    period: "Jan 2025 – May 2025",
+    stack: ["Python", "Java", "JavaScript", "C++"],
+    description:
+      "Assisted a professor in coding labs of 25+ students, guiding hands-on exercises and helping students debug and understand Python, Java, JavaScript, and C++.",
+    compact: true,
+  },
+  {
+    role: "Mathematics & Computer Science Tutor",
+    org: "CUNY, College of Staten Island",
+    location: "Staten Island, NY",
+    period: "Sep 2024 – May 2025",
+    stack: ["Python", "Java", "JavaScript", "C++"],
+    description:
+      "Tutored 50+ students weekly (1,000+ sessions) in calculus, algebra, data structures, and programming in Python, Java, JavaScript, and C++; created practice sets and review checklists for exam prep.",
+    compact: true,
+  },
+  {
     role: "Software Developer Intern",
     org: "Research Foundation of CUNY",
     location: "Queens, NY",
@@ -176,27 +205,22 @@ export const experience: Experience[] = [
       "Integrated the OpenAI API to normalize postings into structured, searchable fields and power a GPT-based career advisor that gave students resume feedback.",
     ],
   },
-  {
-    role: "Computer Science Teaching Assistant",
-    org: "CUNY, College of Staten Island",
-    location: "Staten Island, NY",
-    period: "Jan 2025 – May 2025",
-    stack: ["Python", "Java", "JavaScript", "C++"],
-    description:
-      "Assisted a professor in coding labs of 25+ students, guiding hands-on exercises and helping students debug and understand Python, Java, JavaScript, and C++.",
-    compact: true,
-  },
-  {
-    role: "Mathematics & Computer Science Tutor",
-    org: "CUNY, College of Staten Island",
-    location: "Staten Island, NY",
-    period: "Sep 2024 – May 2025",
-    stack: ["Python", "Java", "JavaScript", "C++"],
-    description:
-      "Tutored 50+ students weekly (1,000+ sessions) in calculus, algebra, data structures, and programming in Python, Java, JavaScript, and C++; created practice sets and review checklists for exam prep.",
-    compact: true,
-  },
 ];
+
+export const education: Education = {
+  degree: "B.S. in Computer Science, Cum Laude",
+  school: "CUNY, College of Staten Island",
+  location: "Staten Island, NY",
+  graduated: "May 2025",
+  gpa: "3.63 / 4.00",
+  coursework: [
+    "Data Structures & Algorithms",
+    "Database Systems",
+    "Operating Systems",
+    "Computer Architecture",
+    "Internet Data Communications & Security",
+  ],
+};
 
 export const earlierExperience: Experience[] = [
   {

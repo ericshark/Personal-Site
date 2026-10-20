@@ -12,7 +12,12 @@ test("home page renders every section without console errors", async ({
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  for (const name of ["Projects", "Selected Experience", "Contact"]) {
+  for (const name of [
+    "Projects",
+    "Selected Experience",
+    "Education",
+    "Contact",
+  ]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
   expect(errors).toEqual([]);

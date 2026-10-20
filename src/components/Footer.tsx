@@ -7,7 +7,7 @@ export default function Footer({ hasResume }: { hasResume: boolean }) {
   return (
     <footer className="mx-auto w-full max-w-site px-6 pb-12 sm:px-8">
       <section aria-labelledby="contact">
-        <SectionHeading index="03" title="Contact" id="contact" />
+        <SectionHeading index="04" title="Contact" id="contact" />
 
         <Reveal className="mt-12 sm:mt-16">
           <p className="mb-5 flex items-center gap-2 font-mono text-xs text-neutral-500">
