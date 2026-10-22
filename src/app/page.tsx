@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import ScrollProgress from "@/components/ScrollProgress";
+import SharkBackground from "@/components/SharkBackground";
 import { profile, siteMeta } from "@/data/portfolio";
 
 const personJsonLd = {
@@ -29,7 +30,7 @@ export default function Home() {
   );
 
   return (
-    <>
+    <div className="relative isolate min-h-screen">
       <script
         type="application/ld+json"
         // Escape "<" so profile text can't close the script tag early.
@@ -37,15 +38,18 @@ export default function Home() {
           __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
         }}
       />
+      <SharkBackground />
       <ScrollProgress />
-      <Header />
-      <main className="mx-auto w-full max-w-site px-6 sm:px-8">
-        <Hero hasResume={hasResume} />
-        <Projects />
-        <Experience />
-        <Education />
-      </main>
-      <Footer hasResume={hasResume} />
-    </>
+      <div className="relative z-10 mx-auto min-h-screen w-full max-w-site bg-paper">
+        <Header />
+        <main className="mx-auto w-full max-w-site px-6 sm:px-8">
+          <Hero hasResume={hasResume} />
+          <Projects />
+          <Experience />
+          <Education />
+        </main>
+        <Footer hasResume={hasResume} />
+      </div>
+    </div>
   );
 }
