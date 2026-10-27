@@ -69,16 +69,16 @@ export const profile: Profile = {
   location: "New York, NY",
   email: "ericzwierzynski1@gmail.com",
   headline:
-    "I like knowing how the whole system works, from the database to the interface, and lately, the model in the middle.",
+    "I design and build software, from interactive experiences to AI-powered applications.",
   contactHeadline:
     "Have a project, role, or technical problem in mind? Reach out.",
   availability: "Open to opportunities",
   about: {
     title: "A little about me",
     paragraphs: [
-      "I’ve spent much of the past year following my curiosity down the stack. I like understanding how each layer works before deciding how the pieces should fit together.",
-      "It started on the frontend with React, TypeScript, responsive design, and motion. From there I moved into Python and FastAPI backends: API and schema design, PostgreSQL, auth, caching, and background jobs. Then I wanted to see what sits underneath the app, so I started deploying my own projects with Docker, Nginx, a VPS, DNS, and TLS.",
-      "Lately I’ve been bringing that same systems thinking to AI applications: how RAG, tools, memory, agent loops, tracing, and evals fit together around the model. I also build with agents every day, using Claude Code and Codex with my own skills and checks to move faster without cutting corners.",
+      "I like being involved in the whole process of bringing an idea to life. That might mean experimenting with layouts, animations, and interactions on the frontend, designing the backend that powers it, or figuring out how everything should fit together.",
+      "These days, I'm especially interested in AI applications. I use coding agents regularly, and I've been building and exploring the systems around LLMs, from tool calling and agent workflows to tracing and observability.",
+      "But I also enjoy the creative side of building things, whether that's designing interfaces, experimenting with animations, or exploring game design. What excites me most is bringing those interests together to create something thoughtful, polished, and genuinely fun to use.",
     ],
     updated: {
       dateTime: "2026-10",
