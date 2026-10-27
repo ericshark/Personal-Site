@@ -76,9 +76,8 @@ export const profile: Profile = {
   about: {
     title: "A little about me",
     paragraphs: [
-      "I like being involved in the whole process of bringing an idea to life. That might mean experimenting with layouts, animations, and interactions on the frontend, designing the backend that powers it, or figuring out how everything should fit together.",
-      "These days, I'm especially interested in AI applications. I use coding agents regularly, and I've been building and exploring the systems around LLMs, from tool calling and agent workflows to tracing and observability.",
-      "But I also enjoy the creative side of building things, whether that's designing interfaces, experimenting with animations, or exploring game design. What excites me most is bringing those interests together to create something thoughtful, polished, and genuinely fun to use.",
+      "I've always been curious about the whole process of bringing an idea to life. I enjoy everything from visual design, animations, and interactive experiences to building backend systems, exploring game design, and figuring out how to deploy it all. Along the way, I've worked across the stack with React, TypeScript, Python, FastAPI, and PostgreSQL. I like understanding how things work behind the scenes just as much as making them look and feel good.",
+      "These days, I'm especially interested in AI applications. I use coding agents regularly, and I've been building and exploring the systems around LLMs, from tool calling and agent workflows to tracing and observability. What excites me most is combining AI, design, and engineering to turn ideas into polished, useful products that people enjoy using.",
     ],
     updated: {
       dateTime: "2026-10",
