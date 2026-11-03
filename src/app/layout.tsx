@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -51,6 +52,7 @@ export default function RootLayout({
       </head>
       <body className="bg-paper font-sans text-ink antialiased">
         <SmoothScroll>{children}</SmoothScroll>
+        <Analytics />
       </body>
     </html>
   );
