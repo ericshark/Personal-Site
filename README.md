@@ -1,5 +1,7 @@
 # Eric Zwierzynski — Personal Site
 
+<!-- Preview deployment test: harmless comment, safe to remove. -->
+
 Personal portfolio built with Next.js, TypeScript, and Tailwind CSS, with
 Motion animations and Lenis scrolling. It includes projects, experience,
 education, and contact links.
