@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import type { Architecture, ArchitectureNode } from "@/data/portfolio";
 
-function Node({ node }: { node: ArchitectureNode }) {
+function DiagramNode({ node }: { node: ArchitectureNode }) {
   return (
     <div
       className={`rounded-md border bg-paper px-3 py-2 text-center text-ink ${
@@ -48,7 +48,7 @@ export default function ArchitectureDiagram({
                   {edge.label}
                 </div>
               )}
-              <Node node={node} />
+              <DiagramNode node={node} />
             </li>
           );
         })}
@@ -67,7 +67,7 @@ export default function ArchitectureDiagram({
           const edge = next && edgeInto(next.id);
           return (
             <div key={node.id} className="contents">
-              <Node node={node} />
+              <DiagramNode node={node} />
               {next && (
                 <div className="flex flex-col items-center text-neutral-500">
                   {edge && edge.label && (
@@ -95,7 +95,7 @@ export default function ArchitectureDiagram({
                 {edge?.label}
               </span>
               <div className="w-full">
-                <Node node={node} />
+                <DiagramNode node={node} />
               </div>
             </div>
           );
