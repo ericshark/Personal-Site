@@ -16,14 +16,14 @@ Researched 2026-11-13. Every portfolio described below was fetched on that date,
 
 ## 1. Information architecture
 
-| Pattern | Verified example | What it does |
-|---|---|---|
-| Homepage only, text | [paco.me](https://paco.me), [emilkowal.ski](https://emilkowal.ski), [jakub.kr](https://jakub.kr), [brianlovin.com](https://brianlovin.com) | Each project is a linked name plus a one-line description. Links go to GitHub or the product's own site. None of these have case-study pages; their writing (`/writing/…`, `/ui/…`) does that job. |
-| Homepage list → case studies | [samuelkraft.com](https://samuelkraft.com) | Stacked image cards. Some open internal case studies (`/project/bitrefill`, `/project/trailroutes`); others open external product sites. |
-| Featured → archive | [brittanychiang.com](https://brittanychiang.com), [brittanychiang.com/archive](https://brittanychiang.com/archive) | The homepage shows four projects with thumbnail, description and tech tags, then "View Full Project Archive". The archive is a table with columns Year / Project / Made at / Built with / Link. |
-| Separate index with case studies | [dennissnellenberg.com/work](https://dennissnellenberg.com/work) | A table-like index (Client / Location / Services / Year) with category filters ("Design 7", "Development 11") and a list/grid toggle (seen in the screenshot). Rows link to `/work/<slug>`. |
-| Projects vs. craft/lab split | [rauno.me/projects](https://rauno.me/projects) + [rauno.me/craft](https://rauno.me/craft); [paco.me/craft](https://paco.me/craft) | Rauno's `/projects` is a text list of ten titles with years, all linking to external sites. `/craft` is a three-column masonry of media cards (title, month and year, a looping clip, and a "View Production", "View Prototype" or "Read Essay" button). Paco's `/craft` is a text list grouped into Motion, CSS and Interaction, linking to `/craft/<slug>` demos. |
-| Categorised index | [antfu.me/projects](https://antfu.me/projects), [sajidkalam.com/projects](https://sajidkalam.com/projects) | Anthony Fu groups about 23 categories of name-plus-description cards. Sajid Kalam's index has one featured card ("Role / Period / Status", "Read the case study") above filtered cards that link to `/projects/<slug>`. |
+| Pattern                          | Verified example                                                                                                                           | What it does                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage only, text              | [paco.me](https://paco.me), [emilkowal.ski](https://emilkowal.ski), [jakub.kr](https://jakub.kr), [brianlovin.com](https://brianlovin.com) | Each project is a linked name plus a one-line description. Links go to GitHub or the product's own site. None of these have case-study pages; their writing (`/writing/…`, `/ui/…`) does that job.                                                                                                                                                                  |
+| Homepage list → case studies     | [samuelkraft.com](https://samuelkraft.com)                                                                                                 | Stacked image cards. Some open internal case studies (`/project/bitrefill`, `/project/trailroutes`); others open external product sites.                                                                                                                                                                                                                            |
+| Featured → archive               | [brittanychiang.com](https://brittanychiang.com), [brittanychiang.com/archive](https://brittanychiang.com/archive)                         | The homepage shows four projects with thumbnail, description and tech tags, then "View Full Project Archive". The archive is a table with columns Year / Project / Made at / Built with / Link.                                                                                                                                                                     |
+| Separate index with case studies | [dennissnellenberg.com/work](https://dennissnellenberg.com/work)                                                                           | A table-like index (Client / Location / Services / Year) with category filters ("Design 7", "Development 11") and a list/grid toggle (seen in the screenshot). Rows link to `/work/<slug>`.                                                                                                                                                                         |
+| Projects vs. craft/lab split     | [rauno.me/projects](https://rauno.me/projects) + [rauno.me/craft](https://rauno.me/craft); [paco.me/craft](https://paco.me/craft)          | Rauno's `/projects` is a text list of ten titles with years, all linking to external sites. `/craft` is a three-column masonry of media cards (title, month and year, a looping clip, and a "View Production", "View Prototype" or "Read Essay" button). Paco's `/craft` is a text list grouped into Motion, CSS and Interaction, linking to `/craft/<slug>` demos. |
+| Categorised index                | [antfu.me/projects](https://antfu.me/projects), [sajidkalam.com/projects](https://sajidkalam.com/projects)                                 | Anthony Fu groups about 23 categories of name-plus-description cards. Sajid Kalam's index has one featured card ("Role / Period / Status", "Read the case study") above filtered cards that link to `/projects/<slug>`.                                                                                                                                             |
 
 **Recommendation for this audience: homepage featured + `/projects/[slug]` case studies.** Optionally add a work/lab distinction. The reasoning:
 
@@ -50,10 +50,12 @@ Researched 2026-11-13. Every portfolio described below was fetched on that date,
 ## 3. What a case-study page contains
 
 **Engineering-led.**
+
 - [leerob.com/pixo](https://leerob.com/pixo) is an essay-style build log with section headings ("Finding the limits of coding agents", "Benchmarks and comparisons"). It includes two Mermaid architecture/flow diagrams shown as images, three demo videos, and hard numbers ("520 agents, 350M tokens, and $287", "At 159 KB, pixo is tiny", 900+ tests, 86% coverage). It links heavily to the repo, individual PRs, and benchmark docs.
 - [sajidkalam.com/projects](https://sajidkalam.com/projects) says its write-ups are structured "like an engineering review: the problem, my role, the architecture, and the trade-offs — including limits and what I'd do differently". Its featured card shows Role, Period and Status. I did not open an individual case study **(section headings unverified)**.
 
 **Visual/product-led.** [samuelkraft.com/project/trailroutes](https://samuelkraft.com/project/trailroutes):
+
 - Title, years, and "Visit Live ↗".
 - An intro paragraph and two screenshots.
 - Feature sections ("Graphs and interactivity", "Trail routes for iOS"), each with an embedded video.
@@ -64,18 +66,19 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 
 **Suggested templates for this site:**
 
-| Engineering (Agent Tracer, AuthCore) | Visual/interactive (Event Horizon, World Observatory, Playground) | Product (GeoGuessr Academy, HumanRank) |
-|---|---|---|
-| One-line pitch, then a metadata rail (role, period, stack, status, repo/live links) | Hero loop or poster frame, with "Open live ↗" as the main call to action | Hero screenshot plus live link |
-| Problem: 2–4 sentences | Concept: 2–3 sentences | Who it's for and what problem it solves |
-| Architecture diagram (SDK → OTLP ingest → FastAPI → Postgres → SSE → dashboard) | Short clips of key moments, each with a caption | Core flow as 3–4 annotated screenshots or clips |
-| 3–4 key decisions, each a decision and why, plus what you would change | "How it's built": scroll timeline, render loop, data pipeline | Key decisions (FSRS scheduling, local-first Dexie, optional Supabase auth) |
-| Evidence: tests (74; 130+), CI, latency/cost figures, trace screenshot | Performance notes: frame budget, bundle size, how assets load | Outcomes, if any exist; otherwise "what I learned" |
-| Links: repo, docs, demo video | Links: live, repo | Links: live, repo |
+| Engineering (Agent Tracer, AuthCore)                                                | Visual/interactive (Event Horizon, World Observatory, Playground)        | Product (GeoGuessr Academy, HumanRank)                                     |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| One-line pitch, then a metadata rail (role, period, stack, status, repo/live links) | Hero loop or poster frame, with "Open live ↗" as the main call to action | Hero screenshot plus live link                                             |
+| Problem: 2–4 sentences                                                              | Concept: 2–3 sentences                                                   | Who it's for and what problem it solves                                    |
+| Architecture diagram (SDK → OTLP ingest → FastAPI → Postgres → SSE → dashboard)     | Short clips of key moments, each with a caption                          | Core flow as 3–4 annotated screenshots or clips                            |
+| 3–4 key decisions, each a decision and why, plus what you would change              | "How it's built": scroll timeline, render loop, data pipeline            | Key decisions (FSRS scheduling, local-first Dexie, optional Supabase auth) |
+| Evidence: tests (74; 130+), CI, latency/cost figures, trace screenshot              | Performance notes: frame budget, bundle size, how assets load            | Outcomes, if any exist; otherwise "what I learned"                         |
+| Links: repo, docs, demo video                                                       | Links: live, repo                                                        | Links: live, repo                                                          |
 
 ## 4. Media practices (Next.js docs and web.dev)
 
 **Static images.**
+
 - **Use `next/image` with static imports.** Next.js then sets width and height automatically, and `blurDataURL` "is added automatically" for jpg, png, webp and avif files ([Image component](https://nextjs.org/docs/app/api-reference/components/image)).
 - **Set `sizes` for responsive or `fill` images.** Without it "the browser assumes the image will be as wide as the viewport (`100vw`)" ([same page](https://nextjs.org/docs/app/api-reference/components/image#sizes)).
 - **Formats: enable `formats: ['image/avif','image/webp']`.** AVIF "generally takes 50% longer to encode but it compresses 20% smaller compared to WebP" ([formats](https://nextjs.org/docs/app/api-reference/components/image#formats)).
@@ -87,6 +90,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **Give every image width and height** to reserve space and avoid layout shift ([web.dev lazy loading](https://web.dev/articles/browser-level-image-lazy-loading)).
 
 **Video instead of GIF.**
+
 - **Encode as WebM (listed first) with an MP4 fallback.** web.dev's example went from GIF 3.7 MB to MP4 551 KB to WebM 341 KB, using `<video autoplay loop muted playsinline>` ([replace GIFs with videos](https://web.dev/articles/replace-gifs-with-videos)).
 - **Autoplay needs `muted` and `playsInline`.** Next.js says autoplay "it is important to also include the `muted` attribute", and `playsInline` for iOS ([Next.js videos guide](https://nextjs.org/docs/app/guides/videos)).
 - **Reserve space and fill it.** Set `width`/`height` or `aspect-ratio`, and use a `poster`, especially with `preload="none"` ([same](https://nextjs.org/docs/app/guides/videos)).
@@ -110,6 +114,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 ## Candidate directions
 
 ### A. Ledger index + case studies
+
 - **Concept:** Keep the current editorial list, but make it a compact index that points to deep pages.
 - **IA:** `/` (index of all 6–7 projects) → `/projects/[slug]`.
 - **Homepage:**
@@ -126,6 +131,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **Build cost:** Low to medium. One component and one dynamic route with `generateStaticParams` (required under static export, per [static exports](https://nextjs.org/docs/app/guides/static-exports)), plus 7 poster images.
 
 ### B. Media column (Samuel Kraft model)
+
 - **Concept:** Every project gets a uniform media frame (16:10) with a short caption, stacked in the 48rem column.
 - **IA:** `/` → `/projects/[slug]`.
 - **Homepage:**
@@ -143,6 +149,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **Build cost:** Medium to high, mostly asset production (capture, encode WebM/MP4/AVIF, posters).
 
 ### C. Work + Lab split
+
 - **Concept:** Separate hiring evidence from craft.
 - **IA:**
   - `/` features "Selected work" (Agent Tracer, World Observatory, GeoGuessr Academy, HumanRank) → `/projects/[slug]`.
@@ -160,6 +167,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **Build cost:** Medium. Two components, one case-study route, and about 4 full case studies plus 2–3 light pages.
 
 ### D. Featured trio + archive table
+
 - **Concept:** Rank by importance, not by type.
 - **IA:** `/` (3 featured projects) → `/projects/[slug]`; `/projects` holds a full table of all projects with links.
 - **Homepage:**
@@ -177,6 +185,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 ## Recommendation
 
 **Prototype A and C first. They bracket the decision.**
+
 - A is the most restrained version and keeps everything in one list.
 - C is the version that makes craft most visible, separated from the hiring story.
 - If the owner wants a middle ground, borrow D's "two proof points" line for A's rows.

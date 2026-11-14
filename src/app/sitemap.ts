@@ -1,8 +1,15 @@
 import type { MetadataRoute } from "next";
-import { siteMeta } from "@/data/portfolio";
+import { projects, siteMeta } from "@/data/portfolio";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: siteMeta.url, lastModified: new Date() }];
+  const lastModified = new Date();
+  return [
+    { url: siteMeta.url, lastModified },
+    ...projects.map((project) => ({
+      url: `${siteMeta.url}/projects/${project.slug}`,
+      lastModified,
+    })),
+  ];
 }

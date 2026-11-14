@@ -1,104 +1,110 @@
-import { ArrowUpRight, Plus } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import ProjectMedia from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { projects } from "@/data/portfolio";
 
+const external = { target: "_blank", rel: "noopener noreferrer" } as const;
+const actionClass = "action-quiet min-h-10 font-mono text-xs md:min-h-7";
+
+/**
+ * Compact ledger: one ruled row per project with an inline thumbnail. The three
+ * actions are the only links in a row, so keyboard order is Live → GitHub → Case study.
+ */
 export default function Projects() {
   return (
-    <section aria-labelledby="projects" className="pb-20 sm:pb-28">
+    <section aria-labelledby="projects" className="pb-14 sm:pb-20">
       <SectionHeading index="01" title="Projects" id="projects" />
 
-      <div className="mt-9 divide-y divide-neutral-300/70 sm:mt-12">
-        {projects.map((project) => (
-          <article
-            key={project.name}
-            className="py-9 first:pt-0 last:pb-0 sm:py-12"
-          >
-            <Reveal className="studio-grid">
-              <div className="flex items-baseline justify-between gap-5 font-mono text-[11px] leading-relaxed md:block">
-                <p className="max-w-[19ch] text-neutral-600">
-                  {project.category}
-                </p>
-                <p className="shrink-0 text-neutral-500 md:mt-3">
-                  {project.date}
+      <ul
+        aria-label="Projects"
+        className="mt-6 divide-y divide-neutral-300/70 sm:mt-8"
+      >
+        {projects.map((project, index) => (
+          <li key={project.slug} className="py-3 first:pt-0 last:pb-0">
+            <Reveal
+              delay={Math.min(index, 3) * 0.04}
+              className="studio-grid max-md:grid-cols-[6.5rem_minmax(0,1fr)] max-md:gap-x-4 max-md:gap-y-2 md:gap-x-6 md:gap-y-0"
+            >
+              <div className="aspect-[16/10] self-start overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 md:row-span-2">
+                <ProjectMedia project={project} variant="thumb" />
+              </div>
+
+              <div className="min-w-0 md:col-start-2 md:flex md:items-baseline md:justify-between md:gap-6">
+                <div className="min-w-0">
+                  <h3 className="text-base font-medium leading-snug tracking-[-0.02em] sm:text-lg">
+                    {project.name}
+                  </h3>
+                  <p className="mt-1 max-w-[56ch] text-pretty text-sm leading-snug text-neutral-600">
+                    {project.oneLiner}
+                  </p>
+                </div>
+                <p className="mt-2 hidden shrink-0 whitespace-nowrap font-mono text-[11px] text-neutral-500 md:block">
+                  {project.category} · {project.year}
                 </p>
               </div>
 
-              <div className="min-w-0">
-                <h3 className="text-2xl font-medium leading-[1.2] tracking-[-0.025em] sm:text-[28px]">
-                  {project.name}
-                </h3>
-                <p className="mt-3 max-w-[59ch] text-pretty text-base leading-relaxed text-neutral-600">
-                  {project.description}
-                </p>
-
-                <ul className="mt-5 space-y-2 text-sm leading-relaxed text-neutral-700">
-                  {project.highlights.map((highlight) => (
-                    <li key={highlight} className="flex gap-3">
-                      <span aria-hidden="true" className="text-neutral-400">
-                        —
-                      </span>
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <p className="mt-6 font-mono text-[11px] leading-loose text-neutral-500">
+              <div className="min-w-0 max-md:col-span-2 md:col-start-2">
+                <p className="font-mono text-[11px] leading-relaxed text-neutral-500 md:mt-1">
                   <span className="sr-only">Built with: </span>
                   {project.stack.join(" · ")}
                 </p>
+                <p className="mt-0.5 font-mono text-[11px] text-neutral-500 md:hidden">
+                  {project.category} · {project.year}
+                </p>
 
-                <div className="relative mt-5 border-t border-neutral-200 pt-2">
-                  <details className="group">
-                    <summary className="action-quiet w-fit max-w-[calc(100%-6rem)] cursor-pointer font-mono text-xs sm:max-w-[calc(100%-9rem)]">
-                      Technical details
-                      <span className="sr-only"> for {project.name}</span>
-                      <Plus
-                        size={14}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                        className="shrink-0 group-open:rotate-45"
-                      />
-                    </summary>
-                    <ul className="mt-3 space-y-4 border-t border-neutral-200 pb-2 pt-5 text-sm leading-relaxed text-neutral-600">
-                      {project.details.map((detail) => (
-                        <li key={detail} className="flex gap-3">
-                          <span
-                            aria-hidden="true"
-                            className="mt-2 h-1 w-1 shrink-0 rounded-full bg-neutral-400"
-                          />
-                          <span>{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-
-                  {project.url && (
+                <div className="-ml-2 mt-1 flex flex-wrap items-center gap-x-1 md:mt-0.5">
+                  {project.live && (
                     <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${project.name} on GitHub`}
-                      className="action-quiet absolute right-0 top-2 font-mono text-xs"
+                      href={project.live}
+                      {...external}
+                      aria-label={`${project.name} live site`}
+                      className={actionClass}
                     >
-                      <span>
-                        <span className="hidden sm:inline">View on </span>
-                        GitHub
-                      </span>
+                      Live
                       <ArrowUpRight
-                        size={14}
+                        size={13}
                         strokeWidth={1.5}
                         aria-hidden="true"
                         className="shrink-0"
                       />
                     </a>
                   )}
+                  {project.repo && (
+                    <a
+                      href={project.repo}
+                      {...external}
+                      aria-label={`${project.name} on GitHub`}
+                      className={actionClass}
+                    >
+                      GitHub
+                      <ArrowUpRight
+                        size={13}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                        className="shrink-0"
+                      />
+                    </a>
+                  )}
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    aria-label={`${project.name} case study`}
+                    className="link-arrow mx-0 min-h-10 px-2 md:min-h-7"
+                  >
+                    <span>Case study</span>
+                    <ArrowRight
+                      size={13}
+                      strokeWidth={1.5}
+                      aria-hidden="true"
+                    />
+                  </Link>
                 </div>
               </div>
             </Reveal>
-          </article>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

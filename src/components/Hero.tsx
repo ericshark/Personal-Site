@@ -27,18 +27,18 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
   return (
     <section
       aria-label="Introduction"
-      className="pb-24 pt-20 sm:pb-28 sm:pt-32"
+      className="pb-16 pt-14 sm:pb-20 sm:pt-24"
     >
       <Reveal>
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500">
           {profile.role} — {profile.location}
         </p>
       </Reveal>
-      <h1 className="mt-7 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
+      <h1 className="mt-5 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
         <SplitWords text={profile.headline} delay={0.08} />
       </h1>
       <Reveal delay={0.16}>
-        <ul className="mt-9 flex flex-wrap items-baseline gap-x-7 gap-y-3 font-mono text-sm">
+        <ul className="mt-7 flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-sm">
           <li>
             <a className="link-quiet" href={`mailto:${profile.email}`}>
               {profile.email}
@@ -81,19 +81,19 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
       <Reveal delay={0.24}>
         <aside
           aria-labelledby="hero-note-heading"
-          className="mt-12 grid gap-5 border-t border-neutral-300/70 pt-6 sm:mt-14 sm:grid-cols-[10rem_1fr] sm:gap-8 sm:pt-7"
+          className="mt-9 grid gap-4 border-t border-neutral-300/70 pt-5 sm:mt-10 sm:grid-cols-[10rem_1fr] sm:gap-8 sm:pt-5"
         >
           <div>
             <h2 id="hero-note-heading" className="font-mono text-xs text-ink">
               {profile.about.title}
             </h2>
-            <p className="mt-2.5 whitespace-nowrap font-mono text-[11px] text-neutral-500">
+            <p className="mt-2 whitespace-nowrap font-mono text-[11px] text-neutral-500">
               Updated{" "}
               <time dateTime={profile.about.updated.dateTime}>
                 {profile.about.updated.label}
               </time>
             </p>
-            <p className="mt-1.5 flex items-center gap-2 whitespace-nowrap font-mono text-[11px] text-neutral-500">
+            <p className="mt-1 flex items-center gap-2 whitespace-nowrap font-mono text-[11px] text-neutral-500">
               <span
                 aria-hidden="true"
                 className="size-1.5 shrink-0 rounded-full bg-accent"
@@ -102,7 +102,7 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
             </p>
           </div>
           <div>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {profile.about.paragraphs.map((paragraph, index) => (
                 <TextEffect
                   key={index}
@@ -117,7 +117,7 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
                 </TextEffect>
               ))}
             </div>
-            <a href="#projects" className="link-arrow mt-6">
+            <a href="#projects" className="link-arrow mt-3">
               <span>View projects</span>
               <ArrowDown size={14} strokeWidth={1.5} aria-hidden="true" />
             </a>

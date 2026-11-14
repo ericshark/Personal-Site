@@ -11,7 +11,7 @@ export default function SectionHeading({
   id: string;
 }) {
   return (
-    <div className="border-t border-neutral-200 pt-8">
+    <div className="border-t border-neutral-200 pt-6">
       <h2 id={id} className="flex items-baseline gap-5 scroll-mt-28">
         <span aria-hidden="true" className="font-mono text-xs text-neutral-400">
           {index}

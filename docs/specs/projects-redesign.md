@@ -16,6 +16,7 @@ Adding all seven inline would overload the homepage and force the owner to cut t
 ## Solution
 
 **The homepage Projects section becomes a compact ledger: one tight, ruled row per project.** Each row has:
+
 - a small inline screenshot
 - name, one-liner, stack, category and year
 - three explicit actions: **Live**, **GitHub** and **Case study**
@@ -23,17 +24,20 @@ Adding all seven inline would overload the homepage and force the owner to cut t
 There is no hover preview; the image is always visible in the row. A visitor can scroll all seven projects in about one screen.
 
 **Each project gets its own case-study page at `/projects/<slug>`.**
+
 - The page is wider than the homepage column and laid out like a dashboard.
 - On a desktop screen it shows nearly everything worth knowing in one view: summary, media, facts, metrics, architecture, key decisions and links.
 - It is dense and scannable rather than a long essay. It replaces the long, airy Agent Tracer prototype page.
 
 **The whole homepage gets a restrained density pass, done with the `frontend-design` skill.**
+
 - Tighter vertical rhythm and section spacing, so it reads as more professional.
 - The existing identity stays: Geist, paper/ink tokens, mono labels, hairlines, motion.
 
 ## User Stories
 
 ### Recruiter / hiring manager scanning the homepage
+
 1. As a recruiter, I want to see all of Eric's projects in one compact list, so that I can grasp the breadth of his work without scrolling through long blocks.
 2. As a recruiter, I want each project to show a small screenshot inline, so that I can tell at a glance what each thing looks like without hovering.
 3. As a recruiter, I want a one-sentence description per project, so that I understand what it does in seconds.
@@ -50,6 +54,7 @@ There is no hover preview; the image is always visible in the row. A visitor can
 14. As a screen-reader user, I want screenshots to have meaningful alt text, and the designed visuals to have a text description, so that I don't miss what they show.
 
 ### Visitor reading a case study
+
 15. As an engineering manager, I want a project page that fits the essentials into roughly one desktop screen, so that I can evaluate a project in under a minute.
 16. As an engineering manager, I want a fact sheet (role, year, status, stack, links), so that I get the key facts without reading prose.
 17. As an engineering manager, I want headline metrics (tests, endpoints, scale numbers) shown as tiles, so that I can see evidence of rigour at a glance.
@@ -66,11 +71,13 @@ There is no hover preview; the image is always visible in the row. A visitor can
 28. As a visitor who shares a link, I want each project page to have its own title and description in search results and link previews, so that shared links are clear.
 
 ### Visitor experiencing the whole page
+
 29. As a visitor, I want the homepage to feel tighter and more deliberate, without oversized gaps between sections, so that it reads as professional and finished.
 30. As a returning visitor, I want the site's existing look and animations preserved, so that the polish feels like a refinement, not a redesign.
 31. As a visitor in dark mode, I want every new element (thumbnails, panels, diagrams, metric tiles) to look right in dark, so that nothing looks broken.
 
 ### Owner (Eric) maintaining the site
+
 32. As the owner, I want all project content in the one data module, so that I can add or edit a project without touching components.
 33. As the owner, I want a project's GitHub, Live and case-study fields to be optional, with actions shown only when present, so that the data stays truthful.
 34. As the owner, I want a repeatable script that captures and encodes project screenshots, so that I can refresh images when a project changes.
@@ -81,24 +88,26 @@ There is no hover preview; the image is always visible in the row. A visitor can
 ## Implementation Decisions
 
 ### Project list and order
+
 Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory, GeoPractice, HumanRank, Event Horizon, Interface Explorations.
 
 ### Links (verified 2026-11-13 via the Vercel CLI and `gh`)
 
-| Project | Live | GitHub (to be made public where noted) |
-|---|---|---|
-| Agent Tracer | https://agent-tracer-seven.vercel.app | https://github.com/ericshark/agent-tracer (public) |
-| AuthCore | none (no deployment) | https://github.com/ericshark/authentication-authorization-api (public) |
-| World Observatory | https://world-observatory.ericzwierzynski.dev (custom domain; the Vercel production URL is world-observatory.vercel.app) | https://github.com/ericshark/world-observatory (private → make public) |
-| GeoPractice | https://geo-guesser-practice.vercel.app | https://github.com/ericshark/geo-guesser-practice (private → make public) |
-| HumanRank | https://human-benchmark-orcin.vercel.app | https://github.com/ericshark/human-benchmark (private → make public) |
-| Event Horizon | https://event-horizon-six-lake.vercel.app | https://github.com/ericshark/event-horizon (private → make public) |
-| Interface Explorations | https://interaction-playground-swart.vercel.app (Vercel lists it as the production URL, status Ready) | https://github.com/ericshark/interaction-playground (private → make public) |
+| Project                | Live                                                                                                                     | GitHub (to be made public where noted)                                      |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| Agent Tracer           | https://agent-tracer-seven.vercel.app                                                                                    | https://github.com/ericshark/agent-tracer (public)                          |
+| AuthCore               | none (no deployment)                                                                                                     | https://github.com/ericshark/authentication-authorization-api (public)      |
+| World Observatory      | https://world-observatory.ericzwierzynski.dev (custom domain; the Vercel production URL is world-observatory.vercel.app) | https://github.com/ericshark/world-observatory (private → make public)      |
+| GeoPractice            | https://geo-guesser-practice.vercel.app                                                                                  | https://github.com/ericshark/geo-guesser-practice (private → make public)   |
+| HumanRank              | https://human-benchmark-orcin.vercel.app                                                                                 | https://github.com/ericshark/human-benchmark (private → make public)        |
+| Event Horizon          | https://event-horizon-six-lake.vercel.app                                                                                | https://github.com/ericshark/event-horizon (private → make public)          |
+| Interface Explorations | https://interaction-playground-swart.vercel.app (Vercel lists it as the production URL, status Ready)                    | https://github.com/ericshark/interaction-playground (private → make public) |
 
 - **Owner decision:** all five private repos will be made public, so every project shows a GitHub link. This is an owner prerequisite before launch (see Further Notes).
 - **The links table is the source of truth for v1 URLs.** A later, separately approved step may move projects to `<name>.ericzwierzynski.dev` subdomains. That would be a data-only change.
 
 ### Data model (portfolio data module)
+
 - The existing `Project` type is replaced with a richer type. All content stays in the single data module, and components render only from it.
 - The decision-rich shape, refined from the prototype:
 
@@ -132,6 +141,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 - **Unused fields are removed.** The old `highlights`, `details` and `date` fields go away, and their content moves into the case-study fields. Agent Tracer's and AuthCore's existing `details` bullets are the source for their decisions and metrics.
 
 ### Homepage: compact ledger
+
 - **Replaces the current Projects component.** The section heading stays "01 Projects", and the `#projects` anchor and header nav keep working.
 - **Row layout, desktop:** a ruled row with a fixed-width inline thumbnail (16:10, roughly 10–12rem wide, hairline border, rounded), then name, one-liner and mono stack line in the middle, then category · year in mono.
 - **Actions:** sit on one line under the text: `Live ↗`, `GitHub ↗`, `Case study →`. They reuse the existing `.action-quiet` / `.link-arrow` styles, and Case study is the primary (ink) action.
@@ -143,6 +153,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 - **Keep the Reveal animation on rows**, staggered lightly. Per project rules, never add reduced-motion checks.
 
 ### Case-study page: dashboard layout
+
 - **Route:** `/projects/<slug>`, statically generated for every project (static export is kept). Unknown slugs fall through to the existing 404.
 - **Width:** wider than the homepage column, about 72rem max (versus the site's 48rem). It uses the same paper/ink tokens, Geist and mono labels, so it reads as the same site.
 - **Header bar:**
@@ -164,6 +175,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 - **Metadata:** each page sets its own title and description from the project data. The sitemap includes every `/projects/<slug>`.
 
 ### Media pipeline
+
 - **Static export stays** (owner decision).
 - **Screenshots** come from the live deployments at 1440×900 and are pre-encoded to AVIF and WebP at the two display sizes: homepage thumbnail and case-study media.
 - **A small, repeatable capture-and-encode script** is added to the repo for the owner to re-run. It uses headless Playwright and an image encoder.
@@ -173,6 +185,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 - **The committed prototype JPEGs** (the screenshots in the public projects folder) are the source material until the script replaces them.
 
 ### Whole-page density polish
+
 - **Run with the `frontend-design` skill**, scoped to refinement. The current identity, copy and motion are preserved.
 - **Direction:** reduce vertical whitespace by about 20–30% across the Hero, section padding, heading-to-content gaps, and the spacing between Experience and Education entries. Tighten mono label sizes and line lengths where they look loose.
 - **Section headings and the numbered index system stay**, but less gap separates them from content.
@@ -180,6 +193,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 - **Applies to both themes and to mobile.** Re-verify there is no horizontal scroll at 360–390px.
 
 ### Prototype disposal
+
 - **Remove the throwaway prototype routes and components:** the `/lab/[variant]` route, the prototype case-study route, the prototype component folder and the floating switcher.
 - **Before removing them,** commit them to a separate throwaway branch (e.g. `prototype/projects-directions`) so the explorations stay referenceable.
 - **Verdict to record in the commit message:** A (Ledger) won, with an inline image instead of a hover preview. B was rejected (too long and busy). C's rich rows were rejected, but its explicit action set and case-study link were adopted.

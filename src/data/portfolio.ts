@@ -28,17 +28,61 @@ export type Profile = {
   };
 };
 
+export type ProjectMedia =
+  /**
+   * Pre-encoded screenshot. `src` is the extension-less base path; the capture
+   * script writes `<src>-thumb` (homepage) and `<src>-media` (case study) in
+   * AVIF and WebP.
+   */
+  | { type: "image"; src: string; alt: string }
+  /** Designed, theme-aware visual drawn in code (no screenshot available). */
+  | { type: "trace" | "auth" };
+
+export type ArchitectureNode = {
+  id: string;
+  label: string;
+  detail?: string;
+  /** Row 0 is the main left-to-right path; row 1 hangs below `col` of row 0. */
+  row: 0 | 1;
+  col?: number;
+  dashed?: boolean;
+};
+
+export type Architecture = {
+  /** Text alternative describing the whole diagram. */
+  alt: string;
+  nodes: ArchitectureNode[];
+  /** Each edge points from a node to the next row-0 node, or down to a row-1 node. */
+  edges: { from: string; to: string; label?: string }[];
+};
+
 export type Project = {
+  /** URL segment for /projects/<slug>. Unique. */
+  slug: string;
   name: string;
+  /** One sentence: homepage row and case-study subtitle. */
+  oneLiner: string;
   category: string;
-  date: string;
+  kind: "Engineering" | "Product" | "Visual";
+  year: string;
   stack: string[];
-  description: string;
-  highlights: string[];
-  /** Curated highlights — keep to 3–4 readable bullets. */
-  details: string[];
-  /** Optional repository link. Omit rather than invent. */
-  url?: string;
+  media: ProjectMedia;
+  /** Omit when not deployed, so no Live action renders. Never invent links. */
+  live?: string;
+  /** Omit when not public, so no GitHub action renders. */
+  repo?: string;
+  caseStudy: {
+    /** 2–3 sentences: the problem and what it does. */
+    summary: string;
+    role: string;
+    status?: string;
+    /** 2–4 tiles. */
+    metrics: { value: string; label: string }[];
+    /** 0–4 cards. */
+    decisions: { title: string; body: string }[];
+    architecture?: Architecture;
+    gallery?: { src: string; alt: string; caption?: string }[];
+  };
 };
 
 export type Experience = {
@@ -90,11 +134,19 @@ export const profile: Profile = {
   },
 };
 
+/**
+ * Order matters: AI and backend work first, then product, then visual.
+ * Case-study copy is drafted from each repo's README and needs owner review.
+ */
 export const projects: Project[] = [
   {
+    slug: "agent-tracer",
     name: "Agent Tracer",
+    oneLiner:
+      "Observability for AI agents: live timelines, model-call replay, and run comparison.",
     category: "AI agent observability",
-    date: "August 2026",
+    kind: "Engineering",
+    year: "2026",
     stack: [
       "Python",
       "FastAPI",
@@ -103,38 +155,340 @@ export const projects: Project[] = [
       "TypeScript",
       "OpenTelemetry",
     ],
-    description:
-      "A developer platform that makes AI-agent executions understandable, from the first model call to the last tool response.",
-    highlights: [
-      "Live timelines for every LLM and tool call",
-      "Model-call replay and trace comparison",
-    ],
-    details: [
-      "Built an observability platform for AI agents: a Python SDK traces LLM and tool calls as nested spans, and an OTLP/HTTP endpoint ingests OpenTelemetry/OpenInference traces into a FastAPI and PostgreSQL backend.",
-      "Developed a React/TypeScript dashboard with waterfall span timelines, per-step input/output/error inspection, and latency, token, and cost tracking, updated live via Server-Sent Events.",
-      "Implemented side-effect-free replay of individual model calls against OpenAI/Anthropic, plus trace comparison that aligns span trees to surface status flips, drift, and latency/cost deltas.",
-      "Added hashed API keys, Docker Compose, and GitHub Actions CI running 74 tests on SQLite and PostgreSQL.",
-    ],
-    url: "https://github.com/ericshark/agent-tracer",
+    media: { type: "trace" },
+    live: "https://agent-tracer-seven.vercel.app",
+    repo: "https://github.com/ericshark/agent-tracer",
+    caseStudy: {
+      summary:
+        "When an agent fails, the logs show that it failed, not why. Agent Tracer records every model call and tool call as a nested span, so you can find the step that went wrong, inspect its exact input and output, and re-run it.",
+      role: "Solo — design & build",
+      status: "Live demo",
+      metrics: [
+        { value: "74", label: "tests in CI, on SQLite and PostgreSQL" },
+        { value: "OTLP", label: "OpenTelemetry / OpenInference ingest" },
+        { value: "SSE", label: "live trace list and timelines" },
+        { value: "256-bit", label: "revocable, expiring share links" },
+      ],
+      architecture: {
+        alt: "Architecture: the agent's Python SDK sends spans, or OTLP/HTTP JSON, to a FastAPI ingest service. The service upserts them into PostgreSQL and publishes Server-Sent Events to the React dashboard. Replay re-runs one model call against OpenAI, Anthropic, or an offline simulator.",
+        nodes: [
+          {
+            id: "sdk",
+            label: "Agent app",
+            detail: "Python SDK · batched",
+            row: 0,
+          },
+          {
+            id: "api",
+            label: "FastAPI ingest",
+            detail: "upsert · aggregate",
+            row: 0,
+          },
+          {
+            id: "ui",
+            label: "React dashboard",
+            detail: "waterfall · inspector",
+            row: 0,
+          },
+          { id: "db", label: "PostgreSQL", row: 1, col: 1 },
+          {
+            id: "llm",
+            label: "OpenAI · Anthropic · simulator",
+            row: 1,
+            col: 2,
+            dashed: true,
+          },
+        ],
+        edges: [
+          { from: "sdk", to: "api", label: "spans / OTLP" },
+          { from: "api", to: "ui", label: "SSE after commit" },
+          { from: "api", to: "db" },
+          { from: "api", to: "llm", label: "replay one call" },
+        ],
+      },
+      decisions: [
+        {
+          title: "Spans are upserted, so the view is live",
+          body: "The SDK sends a span when it starts and completes it later. The server upserts by (trace, span_id) and recomputes trace totals in one transaction; clients get an SSE event only after commit.",
+        },
+        {
+          title: "SSE over in-process pub/sub, not a queue",
+          body: "No Redis or queue to run at v1. The broker is a small interface, so it can move to Redis when the API runs on several workers.",
+        },
+        {
+          title: "Replay never has side effects",
+          body: "Replay re-runs exactly one model call with recorded or edited input, stores attempts apart from the trace, and never executes tools. An offline simulator keeps it usable without provider keys.",
+        },
+        {
+          title: "Comparison aligns span trees by (name, kind)",
+          body: "Built for “this run failed, that one worked: what changed?”. It surfaces status flips, missing steps, input and output drift, and latency, token, and cost deltas.",
+        },
+      ],
+    },
   },
   {
+    slug: "authcore",
     name: "AuthCore",
+    oneLiner:
+      "An authentication API with swappable JWT/session strategies, OAuth, magic links, and 2FA.",
     category: "Identity & access API",
-    date: "June 2026",
+    kind: "Engineering",
+    year: "2026",
     stack: ["FastAPI", "PostgreSQL", "Redis", "Celery", "Docker", "Nginx"],
-    description:
-      "An open-source authentication backend with flexible sign-in flows, swappable auth strategies, and fine-grained access control.",
-    highlights: [
-      "Password, OAuth, magic links, and two-factor auth",
-      "Session security and role-based access control",
-    ],
-    details: [
-      "Built an authentication and authorization API in FastAPI with JWT and Redis-backed sessions, OAuth2 (Google/GitHub), magic-link login, and TOTP 2FA with encrypted secrets and hashed backup codes.",
-      "Designed a pluggable auth backend using the Strategy pattern, switching between JWT and session authentication via a single environment variable with shared login, logout, and revocation interfaces.",
-      "Implemented refresh token rotation with reuse-family revocation, Argon2 password hashing, Redis-backed brute-force lockout with atomic operations, per-route RBAC, and per-device session management.",
-      "Containerized FastAPI, Celery, PostgreSQL, and Redis with Docker Compose and Alembic migrations; covered 29 endpoints with 130+ pytest tests; previously deployed on a DigitalOcean VPS behind Nginx.",
-    ],
-    url: "https://github.com/ericshark/authentication-authorization-api",
+    media: { type: "auth" },
+    repo: "https://github.com/ericshark/authentication-authorization-api",
+    caseStudy: {
+      summary:
+        "An open-source authentication backend with flexible sign-in flows, swappable auth strategies, and fine-grained access control. It covers password, OAuth2, magic-link, and TOTP two-factor sign-in behind one API.",
+      role: "Solo — design & build",
+      status: "Open source · previously deployed",
+      metrics: [
+        { value: "29", label: "API endpoints" },
+        { value: "130+", label: "pytest tests" },
+        { value: "2", label: "auth strategies, switched by one env var" },
+      ],
+      architecture: {
+        alt: "Architecture: clients reach a FastAPI service through Nginx. FastAPI stores users and roles in PostgreSQL, keeps sessions and lockout counters in Redis, and hands background work to Celery.",
+        nodes: [
+          { id: "client", label: "Client", detail: "web · mobile", row: 0 },
+          { id: "nginx", label: "Nginx", detail: "reverse proxy", row: 0 },
+          {
+            id: "api",
+            label: "FastAPI",
+            detail: "JWT or session strategy",
+            row: 0,
+          },
+          { id: "db", label: "PostgreSQL", detail: "users · roles", row: 0 },
+          {
+            id: "redis",
+            label: "Redis",
+            detail: "sessions · lockout",
+            row: 1,
+            col: 2,
+          },
+          {
+            id: "celery",
+            label: "Celery",
+            detail: "background tasks",
+            row: 1,
+            col: 3,
+          },
+        ],
+        edges: [
+          { from: "client", to: "nginx" },
+          { from: "nginx", to: "api" },
+          { from: "api", to: "db" },
+          { from: "api", to: "redis" },
+          { from: "api", to: "celery" },
+        ],
+      },
+      decisions: [
+        {
+          title: "Auth strategy is pluggable",
+          body: "A Strategy pattern switches between JWT and session authentication with one environment variable. Login, logout, and revocation share the same interface.",
+        },
+        {
+          title: "Refresh tokens rotate, and reuse revokes the family",
+          body: "Each refresh issues a new token. Replaying an old one is treated as theft and revokes every token in that family.",
+        },
+        {
+          title: "Brute-force lockout lives in Redis",
+          body: "Failed-attempt counters use atomic operations, so concurrent guesses can’t slip past the limit. Passwords are hashed with Argon2.",
+        },
+        {
+          title: "2FA secrets are encrypted at rest",
+          body: "TOTP secrets are stored encrypted and backup codes are stored hashed, so a database leak doesn’t expose either.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "world-observatory",
+    name: "World Observatory",
+    oneLiner:
+      "A live global dashboard for population, economy, and emissions over a night-lights map.",
+    category: "Data visualization",
+    kind: "Product",
+    year: "2026",
+    stack: ["Next.js", "MapLibre GL", "three.js", "d3-geo"],
+    media: {
+      type: "image",
+      src: "/projects/world-observatory",
+      alt: "World Observatory dashboard: a night-lights world map coloured by population, with a signal library on the left and country rankings on the right.",
+    },
+    live: "https://world-observatory.ericzwierzynski.dev",
+    repo: "https://github.com/ericshark/world-observatory",
+    caseStudy: {
+      summary:
+        "Global statistics usually arrive as static tables. World Observatory puts population, economy, and emissions on one night-lights map, so you can switch signals and compare countries in a single view.",
+      role: "Solo — design & build",
+      status: "Live",
+      metrics: [
+        { value: "217", label: "countries" },
+        { value: "13", label: "signals" },
+      ],
+      decisions: [
+        {
+          title: "Headline figures are continuously estimated",
+          body: "Counters such as population tick forward as live estimates, and the interface labels them as modelled rather than measured.",
+        },
+        {
+          title: "One map, many signals",
+          body: "Every signal shares the same map, legend, and country dossier, so switching what you’re looking at never means relearning the interface.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "geopractice",
+    name: "GeoPractice",
+    oneLiner:
+      "A local-first trainer for GeoGuessr clues, scheduled per clue with spaced repetition.",
+    category: "Learning app",
+    kind: "Product",
+    year: "2026",
+    stack: ["React", "TypeScript", "Dexie", "FSRS", "Zod"],
+    media: {
+      type: "image",
+      src: "/projects/geopractice",
+      alt: "GeoPractice dashboard: a welcome card with a skills-known progress ring, and skill cards for languages, driving side, coverage, and domains.",
+    },
+    live: "https://geo-guesser-practice.vercel.app",
+    repo: "https://github.com/ericshark/geo-guesser-practice",
+    caseStudy: {
+      summary:
+        "Getting good at GeoGuessr means remembering hundreds of small clues. GeoPractice runs short rounds and schedules each clue with spaced repetition, so you spend time on the ones you’re about to forget.",
+      role: "Solo — design & build",
+      status: "Live",
+      metrics: [
+        { value: "543", label: "skills tracked" },
+        { value: "FSRS", label: "per-clue scheduling" },
+        { value: "Offline", label: "no account needed" },
+      ],
+      decisions: [
+        {
+          title: "Scheduling is per clue, not per deck",
+          body: "FSRS tracks each clue separately, and rounds pick the questions you need most.",
+        },
+        {
+          title: "Local-first storage",
+          body: "Progress lives in the browser with Dexie, so the app works offline and needs no sign-up.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "humanrank",
+    name: "HumanRank",
+    oneLiner:
+      "A human-performance arcade: twelve games for reflexes, memory, and focus, with honest stats.",
+    category: "Browser games",
+    kind: "Product",
+    year: "2026",
+    stack: ["React", "Supabase", "Dexie", "PGlite"],
+    media: {
+      type: "image",
+      src: "/projects/humanrank",
+      alt: "HumanRank home screen: a “Find your strengths” card with a ring of six skill icons, a starter circuit of six games, and a daily challenge.",
+    },
+    live: "https://human-benchmark-orcin.vercel.app",
+    repo: "https://github.com/ericshark/human-benchmark",
+    caseStudy: {
+      summary:
+        "Most reaction-time sites show one number and little else. HumanRank groups twelve short games into six skills and keeps stats you can trust, starting with a seven-minute circuit that finds your strengths.",
+      role: "Solo — design & build",
+      status: "Live",
+      metrics: [
+        { value: "12", label: "games" },
+        { value: "6", label: "skills" },
+        { value: "Optional", label: "accounts" },
+      ],
+      decisions: [
+        {
+          title: "Accounts are optional",
+          body: "Results stay in the browser by default. Signing in with Supabase is a choice, not a gate.",
+        },
+        {
+          title: "Daily challenge is the same for everyone",
+          body: "The daily set is shared, and its scores are kept separate from regular sessions so the two never mix.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "event-horizon",
+    name: "Event Horizon",
+    oneLiner:
+      "A scroll journey from Earth to Gaia BH1, the nearest known black hole, in 21 stops.",
+    category: "3D scroll experience",
+    kind: "Visual",
+    year: "2026",
+    stack: ["three.js", "GSAP", "Lenis", "Vite"],
+    media: {
+      type: "image",
+      src: "/projects/event-horizon",
+      alt: "Event Horizon opening stop: a rendered Earth on a black starfield, with distance readouts and a tour-distance timeline.",
+    },
+    live: "https://event-horizon-six-lake.vercel.app",
+    repo: "https://github.com/ericshark/event-horizon",
+    caseStudy: {
+      summary:
+        "Astronomical distances are hard to feel. Event Horizon turns the trip from Earth to the nearest confirmed black hole into a scroll, with 21 checkpoints that show how far you’ve gone.",
+      role: "Solo — design & build",
+      status: "Live",
+      metrics: [
+        { value: "21", label: "checkpoints" },
+        { value: "Sourced", label: "astronomy data" },
+      ],
+      decisions: [
+        {
+          title: "Scroll drives the journey",
+          body: "Scrolling moves the camera through the 21 stops, with Lenis smoothing the input and GSAP timing the transitions.",
+        },
+        {
+          title: "Distances are kept to scale",
+          body: "Each stop uses sourced astronomy data, and a tour-distance timeline shows how far apart the stops really are.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "interface-explorations",
+    name: "Interface Explorations",
+    oneLiner:
+      "Sixteen interaction studies in React and Motion: galleries, controls, and graphics.",
+    category: "Motion & interaction",
+    kind: "Visual",
+    year: "2026",
+    stack: ["React", "Motion", "TypeScript"],
+    media: {
+      type: "image",
+      src: "/projects/interface-explorations",
+      alt: "Interface Explorations: an images and galleries collection showing a 3D gallery carousel of flower photographs.",
+    },
+    live: "https://interaction-playground-swart.vercel.app",
+    repo: "https://github.com/ericshark/interaction-playground",
+    caseStudy: {
+      summary:
+        "A workbench for interface details that are easy to get wrong: how a gallery turns, how a control responds, how a graphic moves. Each of the sixteen studies is a small, self-contained piece.",
+      role: "Solo — design & build",
+      status: "Ongoing",
+      metrics: [
+        { value: "16", label: "studies" },
+        { value: "3", label: "collections" },
+        { value: "2", label: "themes, light and dark" },
+      ],
+      decisions: [
+        {
+          title: "Studies are grouped into collections",
+          body: "Images, widgets, and experiments each get their own tab, so related pieces sit together and stay easy to compare.",
+        },
+        {
+          title: "Every study works in both themes",
+          body: "Light and dark are built in from the start rather than added afterwards.",
+        },
+      ],
+    },
   },
 ];
 
