@@ -155,7 +155,11 @@ export const projects: Project[] = [
       "TypeScript",
       "OpenTelemetry",
     ],
-    media: { type: "trace" },
+    media: {
+      type: "image",
+      src: "/projects/agent-tracer",
+      alt: "Agent Tracer landing page: the headline “See exactly what your agents did” above a dashboard of trace volume, error rate, p95 latency, and spend.",
+    },
     live: "https://agent-tracer-seven.vercel.app",
     repo: "https://github.com/ericshark/agent-tracer",
     caseStudy: {
