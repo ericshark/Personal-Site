@@ -21,6 +21,9 @@ test("home page renders every section without console errors", async ({
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  const updatedTime = page.locator("time[datetime='2026-11']");
+  await expect(updatedTime).toHaveText("November 2026");
+
   for (const name of [
     "Projects",
     "Selected Experience",
@@ -176,6 +179,33 @@ test.describe("homepage projects", () => {
       "Agent Tracer on GitHub",
       "Agent Tracer case study",
     ]);
+  });
+
+  test("project links show destination screenshot previews on hover", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const rows = page.locator('ul[aria-label="Projects"] > li');
+
+    for (const [index, project] of projects.entries()) {
+      const row = rows.nth(index);
+      const links = row.getByRole("link");
+      const previews = row.locator("[data-link-preview]");
+      const expectedCount = (project.live ? 1 : 0) + (project.repo ? 1 : 0) + 1;
+
+      await expect(links).toHaveCount(expectedCount);
+      await expect(previews).toHaveCount(expectedCount);
+
+      for (let i = 0; i < expectedCount; i++) {
+        const link = links.nth(i);
+        const preview = previews.nth(i);
+        await expect(link).toHaveClass(/\blink-arrow\b/);
+        await expect(link).toHaveClass(/\bproject-link\b/);
+        await expect(preview).toContainText("Link to");
+        const previewImg = preview.locator("img");
+        await expectImageLoaded(previewImg);
+      }
+    }
   });
 });
 

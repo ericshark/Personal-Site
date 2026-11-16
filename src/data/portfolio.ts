@@ -124,8 +124,8 @@ export const profile: Profile = {
       "These days, I'm especially interested in AI applications. I use coding agents regularly, and I've been building and exploring the systems around LLMs, from tool calling and agent workflows to tracing and observability. What excites me most is combining AI, design, and engineering to turn ideas into polished, useful products that people enjoy using.",
     ],
     updated: {
-      dateTime: "2026-10",
-      label: "October 2026",
+      dateTime: "2026-11",
+      label: "November 2026",
     },
   },
   links: {

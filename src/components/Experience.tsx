@@ -35,8 +35,8 @@ function Entry({ entry }: { entry: ExperienceEntry }) {
 
         {!!entry.details?.length && (
           <details className="group mt-4 border-t border-neutral-200 pt-2">
-            <summary className="action-quiet w-fit cursor-pointer font-mono text-xs">
-              Technical details
+            <summary className="link-arrow w-fit cursor-pointer font-mono text-xs text-neutral-600">
+              <span>Technical details</span>
               <span className="sr-only"> for {entry.org}</span>
               <Plus
                 size={14}

@@ -1,12 +1,52 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import ProjectMedia from "@/components/ProjectMedia";
+import ProjectMedia, { MEDIA_SIZES } from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { projects } from "@/data/portfolio";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
-const actionClass = "action-quiet min-h-10 font-mono text-xs md:min-h-7";
+const actionClass =
+  "peer link-arrow project-link mx-0 min-h-10 px-2 md:min-h-7";
+
+function formatPreviewUrl(url: string) {
+  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+}
+
+function ActionPreview({
+  url,
+  previewBase,
+}: {
+  url: string;
+  previewBase: string;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      data-link-preview
+      className="pointer-events-none invisible absolute bottom-full left-2 z-30 mb-2 w-60 origin-bottom translate-y-1.5 scale-95 rounded-lg border border-neutral-200/90 bg-white p-2 text-zinc-900 opacity-0 shadow-lg shadow-black/10 transition-[opacity,transform,visibility] duration-200 ease-[var(--ease-soft)] peer-hover:visible peer-hover:translate-y-0 peer-hover:scale-100 peer-hover:opacity-100 peer-focus-visible:visible peer-focus-visible:translate-y-0 peer-focus-visible:scale-100 sm:left-0 sm:w-64"
+    >
+      <div className="mb-1.5 px-0.5 font-mono text-[10px] leading-tight">
+        <p className="text-zinc-400">Link to</p>
+        <p className="mt-0.5 truncate text-zinc-700">{formatPreviewUrl(url)}</p>
+      </div>
+      <div className="aspect-[16/10] overflow-hidden rounded border border-zinc-200 bg-zinc-100">
+        <picture>
+          <source srcSet={`${previewBase}.avif`} type="image/avif" />
+          <img
+            src={`${previewBase}.webp`}
+            alt=""
+            width={MEDIA_SIZES.thumb.width}
+            height={MEDIA_SIZES.thumb.height}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover object-top"
+          />
+        </picture>
+      </div>
+    </div>
+  );
+}
 
 /**
  * Compact ledger: one ruled row per project with an inline thumbnail. The three
@@ -22,7 +62,10 @@ export default function Projects() {
         className="mt-6 divide-y divide-neutral-300/70 sm:mt-8"
       >
         {projects.map((project, index) => (
-          <li key={project.slug} className="py-3 first:pt-0 last:pb-0">
+          <li
+            key={project.slug}
+            className="relative py-3 first:pt-0 last:pb-0 focus-within:z-[60] hover:z-[60]"
+          >
             <Reveal
               delay={Math.min(index, 3) * 0.04}
               className="studio-grid max-md:grid-cols-[6.5rem_minmax(0,1fr)] max-md:gap-x-4 max-md:gap-y-2 md:gap-x-6 md:gap-y-0"
@@ -54,51 +97,69 @@ export default function Projects() {
                   {project.category} · {project.year}
                 </p>
 
-                <div className="-ml-2 mt-1 flex flex-wrap items-center gap-x-1 md:mt-0.5">
+                <div className="relative -ml-2 mt-1 flex flex-wrap items-center gap-x-1 md:mt-0.5">
                   {project.live && (
-                    <a
-                      href={project.live}
-                      {...external}
-                      aria-label={`${project.name} live site`}
-                      className={actionClass}
-                    >
-                      Live
-                      <ArrowUpRight
-                        size={13}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                        className="shrink-0"
+                    <div className="sm:relative">
+                      <a
+                        href={project.live}
+                        {...external}
+                        aria-label={`${project.name} live site`}
+                        className={actionClass}
+                      >
+                        <span>Live</span>
+                        <ArrowUpRight
+                          size={13}
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                          className="shrink-0"
+                        />
+                      </a>
+                      <ActionPreview
+                        url={project.live}
+                        previewBase={`/projects/previews/${project.slug}-live`}
                       />
-                    </a>
+                    </div>
                   )}
                   {project.repo && (
-                    <a
-                      href={project.repo}
-                      {...external}
-                      aria-label={`${project.name} on GitHub`}
+                    <div className="sm:relative">
+                      <a
+                        href={project.repo}
+                        {...external}
+                        aria-label={`${project.name} on GitHub`}
+                        className={actionClass}
+                      >
+                        <span>GitHub</span>
+                        <ArrowUpRight
+                          size={13}
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                          className="shrink-0"
+                        />
+                      </a>
+                      <ActionPreview
+                        url={project.repo}
+                        previewBase={`/projects/previews/${project.slug}-github`}
+                      />
+                    </div>
+                  )}
+                  <div className="sm:relative">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      aria-label={`${project.name} case study`}
                       className={actionClass}
                     >
-                      GitHub
-                      <ArrowUpRight
+                      <span>Case study</span>
+                      <ArrowRight
                         size={13}
                         strokeWidth={1.5}
                         aria-hidden="true"
-                        className="shrink-0"
                       />
-                    </a>
-                  )}
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    aria-label={`${project.name} case study`}
-                    className="link-arrow mx-0 min-h-10 px-2 md:min-h-7"
-                  >
-                    <span>Case study</span>
-                    <ArrowRight
-                      size={13}
-                      strokeWidth={1.5}
-                      aria-hidden="true"
+                    </Link>
+                    <ActionPreview
+                      url={`/projects/${project.slug}`}
+                      previewBase={`/projects/previews/${project.slug}-case-study`}
                     />
-                  </Link>
+                  </div>
                 </div>
               </div>
             </Reveal>

@@ -146,15 +146,23 @@
   .link-arrow {
     @apply inline-flex min-h-11 items-center gap-2 font-mono text-xs text-ink;
     background-image: none;
+    transition: color var(--hover-out) var(--ease-soft);
   }
 
-  .link-arrow > span {
+  .link-arrow > span:not(.sr-only) {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 1px;
     padding-bottom: 2px;
-    transition: background-size var(--hover-out) var(--ease-soft);
+    transition:
+      background-size var(--hover-out) var(--ease-soft),
+      transform var(--hover-out) var(--ease-soft);
+  }
+
+  .project-link > span:not(.sr-only) {
+    display: inline-block;
+    transform-origin: center;
   }
 
   .link-arrow svg {
@@ -162,9 +170,18 @@
     transition: transform var(--hover-out) var(--ease-soft);
   }
 
-  .link-arrow:focus-visible > span {
+  .link-arrow:focus-visible {
+    @apply text-ink;
+    transition-duration: var(--hover-in);
+  }
+
+  .link-arrow:focus-visible > span:not(.sr-only) {
     background-size: 100% 1px;
     transition-duration: var(--hover-in);
+  }
+
+  .project-link:focus-visible > span:not(.sr-only) {
+    transform: scale(1.06);
   }
 
   @media (hover: hover) {
@@ -173,9 +190,18 @@
       transition-duration: var(--hover-in);
     }
 
-    .link-arrow:hover > span {
+    .link-arrow:hover {
+      @apply text-ink;
+      transition-duration: var(--hover-in);
+    }
+
+    .link-arrow:hover > span:not(.sr-only) {
       background-size: 100% 1px;
       transition-duration: var(--hover-in);
+    }
+
+    .project-link:hover > span:not(.sr-only) {
+      transform: scale(1.06);
     }
 
     :is(.action-quiet, .link-arrow):hover svg {
@@ -191,12 +217,16 @@
       transform: translateX(-2px);
     }
 
-    .action-quiet:hover .lucide-arrow-up-right {
+    :is(.action-quiet, .link-arrow):hover .lucide-arrow-right {
+      transform: translateX(2px);
+    }
+
+    :is(.action-quiet, .link-arrow):hover .lucide-arrow-up-right {
       transform: translate(2px, -2px);
     }
 
     /* Hints at the 45deg open state; open toggles keep their own rotation. */
-    details:not([open]) > .action-quiet:hover .lucide-plus {
+    details:not([open]) > :is(.action-quiet, .link-arrow):hover .lucide-plus {
       transform: rotate(22.5deg);
     }
 
