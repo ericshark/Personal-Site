@@ -9,7 +9,7 @@ Researched 2026-11-13. Every portfolio described below was fetched on that date,
   - **Featured items → full archive.** Brittany Chiang links to `/archive`.
   - **Projects vs. craft.** Rauno Freiberg separates `/projects` from `/craft`. Paco Coursey separates "Projects" from `/craft`.
 - **Design engineers usually keep the homepage text-only.** Paco, Emil Kowalski, Jakub Krehel, Brian Lovin and Lee Robinson all use a single text column. Their rich media sits on a second page, such as Rauno's `/craft`. Samuel Kraft is the exception that still feels restrained: a narrow column of uniform image cards with captions, which is close to this site's `max-w-site` (48rem) column.
-- **This body of work is mixed: backend-heavy (Agent Tracer, AuthCore), visual (Event Horizon, World Observatory, Interaction Playground) and product (GeoGuessr Academy, HumanRank).** For a hiring audience, a homepage that leads with two or three items, plus `/projects/[slug]` case-study pages, fits best. The case-study template should change depending on whether the project is mostly engineering or mostly visual.
+- **This body of work is mixed: backend-heavy (Agent Tracer, AuthCore), visual (Journey Through Space, World Observatory, Interaction Playground) and product (GeoGuessr Academy, HumanRank).** For a hiring audience, a homepage that leads with two or three items, plus `/projects/[slug]` case-study pages, fits best. The case-study template should change depending on whether the project is mostly engineering or mostly visual.
 - **The site uses `output: "export"` (`next.config.mjs`), which limits images.** With a static export, `next/image` optimization needs a custom loader. The default loader is unsupported ([Next.js static exports](https://nextjs.org/docs/app/guides/static-exports)). Plan the media pipeline (pre-encoded AVIF/WebP plus MP4/WebM loops) before choosing a direction.
 
 ---
@@ -30,7 +30,7 @@ Researched 2026-11-13. Every portfolio described below was fetched on that date,
 - **Homepage-only cannot hold architecture diagrams, decisions and media for 7 projects.** That matches the owner's concern. The text-only homepages above work because those people are already known: their projects are famous libraries such as ⌘K, Sonner and Vaul, and the GitHub link does the convincing (paco.me, emilkowal.ski).
 - **Case-study pages give engineering projects room for diagrams and trade-offs, and give visual projects room for media.** This is what [samuelkraft.com/project/trailroutes](https://samuelkraft.com/project/trailroutes) and [dennissnellenberg.com/work](https://dennissnellenberg.com/work) do.
 - **A separate `/projects` index only pays off past roughly 10 items** (Brittany Chiang's archive, Anthony Fu). At 7 items, the homepage can link straight to the case studies. An index page is optional.
-- **A lab split (Rauno, Paco) lets the craft pieces (Interaction Playground, Event Horizon) show off without diluting the hiring story.** The risk is that a recruiter skims past the visual work.
+- **A lab split (Rauno, Paco) lets the craft pieces (Interaction Playground, Journey Through Space) show off without diluting the hiring story.** The risk is that a recruiter skims past the visual work.
 
 ## 2. How homepages present projects (verified)
 
@@ -66,14 +66,14 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 
 **Suggested templates for this site:**
 
-| Engineering (Agent Tracer, AuthCore)                                                | Visual/interactive (Event Horizon, World Observatory, Playground)        | Product (GeoGuessr Academy, HumanRank)                                     |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| One-line pitch, then a metadata rail (role, period, stack, status, repo/live links) | Hero loop or poster frame, with "Open live ↗" as the main call to action | Hero screenshot plus live link                                             |
-| Problem: 2–4 sentences                                                              | Concept: 2–3 sentences                                                   | Who it's for and what problem it solves                                    |
-| Architecture diagram (SDK → OTLP ingest → FastAPI → Postgres → SSE → dashboard)     | Short clips of key moments, each with a caption                          | Core flow as 3–4 annotated screenshots or clips                            |
-| 3–4 key decisions, each a decision and why, plus what you would change              | "How it's built": scroll timeline, render loop, data pipeline            | Key decisions (FSRS scheduling, local-first Dexie, optional Supabase auth) |
-| Evidence: tests (74; 130+), CI, latency/cost figures, trace screenshot              | Performance notes: frame budget, bundle size, how assets load            | Outcomes, if any exist; otherwise "what I learned"                         |
-| Links: repo, docs, demo video                                                       | Links: live, repo                                                        | Links: live, repo                                                          |
+| Engineering (Agent Tracer, AuthCore)                                                | Visual/interactive (Journey Through Space, World Observatory, Playground) | Product (GeoGuessr Academy, HumanRank)                                     |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| One-line pitch, then a metadata rail (role, period, stack, status, repo/live links) | Hero loop or poster frame, with "Open live ↗" as the main call to action  | Hero screenshot plus live link                                             |
+| Problem: 2–4 sentences                                                              | Concept: 2–3 sentences                                                    | Who it's for and what problem it solves                                    |
+| Architecture diagram (SDK → OTLP ingest → FastAPI → Postgres → SSE → dashboard)     | Short clips of key moments, each with a caption                           | Core flow as 3–4 annotated screenshots or clips                            |
+| 3–4 key decisions, each a decision and why, plus what you would change              | "How it's built": scroll timeline, render loop, data pipeline             | Key decisions (FSRS scheduling, local-first Dexie, optional Supabase auth) |
+| Evidence: tests (74; 130+), CI, latency/cost figures, trace screenshot              | Performance notes: frame budget, bundle size, how assets load             | Outcomes, if any exist; otherwise "what I learned"                         |
+| Links: repo, docs, demo video                                                       | Links: live, repo                                                         | Links: live, repo                                                          |
 
 ## 4. Media practices (Next.js docs and web.dev)
 
@@ -153,7 +153,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **Concept:** Separate hiring evidence from craft.
 - **IA:**
   - `/` features "Selected work" (Agent Tracer, World Observatory, GeoGuessr Academy, HumanRank) → `/projects/[slug]`.
-  - A "Lab" section, or `/lab`, holds Event Horizon, Interaction Playground, and optionally AuthCore as "systems".
+  - A "Lab" section, or `/lab`, holds Journey Through Space, Interaction Playground, and optionally AuthCore as "systems".
 - **Homepage:**
   - Selected work uses rich rows: the metadata rail on the left, the text and a single media frame on the right.
   - Lab uses a compact 2–3-column grid of short looping clips with title and date, linking to the live site.
@@ -161,7 +161,7 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 - **References:** [rauno.me/craft](https://rauno.me/craft), [paco.me/craft](https://paco.me/craft), [rauno.me/craft/radial-menu](https://rauno.me/craft/radial-menu).
 - **Trade-offs:**
   - Gives the clearest story for full-stack and AI roles, and keeps the homepage short.
-  - Calling Event Horizon "lab" may undersell it.
+  - Calling Journey Through Space "lab" may undersell it.
   - Two visual systems to keep consistent.
 - **Fit with the current aesthetic:** Good. The lab grid can borrow Rauno's soft grey cards, which are close to `neutral-100`.
 - **Build cost:** Medium. Two components, one case-study route, and about 4 full case studies plus 2–3 light pages.
@@ -197,5 +197,5 @@ Craft pieces can be much lighter. [rauno.me/craft/radial-menu](https://rauno.me/
 2. **Featured set:** which 3–4 projects best match full-stack and AI roles? Agent Tracer seems certain.
 3. **Static export:** keep `output: "export"` (pre-encode images yourself) or drop it to use the Vercel image optimizer?
 4. **Media budget:** will you capture and encode about 7 loops and posters, or use static screenshots for v1?
-5. **Event Horizon:** featured work or lab?
+5. **Journey Through Space:** featured work or lab?
 6. **Case-study depth:** full write-ups for all projects, or only the featured ones, with the rest linking out?

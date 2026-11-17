@@ -420,8 +420,8 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "event-horizon",
-    name: "Event Horizon",
+    slug: "journey-through-space",
+    name: "Journey Through Space",
     oneLiner:
       "A scroll journey from Earth to Gaia BH1, the nearest known black hole, in 21 stops.",
     category: "3D scroll experience",
@@ -430,14 +430,14 @@ export const projects: Project[] = [
     stack: ["three.js", "GSAP", "Lenis", "Vite"],
     media: {
       type: "image",
-      src: "/projects/event-horizon",
-      alt: "Event Horizon opening stop: a rendered Earth on a black starfield, with distance readouts and a tour-distance timeline.",
+      src: "/projects/journey-through-space",
+      alt: "Journey Through Space opening stop: a rendered Earth on a black starfield, with distance readouts and a tour-distance timeline.",
     },
-    live: "https://event-horizon-six-lake.vercel.app",
-    repo: "https://github.com/ericshark/event-horizon",
+    live: "https://journey-through-space.ericzwierzynski.dev",
+    repo: "https://github.com/ericshark/journey-through-space",
     caseStudy: {
       summary:
-        "Astronomical distances are hard to feel. Event Horizon turns the trip from Earth to the nearest confirmed black hole into a scroll, with 21 checkpoints that show how far you’ve gone.",
+        "Astronomical distances are hard to feel. Journey Through Space turns the trip from Earth to the nearest confirmed black hole into a scroll, with 21 checkpoints that show how far you’ve gone.",
       role: "Solo — design & build",
       status: "Live",
       metrics: [

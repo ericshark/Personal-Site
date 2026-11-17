@@ -89,7 +89,7 @@ There is no hover preview; the image is always visible in the row. A visitor can
 
 ### Project list and order
 
-Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory, GeoPractice, HumanRank, Event Horizon, Interface Explorations.
+Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory, GeoPractice, HumanRank, Journey Through Space, Interface Explorations.
 
 ### Links (verified 2026-11-13 via the Vercel CLI and `gh`)
 
@@ -100,7 +100,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
 | World Observatory      | https://world-observatory.ericzwierzynski.dev (custom domain; the Vercel production URL is world-observatory.vercel.app) | https://github.com/ericshark/world-observatory (private → make public)      |
 | GeoPractice            | https://geo-guesser-practice.vercel.app                                                                                  | https://github.com/ericshark/geo-guesser-practice (private → make public)   |
 | HumanRank              | https://human-benchmark-orcin.vercel.app                                                                                 | https://github.com/ericshark/human-benchmark (private → make public)        |
-| Event Horizon          | https://event-horizon-six-lake.vercel.app                                                                                | https://github.com/ericshark/event-horizon (private → make public)          |
+| Journey Through Space  | https://journey-through-space.ericzwierzynski.dev                                                                        | https://github.com/ericshark/journey-through-space (private → make public)  |
 | Interface Explorations | https://interaction-playground-swart.vercel.app (Vercel lists it as the production URL, status Ready)                    | https://github.com/ericshark/interaction-playground (private → make public) |
 
 - **Owner decision:** all five private repos will be made public, so every project shows a GitHub link. This is an owner prerequisite before launch (see Further Notes).
@@ -237,7 +237,7 @@ Seven projects appear, in this order: Agent Tracer, AuthCore, World Observatory,
   - World Observatory: 217 countries, 13 signals.
   - GeoPractice: 543 skills, FSRS scheduling.
   - HumanRank: 12 games, 6 skills.
-  - Event Horizon: 21 checkpoints.
+  - Journey Through Space: 21 checkpoints.
   - Interface Explorations: 16 studies, 3 collections.
 - **Interaction Playground deploy status:** the Vercel dashboard card showed "No Production Deployment", but the CLI reports a Ready production deployment at the swart URL. Re-check before launch.
 - **Research and direction rationale:** `docs/research/portfolio-projects-presentation.md`.
