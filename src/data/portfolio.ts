@@ -56,6 +56,13 @@ export type Architecture = {
   edges: { from: string; to: string; label?: string }[];
 };
 
+/** Homepage groups, in display order. */
+export const projectKinds: { kind: Project["kind"]; label: string }[] = [
+  { kind: "Engineering", label: "Engineering & AI Infrastructure" },
+  { kind: "Product", label: "Products & Games" },
+  { kind: "Visual", label: "Visual & Interactive" },
+];
+
 export type Project = {
   /** URL segment for /projects/<slug>. Unique. */
   slug: string;
@@ -420,6 +427,47 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "world-game",
+    name: "World Game",
+    oneLiner:
+      "A geography game on a 3D globe with seven ways to play, from a daily puzzle to online battles.",
+    category: "3D geography game",
+    kind: "Product",
+    year: "2026",
+    stack: ["React", "three.js", "Hono", "WebSockets", "TypeScript"],
+    media: {
+      type: "image",
+      src: "/projects/world-game",
+      alt: "World Game home screen: a menu of game modes beside a realistic 3D globe centred on the Americas.",
+    },
+    repo: "https://github.com/ericshark/world-game",
+    caseStudy: {
+      summary:
+        "A geography game built around a realistic 3D globe. Find countries against the clock, close in on a hidden one hot-and-cold, cross the world one border at a time, or battle friends in private online rooms.",
+      role: "Solo — design & build",
+      status: "Live",
+      metrics: [
+        { value: "7", label: "game modes" },
+        { value: "Online", label: "battle rooms" },
+        { value: "52", label: "unit-test files" },
+      ],
+      decisions: [
+        {
+          title: "Game rules are pure and run anywhere",
+          body: "Every mode is plain-JSON state with no clock, randomness or rendering inside. The browser hosts solo games and the Node server hosts battles with the same code.",
+        },
+        {
+          title: "Guests by default, sync only for accounts",
+          body: "Every browser gets an anonymous player, so guests cost the server nothing. Progress is uploaded only after signing in, and versioned so two devices never silently overwrite each other.",
+        },
+        {
+          title: "Daily puzzles resume instead of restarting",
+          body: "State is saved after every move, so quitting a bad Daily to reroll it isn’t possible and an accidental reload loses nothing.",
+        },
+      ],
+    },
+  },
+  {
     slug: "journey-through-space",
     name: "Journey Through Space",
     oneLiner:
@@ -490,6 +538,46 @@ export const projects: Project[] = [
         {
           title: "Every study works in both themes",
           body: "Light and dark are built in from the start rather than added afterwards.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "ai-under-the-hood",
+    name: "AI Under the Hood",
+    oneLiner:
+      "An interactive lesson that follows one question from the Send button to the model and back, in eight stages.",
+    category: "Interactive lesson",
+    kind: "Visual",
+    year: "2026",
+    stack: ["Next.js", "TypeScript", "Motion", "FastAPI"],
+    media: {
+      type: "image",
+      src: "/projects/ai-under-the-hood",
+      alt: "AI Under the Hood home screen: the headline “What happens when you ask AI a question?”, a question box with Demo and Live modes, and a list of eight stages.",
+    },
+    caseStudy: {
+      summary:
+        "Most explanations of how AI answers a question stay abstract. This lesson follows one real question through your browser, the app’s server, the AI provider and the model, animating each stage and keeping the technical detail behind a Go deeper panel.",
+      role: "Solo — design & build",
+      status: "In progress",
+      metrics: [
+        { value: "8", label: "stages" },
+        { value: "2", label: "modes, demo and live" },
+        { value: "3", label: "data labels" },
+      ],
+      decisions: [
+        {
+          title: "Every visual says what it is",
+          body: "Each is labelled Sample data, Measured or Simulation, with dashed outlines for things the API never exposes, so nothing illustrative passes as a measurement.",
+        },
+        {
+          title: "Demo mode needs no API key",
+          body: "Recorded sample runs play through the same event pipeline as live ones, so the lesson works for anyone, and Live mode is an opt-in extra.",
+        },
+        {
+          title: "The API key never reaches the browser",
+          body: "Live questions stream through a FastAPI backend with a rate limit, a daily cap and a concurrency cap. The browser only learns the model name.",
         },
       ],
     },

@@ -184,38 +184,40 @@ export default async function CaseStudy({ params }: Params) {
                   {project.stack.join(" · ")}
                 </span>
               </Fact>
-              <Fact label="Links">
-                <span className="flex flex-col items-start font-mono text-xs">
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      {...external}
-                      className="action-quiet -ml-2 min-h-8 py-1"
-                    >
-                      {host(project.live)}
-                      <ArrowUpRight
-                        size={12}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                      />
-                    </a>
-                  )}
-                  {project.repo && (
-                    <a
-                      href={project.repo}
-                      {...external}
-                      className="action-quiet -ml-2 min-h-8 py-1"
-                    >
-                      {project.repo.replace("https://github.com/", "")}
-                      <ArrowUpRight
-                        size={12}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                      />
-                    </a>
-                  )}
-                </span>
-              </Fact>
+              {(project.live || project.repo) && (
+                <Fact label="Links">
+                  <span className="flex flex-col items-start font-mono text-xs">
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        {...external}
+                        className="action-quiet -ml-2 min-h-8 py-1"
+                      >
+                        {host(project.live)}
+                        <ArrowUpRight
+                          size={12}
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    )}
+                    {project.repo && (
+                      <a
+                        href={project.repo}
+                        {...external}
+                        className="action-quiet -ml-2 min-h-8 py-1"
+                      >
+                        {project.repo.replace("https://github.com/", "")}
+                        <ArrowUpRight
+                          size={12}
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    )}
+                  </span>
+                </Fact>
+              )}
             </dl>
           </section>
 

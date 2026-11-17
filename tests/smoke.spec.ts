@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { projects } from "../src/data/portfolio";
+import { projectKinds, projects } from "../src/data/portfolio";
 
 // Vercel Analytics injects /_vercel/insights/script.js, which only exists on
 // Vercel. Stub it so the static build served locally doesn't log a 404.
@@ -123,12 +123,17 @@ test.describe("homepage projects", () => {
     page,
   }) => {
     await page.goto("/");
-    const rows = page.locator('ul[aria-label="Projects"] > li');
+    const rows = page.locator('section[aria-labelledby="projects"] ul > li');
 
     await expect(rows).toHaveCount(projects.length);
-    await expect(rows.getByRole("heading", { level: 3 })).toHaveText(
+    await expect(rows.getByRole("heading", { level: 4 })).toHaveText(
       projects.map((p) => p.name),
     );
+    await expect(
+      page
+        .locator('section[aria-labelledby="projects"]')
+        .getByRole("heading", { level: 3 }),
+    ).toHaveText(projectKinds.map((k) => k.label));
 
     for (const [index, project] of projects.entries()) {
       const row = rows.nth(index);
@@ -170,7 +175,9 @@ test.describe("homepage projects", () => {
     page,
   }) => {
     await page.goto("/");
-    const row = page.locator('ul[aria-label="Projects"] > li').first();
+    const row = page
+      .locator('section[aria-labelledby="projects"] ul > li')
+      .first();
     const names = await row
       .getByRole("link")
       .evaluateAll((links) => links.map((a) => a.getAttribute("aria-label")));
@@ -185,7 +192,7 @@ test.describe("homepage projects", () => {
     page,
   }) => {
     await page.goto("/");
-    const rows = page.locator('ul[aria-label="Projects"] > li');
+    const rows = page.locator('section[aria-labelledby="projects"] ul > li');
 
     for (const [index, project] of projects.entries()) {
       const row = rows.nth(index);

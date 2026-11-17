@@ -3,7 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ProjectMedia, { MEDIA_SIZES } from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import { projects } from "@/data/portfolio";
+import { projectKinds, projects } from "@/data/portfolio";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 const actionClass =
@@ -57,115 +57,129 @@ export default function Projects() {
     <section aria-labelledby="projects" className="pb-14 sm:pb-20">
       <SectionHeading index="01" title="Projects" id="projects" />
 
-      <ul
-        aria-label="Projects"
-        className="mt-6 divide-y divide-neutral-300/70 sm:mt-8"
-      >
-        {projects.map((project, index) => (
-          <li
-            key={project.slug}
-            className="relative py-3 first:pt-0 last:pb-0 focus-within:z-[60] hover:z-[60]"
-          >
-            <Reveal
-              delay={Math.min(index, 3) * 0.04}
-              className="studio-grid max-md:grid-cols-[6.5rem_minmax(0,1fr)] max-md:gap-x-4 max-md:gap-y-2 md:gap-x-6 md:gap-y-0"
-            >
-              <div className="aspect-[16/10] self-start overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 md:row-span-2">
-                <ProjectMedia project={project} variant="thumb" />
-              </div>
-
-              <div className="min-w-0 md:col-start-2 md:flex md:items-baseline md:justify-between md:gap-6">
-                <div className="min-w-0">
-                  <h3 className="text-base font-medium leading-snug tracking-[-0.02em] sm:text-lg">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 max-w-[56ch] text-pretty text-sm leading-snug text-neutral-600">
-                    {project.oneLiner}
-                  </p>
-                </div>
-                <p className="mt-2 hidden shrink-0 whitespace-nowrap font-mono text-[11px] text-neutral-500 md:block">
-                  {project.category} · {project.year}
-                </p>
-              </div>
-
-              <div className="min-w-0 max-md:col-span-2 md:col-start-2">
-                <p className="font-mono text-[11px] leading-relaxed text-neutral-500 md:mt-1">
-                  <span className="sr-only">Built with: </span>
-                  {project.stack.join(" · ")}
-                </p>
-                <p className="mt-0.5 font-mono text-[11px] text-neutral-500 md:hidden">
-                  {project.category} · {project.year}
-                </p>
-
-                <div className="relative -ml-2 mt-1 flex flex-wrap items-center gap-x-1 md:mt-0.5">
-                  {project.live && (
-                    <div className="sm:relative">
-                      <a
-                        href={project.live}
-                        {...external}
-                        aria-label={`${project.name} live site`}
-                        className={actionClass}
-                      >
-                        <span>Live</span>
-                        <ArrowUpRight
-                          size={13}
-                          strokeWidth={1.5}
-                          aria-hidden="true"
-                          className="shrink-0"
-                        />
-                      </a>
-                      <ActionPreview
-                        url={project.live}
-                        previewBase={`/projects/previews/${project.slug}-live`}
-                      />
-                    </div>
-                  )}
-                  {project.repo && (
-                    <div className="sm:relative">
-                      <a
-                        href={project.repo}
-                        {...external}
-                        aria-label={`${project.name} on GitHub`}
-                        className={actionClass}
-                      >
-                        <span>GitHub</span>
-                        <ArrowUpRight
-                          size={13}
-                          strokeWidth={1.5}
-                          aria-hidden="true"
-                          className="shrink-0"
-                        />
-                      </a>
-                      <ActionPreview
-                        url={project.repo}
-                        previewBase={`/projects/previews/${project.slug}-github`}
-                      />
-                    </div>
-                  )}
-                  <div className="sm:relative">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      aria-label={`${project.name} case study`}
-                      className={actionClass}
+      <div className="mt-6 space-y-8 sm:mt-8 sm:space-y-10">
+        {projectKinds.map(({ kind, label }) => {
+          const group = projects.filter((p) => p.kind === kind);
+          if (group.length === 0) return null;
+          return (
+            <div key={kind}>
+              <h3 className="mb-3 flex items-center gap-3 font-mono text-[11px] uppercase leading-none tracking-[0.2em] text-neutral-400">
+                <span>{label}</span>
+                <span
+                  aria-hidden="true"
+                  className="h-px flex-1 bg-neutral-300/70"
+                />
+              </h3>
+              <ul aria-label={label} className="divide-y divide-neutral-300/70">
+                {group.map((project, index) => (
+                  <li
+                    key={project.slug}
+                    className="relative py-3 first:pt-0 last:pb-0 focus-within:z-[60] hover:z-[60]"
+                  >
+                    <Reveal
+                      delay={Math.min(index, 3) * 0.04}
+                      className="studio-grid max-md:grid-cols-[6.5rem_minmax(0,1fr)] max-md:gap-x-4 max-md:gap-y-2 md:gap-x-6 md:gap-y-0"
                     >
-                      <span>Case study</span>
-                      <ArrowRight
-                        size={13}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                      />
-                    </Link>
-                    <ActionPreview
-                      url={`/projects/${project.slug}`}
-                      previewBase={`/projects/previews/${project.slug}-case-study`}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
+                      <div className="aspect-[16/10] self-start overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 md:row-span-2">
+                        <ProjectMedia project={project} variant="thumb" />
+                      </div>
+
+                      <div className="min-w-0 md:col-start-2 md:flex md:items-baseline md:justify-between md:gap-6">
+                        <div className="min-w-0">
+                          <h4 className="text-base font-medium leading-snug tracking-[-0.02em] sm:text-lg">
+                            {project.name}
+                          </h4>
+                          <p className="mt-1 max-w-[56ch] text-pretty text-sm leading-snug text-neutral-600">
+                            {project.oneLiner}
+                          </p>
+                        </div>
+                        <p className="mt-2 hidden shrink-0 whitespace-nowrap font-mono text-[11px] text-neutral-500 md:block">
+                          {project.category} · {project.year}
+                        </p>
+                      </div>
+
+                      <div className="min-w-0 max-md:col-span-2 md:col-start-2">
+                        <p className="font-mono text-[11px] leading-relaxed text-neutral-500 md:mt-1">
+                          <span className="sr-only">Built with: </span>
+                          {project.stack.join(" · ")}
+                        </p>
+                        <p className="mt-0.5 font-mono text-[11px] text-neutral-500 md:hidden">
+                          {project.category} · {project.year}
+                        </p>
+
+                        <div className="relative -ml-2 mt-1 flex flex-wrap items-center gap-x-1 md:mt-0.5">
+                          {project.live && (
+                            <div className="sm:relative">
+                              <a
+                                href={project.live}
+                                {...external}
+                                aria-label={`${project.name} live site`}
+                                className={actionClass}
+                              >
+                                <span>Live</span>
+                                <ArrowUpRight
+                                  size={13}
+                                  strokeWidth={1.5}
+                                  aria-hidden="true"
+                                  className="shrink-0"
+                                />
+                              </a>
+                              <ActionPreview
+                                url={project.live}
+                                previewBase={`/projects/previews/${project.slug}-live`}
+                              />
+                            </div>
+                          )}
+                          {project.repo && (
+                            <div className="sm:relative">
+                              <a
+                                href={project.repo}
+                                {...external}
+                                aria-label={`${project.name} on GitHub`}
+                                className={actionClass}
+                              >
+                                <span>GitHub</span>
+                                <ArrowUpRight
+                                  size={13}
+                                  strokeWidth={1.5}
+                                  aria-hidden="true"
+                                  className="shrink-0"
+                                />
+                              </a>
+                              <ActionPreview
+                                url={project.repo}
+                                previewBase={`/projects/previews/${project.slug}-github`}
+                              />
+                            </div>
+                          )}
+                          <div className="sm:relative">
+                            <Link
+                              href={`/projects/${project.slug}`}
+                              aria-label={`${project.name} case study`}
+                              className={actionClass}
+                            >
+                              <span>Case study</span>
+                              <ArrowRight
+                                size={13}
+                                strokeWidth={1.5}
+                                aria-hidden="true"
+                              />
+                            </Link>
+                            <ActionPreview
+                              url={`/projects/${project.slug}`}
+                              previewBase={`/projects/previews/${project.slug}-case-study`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </Reveal>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }
