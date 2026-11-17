@@ -440,6 +440,7 @@ export const projects: Project[] = [
       src: "/projects/world-game",
       alt: "World Game home screen: a menu of game modes beside a realistic 3D globe centred on the Americas.",
     },
+    live: "https://world-game-0qhx.onrender.com",
     repo: "https://github.com/ericshark/world-game",
     caseStudy: {
       summary:
@@ -556,6 +557,7 @@ export const projects: Project[] = [
       src: "/projects/ai-under-the-hood",
       alt: "AI Under the Hood home screen: the headline “What happens when you ask AI a question?”, a question box with Demo and Live modes, and a list of eight stages.",
     },
+    repo: "https://github.com/ericshark/ai-visualized",
     caseStudy: {
       summary:
         "Most explanations of how AI answers a question stay abstract. This lesson follows one real question through your browser, the app’s server, the AI provider and the model, animating each stage and keeping the technical detail behind a Go deeper panel.",
