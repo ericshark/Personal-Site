@@ -3,10 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import ArchitectureDiagram from "@/components/ArchitectureDiagram";
-import ProjectMedia, { Screenshot } from "@/components/ProjectMedia";
+import ProjectMedia, {
+  MEDIA_SIZES,
+  Screenshot,
+} from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import ThemeToggle from "@/components/ThemeToggle";
-import { projects, type Project } from "@/data/portfolio";
+import { projects, siteMeta, type Project } from "@/data/portfolio";
 
 // Static export: only the listed slugs exist; anything else is the 404 page.
 export const dynamicParams = false;
@@ -23,12 +26,36 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!project) return {};
   const title = `${project.name} — case study`;
   const description = `${project.oneLiner} ${project.category}, ${project.year}.`;
+  const images =
+    project.media.type === "image"
+      ? [
+          {
+            url: `${project.media.src}-media.webp`,
+            width: MEDIA_SIZES.media.width,
+            height: MEDIA_SIZES.media.height,
+            alt: project.media.alt,
+          },
+        ]
+      : [
+          {
+            url: "/opengraph-image",
+            width: 1200,
+            height: 630,
+            alt: siteMeta.title,
+          },
+        ];
   return {
     title,
     description,
     alternates: { canonical: `/projects/${project.slug}` },
-    openGraph: { title, description, type: "article", locale: "en_US" },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      locale: "en_US",
+      images,
+    },
+    twitter: { card: "summary_large_image", title, description, images },
   };
 }
 

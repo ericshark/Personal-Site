@@ -21,6 +21,10 @@ test("home page renders every section without console errors", async ({
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    /^https:\/\//,
+  );
   const updatedTime = page.locator("time[datetime='2026-11']");
   await expect(updatedTime).toHaveText("November 2026");
 
@@ -229,6 +233,10 @@ test.describe("project pages", () => {
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         "content",
         /.+/,
+      );
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+        "content",
+        /^https:\/\//,
       );
 
       const main = page.getByRole("main");

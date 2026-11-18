@@ -18,7 +18,7 @@ incrementing until a port is available.
 
 ## Useful commands
 
-- `npm run build`: build the static site into `out/`, the Netlify publish directory.
+- `npm run build`: build the static site into `out/`.
 - `npm run lint`: lint the code.
 - `npm run format:check`: check formatting.
 - `PW_HEADLESS=true npm test`: run Playwright smoke tests against the static build;

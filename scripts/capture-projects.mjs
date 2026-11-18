@@ -38,6 +38,7 @@ const args = process.argv.slice(2);
 const encodeOnly = args.includes("--encode-only");
 const previewsMode = args.includes("--previews");
 const localOnly = args.includes("--local-only");
+const force = args.includes("--force");
 const onlyIndex = args.indexOf("--only");
 const only = onlyIndex === -1 ? null : args[onlyIndex + 1];
 const baseUrlIndex = args.indexOf("--base-url");
@@ -156,7 +157,7 @@ async function capturePreviews() {
         previewSourceDir,
         `${project.slug}-case-study.jpg`,
       );
-      if (!(await fileExists(caseStudyPreviewSource)) && baseUrl) {
+      if ((force || !(await fileExists(caseStudyPreviewSource))) && baseUrl) {
         const page = await browser.newPage({
           viewport: { width: 1440, height: 900 },
           deviceScaleFactor: 1,
@@ -187,7 +188,7 @@ async function capturePreviews() {
         );
         if (
           !(await fileExists(existingMainSource)) &&
-          !(await fileExists(livePreviewSource))
+          (force || !(await fileExists(livePreviewSource)))
         ) {
           const page = await browser.newPage({
             viewport: { width: 1440, height: 900 },
@@ -211,7 +212,7 @@ async function capturePreviews() {
           previewSourceDir,
           `${project.slug}-github.jpg`,
         );
-        if (!(await fileExists(githubPreviewSource))) {
+        if (force || !(await fileExists(githubPreviewSource))) {
           const page = await browser.newPage({
             viewport: { width: 1440, height: 900 },
             deviceScaleFactor: 1,

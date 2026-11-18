@@ -167,7 +167,7 @@ export const projects: Project[] = [
       src: "/projects/agent-tracer",
       alt: "Agent Tracer landing page: the headline “See exactly what your agents did” above a dashboard of trace volume, error rate, p95 latency, and spend.",
     },
-    live: "https://agent-tracer-seven.vercel.app",
+    live: "https://agent-tracer.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/agent-tracer",
     caseStudy: {
       summary:
@@ -364,7 +364,7 @@ export const projects: Project[] = [
       src: "/projects/geopractice",
       alt: "GeoPractice dashboard: a welcome card with a skills-known progress ring, and skill cards for languages, driving side, coverage, and domains.",
     },
-    live: "https://geo-guesser-practice.vercel.app",
+    live: "https://geo-guesser-practice.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/geo-guesser-practice",
     caseStudy: {
       summary:
@@ -402,7 +402,7 @@ export const projects: Project[] = [
       src: "/projects/humanrank",
       alt: "HumanRank home screen: a “Find your strengths” card with a ring of six skill icons, a starter circuit of six games, and a daily challenge.",
     },
-    live: "https://human-benchmark-orcin.vercel.app",
+    live: "https://human-benchmark.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/human-benchmark",
     caseStudy: {
       summary:
@@ -440,7 +440,7 @@ export const projects: Project[] = [
       src: "/projects/world-game",
       alt: "World Game home screen: a menu of game modes beside a realistic 3D globe centred on the Americas.",
     },
-    live: "https://world-game-0qhx.onrender.com",
+    live: "https://world-game.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/world-game",
     caseStudy: {
       summary:
@@ -519,7 +519,7 @@ export const projects: Project[] = [
       src: "/projects/interface-explorations",
       alt: "Interface Explorations: an images and galleries collection showing a 3D gallery carousel of flower photographs.",
     },
-    live: "https://interaction-playground-swart.vercel.app",
+    live: "https://interaction-playground.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/interaction-playground",
     caseStudy: {
       summary:
@@ -557,12 +557,13 @@ export const projects: Project[] = [
       src: "/projects/ai-under-the-hood",
       alt: "AI Under the Hood home screen: the headline “What happens when you ask AI a question?”, a question box with Demo and Live modes, and a list of eight stages.",
     },
+    live: "https://ai-visualized.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/ai-visualized",
     caseStudy: {
       summary:
         "Most explanations of how AI answers a question stay abstract. This lesson follows one real question through your browser, the app’s server, the AI provider and the model, animating each stage and keeping the technical detail behind a Go deeper panel.",
       role: "Solo — design & build",
-      status: "In progress",
+      status: "Live demo",
       metrics: [
         { value: "8", label: "stages" },
         { value: "2", label: "modes, demo and live" },
