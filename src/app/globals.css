@@ -2,12 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Space-separated RGB channels so Tailwind opacity modifiers (e.g. bg-paper/85) work. */
+/*
+ * Theme tokens. Colors are space-separated RGB channels so Tailwind opacity
+ * modifiers (e.g. bg-paper/85) work. Each theme redefines them under
+ * [data-theme="<id>"] on any element, not just <html>, so an element carrying
+ * data-theme (like a theme-menu swatch) re-scopes its subtree. Themes live in
+ * src/themes/<id>/theme.css; the `.dark` class only drives Tailwind's dark: variant.
+ */
 :root {
+  /* Hover motion: eases in slowly and leaves a little quicker. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --hover-in: 300ms;
+  --hover-out: 200ms;
+}
+
+:root,
+[data-theme="light"],
+/* Link previews keep their light card in Dark, as before themes existed. */
+[data-theme="dark"] [data-ui="link-preview"] {
   color-scheme: light;
   --color-paper: 250 250 249;
+  --color-surface: 255 255 255;
   --color-ink: 24 24 27;
   --color-accent: 29 78 216;
+  --color-accent-2: 29 78 216;
+  --color-signal: 29 78 216;
+  --color-danger: 220 38 38;
   --color-neutral-100: 245 245 245;
   --color-neutral-200: 229 229 229;
   --color-neutral-300: 212 212 212;
@@ -15,19 +35,22 @@
   --color-neutral-500: 115 115 115;
   --color-neutral-600: 82 82 82;
   --color-neutral-700: 64 64 64;
-
-  /* Hover motion: eases in slowly and leaves a little quicker. */
-  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --hover-in: 300ms;
-  --hover-out: 200ms;
+  --font-body: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --font-label: var(--font-geist-mono);
+  --radius-panel: 0.5rem;
 }
 
 /* The neutral scale inverts so "lighter" steps stay subtle against the dark page. */
-.dark {
+[data-theme="dark"] {
   color-scheme: dark;
   --color-paper: 12 12 13;
+  --color-surface: 24 24 27;
   --color-ink: 237 237 237;
   --color-accent: 96 165 250;
+  --color-accent-2: 96 165 250;
+  --color-signal: 96 165 250;
+  --color-danger: 248 113 113;
   --color-neutral-100: 30 30 32;
   --color-neutral-200: 40 40 43;
   --color-neutral-300: 58 58 62;
@@ -35,6 +58,18 @@
   --color-neutral-500: 150 150 156;
   --color-neutral-600: 180 180 185;
   --color-neutral-700: 208 208 213;
+  --font-body: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --font-label: var(--font-geist-mono);
+  --radius-panel: 0.5rem;
+}
+
+/* Theme switch: the new theme spreads out in a circle from the palette button
+   (the clip-path animation is started in src/themes/use-theme.ts). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 ::selection {

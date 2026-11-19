@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeMenu from "@/components/ThemeMenu";
 import { profile } from "@/data/portfolio";
 
 const sections = [
@@ -79,23 +79,28 @@ export default function Header() {
   return (
     <header
       id="top"
+      data-ui="site-header"
       className={`sticky top-0 z-50 border-b transition-[background-color,border-color] duration-200 ${
         isScrolled
           ? "border-neutral-200 bg-paper/85 backdrop-blur-md"
           : "border-transparent bg-paper"
       }`}
     >
-      <div className="mx-auto flex h-14 w-full max-w-site items-center justify-between gap-4 px-6 sm:px-8">
+      <div
+        data-ui="column"
+        className="mx-auto flex h-14 w-full max-w-site items-center justify-between gap-4 px-6 sm:px-8"
+      >
         <a
           href="#top"
           aria-label={profile.name}
+          data-ui="site-name"
           className="shrink-0 font-medium tracking-tight"
         >
           <span className="sm:hidden">{initials}</span>
           <span className="hidden sm:inline">{profile.name}</span>
         </a>
         <div className="flex min-w-0 items-center gap-3 max-[359px]:gap-1 sm:gap-6">
-          <nav aria-label="Site" className="min-w-0">
+          <nav aria-label="Site" data-ui="site-nav" className="min-w-0">
             <ul
               className="flex gap-4 font-mono text-xs text-neutral-500 max-[359px]:gap-3 sm:gap-8 sm:text-[0.8125rem]"
               onPointerLeave={() => setHoveredId(null)}
@@ -122,6 +127,7 @@ export default function Header() {
                       {isHighlighted && (
                         <motion.span
                           layoutId="nav-pill"
+                          data-ui="nav-pill"
                           aria-hidden="true"
                           className="absolute inset-0 -z-10 rounded-md bg-ink"
                           transition={{
@@ -138,7 +144,7 @@ export default function Header() {
               })}
             </ul>
           </nav>
-          <ThemeToggle />
+          <ThemeMenu />
         </div>
       </div>
     </header>

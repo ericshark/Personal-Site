@@ -5,19 +5,23 @@ import { profile } from "@/data/portfolio";
 
 export default function Footer({ hasResume }: { hasResume: boolean }) {
   return (
-    <footer className="mx-auto w-full max-w-site px-6 pb-10 sm:px-8">
-      <section aria-labelledby="contact">
+    <footer
+      data-ui="column"
+      className="mx-auto w-full max-w-site px-6 pb-10 sm:px-8"
+    >
+      <section aria-labelledby="contact" data-ui="contact">
         <SectionHeading index="04" title="Contact" id="contact" />
 
         <Reveal className="mt-8 sm:mt-10">
           <p className="mb-4 flex items-center gap-2 font-mono text-xs text-neutral-500">
             <span
               aria-hidden="true"
-              className="size-1.5 shrink-0 rounded-full bg-accent"
+              data-ui="status-dot"
+              className="size-1.5 shrink-0 rounded-full bg-signal"
             />
             {profile.availability}
           </p>
-          <h3 className="max-w-[26ch] text-balance text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
+          <h3 className="max-w-[26ch] text-balance font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
             {profile.contactHeadline}
           </h3>
           <p className="mt-6">
@@ -59,8 +63,12 @@ export default function Footer({ hasResume }: { hasResume: boolean }) {
         </Reveal>
       </section>
 
-      <p className="mt-16 border-t border-neutral-200 pt-6 font-mono text-xs text-neutral-400">
+      <p
+        data-ui="colophon"
+        className="mt-16 border-t border-neutral-200 pt-6 font-mono text-xs text-neutral-400"
+      >
         © <CurrentYear /> {profile.name}
+        <span aria-hidden="true" data-ui="colophon-extra" />
       </p>
     </footer>
   );

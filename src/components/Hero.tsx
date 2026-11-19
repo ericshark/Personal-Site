@@ -1,8 +1,8 @@
 import { ArrowDown } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import SplitWords from "@/components/SplitWords";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { profile } from "@/data/portfolio";
+import { HeroHeadline, ThemeSlot } from "@/themes/client";
 
 const ABOUT_START_DELAY = 0.2;
 const ABOUT_SPEED_REVEAL = 6;
@@ -27,15 +27,23 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
   return (
     <section
       aria-label="Introduction"
+      data-ui="hero"
       className="pb-16 pt-14 sm:pb-20 sm:pt-24"
     >
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500">
+        <p
+          data-ui="hero-kicker"
+          className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500"
+        >
           {profile.role} — {profile.location}
+          <ThemeSlot name="hero-kicker-extra" />
         </p>
       </Reveal>
-      <h1 className="mt-5 text-balance text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]">
-        <SplitWords text={profile.headline} delay={0.08} />
+      <h1
+        data-ui="hero-headline"
+        className="mt-5 text-balance font-display text-3xl font-medium leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.14] md:text-[2.625rem]"
+      >
+        <HeroHeadline text={profile.headline} delay={0.08} />
       </h1>
       <Reveal delay={0.16}>
         <ul className="mt-7 flex flex-wrap items-baseline gap-x-6 gap-y-2 font-mono text-sm">
@@ -81,6 +89,7 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
       <Reveal delay={0.24}>
         <aside
           aria-labelledby="hero-note-heading"
+          data-ui="hero-note"
           className="mt-9 grid gap-4 border-t border-neutral-300/70 pt-5 sm:mt-10 sm:grid-cols-[10rem_1fr] sm:gap-8 sm:pt-5"
         >
           <div>
@@ -96,7 +105,8 @@ export default function Hero({ hasResume }: { hasResume: boolean }) {
             <p className="mt-1 flex items-center gap-2 whitespace-nowrap font-mono text-[11px] text-neutral-500">
               <span
                 aria-hidden="true"
-                className="size-1.5 shrink-0 rounded-full bg-accent"
+                data-ui="status-dot"
+                className="size-1.5 shrink-0 rounded-full bg-signal"
               />
               {profile.availability}
             </p>

@@ -1,6 +1,6 @@
 ---
 title: "Ticket 1 — Theme foundation, theme menu, and the Observatory theme"
-status: ready-for-agent
+status: done
 created: 2026-11-19
 depends-on: none
 read-first: docs/tickets/site-themes/README.md

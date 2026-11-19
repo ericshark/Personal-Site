@@ -1,0 +1,902 @@
+/*
+ * Observatory: World Observatory's command-centre HUD over the portfolio's
+ * layout (source: ~/GitHub/interactive/world-observatory/app/globals.css).
+ *
+ * Tokens are scoped to [data-theme="observatory"] on any element (menu swatches
+ * re-scope with it); skins are scoped to html[data-theme="observatory"] and target
+ * the data-ui hooks, so they never leak into a swatch or another theme. Skin
+ * selectors outrank single Tailwind utilities, so no !important is needed.
+ */
+
+[data-theme="observatory"] {
+  color-scheme: dark;
+  --color-paper: 5 4 13;
+  --color-surface: 13 10 34;
+  --color-ink: 238 242 255;
+  --color-accent: 45 226 255;
+  --color-accent-2: 255 43 214;
+  --color-signal: 61 255 168;
+  --color-danger: 255 48 70;
+  --color-neutral-100: 13 11 34;
+  --color-neutral-200: 31 27 69;
+  --color-neutral-300: 47 42 99;
+  --color-neutral-400: 124 122 158;
+  --color-neutral-500: 149 147 184;
+  --color-neutral-600: 169 168 200;
+  --color-neutral-700: 207 208 234;
+  --font-display: var(--font-chakra);
+  --font-body: var(--font-chakra);
+  --font-label: var(--font-geist-mono);
+  --radius-panel: 0;
+
+  --obs-cyan: #2de2ff;
+  --obs-cyan-dim: rgba(45, 226, 255, 0.35);
+  --obs-magenta: #ff2bd6;
+  --obs-magenta-dim: rgba(255, 43, 214, 0.35);
+  --obs-violet: #8a4dff;
+  --obs-violet-dim: rgba(138, 77, 255, 0.4);
+  --obs-green: #3dffa8;
+  --obs-line: rgba(130, 120, 220, 0.22);
+  --obs-panel: rgba(9, 8, 26, 0.8);
+  --obs-panel-strong: rgba(13, 10, 34, 0.92);
+  --obs-ink-muted: #7c7a9e;
+}
+
+/* A scan band's vertical position, animatable because it is registered. */
+@property --obs-scan {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -70%;
+}
+
+/* ------------------------------------------------------------ backdrop */
+
+html[data-theme="observatory"] body {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 35%, #120c33 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 15% 10%, #1a0830 0%, transparent 70%),
+    #05040d;
+  background-attachment: fixed;
+}
+
+/* A 48px grid and faint scan lines, fading out toward the viewport edges. */
+html[data-theme="observatory"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(rgba(130, 120, 220, 0.06) 1px, transparent 1px) 0 0 / 48px
+      48px,
+    linear-gradient(90deg, rgba(130, 120, 220, 0.06) 1px, transparent 1px) 0 0 /
+      48px 48px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 70% at 50% 40%,
+    #000 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 75% 70% at 50% 40%,
+    #000 30%,
+    transparent 100%
+  );
+}
+
+html[data-theme="observatory"] [data-ui~="obs-globe"] {
+  position: fixed;
+  top: 50%;
+  right: -220px;
+  z-index: -1;
+  display: none;
+  width: 600px;
+  height: 600px;
+  transform: translateY(-50%);
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  html[data-theme="observatory"] [data-ui~="obs-globe"] {
+    display: block;
+  }
+}
+
+html[data-theme="observatory"] [data-ui~="obs-globe"] svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--obs-cyan);
+  filter: drop-shadow(0 0 6px var(--obs-cyan-dim));
+}
+
+html[data-theme="observatory"] [data-ui~="obs-globe"] svg * {
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------------------------------------------------- shared HUD panel */
+/*
+ * Angular, edge-lit panel: a 1px gradient frame, corners cut off top-left and
+ * bottom-right (with a hairline drawn along each cut), a tinted scan-line ground,
+ * and a slow scan band. --tone picks cyan, magenta or violet.
+ */
+html[data-theme="observatory"]
+  :is([data-ui~="hero-note"], [data-ui~="panel"], [data-ui~="cs-decision"]),
+html[data-theme="observatory"] [data-ui~="project-row"]::before {
+  --cut: 12px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background:
+    linear-gradient(
+        135deg,
+        transparent calc(50% - 0.75px),
+        var(--tone) 50%,
+        transparent calc(50% + 0.75px)
+      )
+      top left / var(--cut) var(--cut) no-repeat border-box,
+    linear-gradient(
+        135deg,
+        transparent calc(50% - 0.75px),
+        var(--tone-dim) 50%,
+        transparent calc(50% + 0.75px)
+      )
+      bottom right / var(--cut) var(--cut) no-repeat border-box,
+    linear-gradient(
+        180deg,
+        transparent,
+        color-mix(in srgb, var(--tone) 7%, transparent),
+        transparent
+      )
+      0 var(--obs-scan) / 100% 40% no-repeat padding-box,
+    linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--tone) 7%, transparent),
+        transparent 90px
+      )
+      padding-box,
+    repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.012) 0 1px,
+        transparent 1px 3px
+      )
+      padding-box,
+    linear-gradient(var(--obs-panel), var(--obs-panel)) padding-box,
+    linear-gradient(
+        160deg,
+        var(--tone) 0%,
+        var(--tone-dim) 18%,
+        rgba(130, 120, 220, 0.18) 45%,
+        rgba(130, 120, 220, 0.18) 70%,
+        var(--tone-dim) 100%
+      )
+      border-box;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+  animation: obs-scan 9s linear infinite;
+}
+
+html[data-theme="observatory"]
+  :is(
+    [data-ui~="hero-note"],
+    [data-ui~="panel"],
+    [data-ui~="cs-metric"],
+    [data-ui~="cs-media"],
+    [data-ui~="project-row"]
+  ) {
+  --tone: var(--obs-cyan);
+  --tone-dim: var(--obs-cyan-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-decision"],
+html[data-theme="observatory"] [data-ui~="project-row"][data-kind="Product"] {
+  --tone: var(--obs-magenta);
+  --tone-dim: var(--obs-magenta-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="project-row"][data-kind="Visual"] {
+  --tone: var(--obs-violet);
+  --tone-dim: var(--obs-violet-dim);
+}
+
+/* Corner ticks on the uncut corners (top-right, bottom-left). */
+html[data-theme="observatory"]
+  :is([data-ui~="panel"], [data-ui~="project-row"])::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--tone), var(--tone)) top right / 18px 2px no-repeat,
+    linear-gradient(var(--tone), var(--tone)) top right / 2px 18px no-repeat,
+    linear-gradient(var(--tone), var(--tone)) bottom left / 18px 2px no-repeat,
+    linear-gradient(var(--tone), var(--tone)) bottom left / 2px 18px no-repeat;
+}
+
+html[data-theme="observatory"] [data-ui~="panel"] {
+  position: relative;
+}
+
+html[data-theme="observatory"] [data-ui~="panel"]::after {
+  inset: 0;
+}
+
+/* --------------------------------------------------------------- header */
+
+html[data-theme="observatory"] [data-ui~="site-header"] {
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      var(--obs-cyan),
+      var(--obs-violet) 40%,
+      var(--obs-magenta) 70%,
+      transparent
+    )
+    1;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 30, 0.95),
+    rgba(6, 5, 18, 0.85)
+  );
+  box-shadow: 0 6px 30px rgba(45, 226, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+html[data-theme="observatory"] [data-ui~="site-name"] {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+  text-shadow: 0 0 12px var(--obs-cyan-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="site-nav"] a {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(var(--color-neutral-500));
+}
+
+html[data-theme="observatory"]
+  [data-ui~="site-nav"]
+  a:has([data-ui~="nav-pill"]) {
+  color: rgb(var(--color-ink));
+  text-shadow: 0 0 10px var(--obs-cyan-dim);
+}
+
+/* The filled pill becomes an outlined cell with a glowing magenta underline,
+   like World Observatory's telemetry cells. It still slides between links. */
+html[data-theme="observatory"] [data-ui~="nav-pill"] {
+  border: 1px solid var(--obs-cyan-dim);
+  border-radius: 0;
+  background: rgba(45, 226, 255, 0.05);
+}
+
+html[data-theme="observatory"] [data-ui~="nav-pill"]::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: -1px;
+  left: 6px;
+  height: 2px;
+  background: var(--obs-magenta);
+  box-shadow: 0 0 10px var(--obs-magenta);
+}
+
+html[data-theme="observatory"] [data-ui~="theme-trigger"] {
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="theme-menu"] {
+  border-color: var(--obs-line);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(45, 226, 255, 0.08);
+}
+
+html[data-theme="observatory"] [data-ui~="scroll-progress"] > div {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--obs-cyan) 40%,
+    var(--obs-violet) 70%,
+    var(--obs-magenta)
+  );
+  box-shadow: 0 0 8px var(--obs-cyan-dim);
+}
+
+/* ----------------------------------------------------- section headings */
+
+html[data-theme="observatory"] [data-ui~="section-heading"] {
+  border-top-color: transparent;
+  background: linear-gradient(
+      90deg,
+      var(--obs-cyan-dim),
+      var(--obs-violet-dim) 40%,
+      transparent 85%
+    )
+    top left / 100% 1px no-repeat;
+}
+
+html[data-theme="observatory"] [data-ui~="section-index"] {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="section-index"]::before {
+  content: "SEC-";
+}
+
+html[data-theme="observatory"] [data-ui~="section-index"]::after {
+  content: " //";
+  color: var(--obs-ink-muted);
+}
+
+html[data-theme="observatory"] [data-ui~="section-title"] {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+  text-shadow: 0 0 10px var(--obs-cyan-dim);
+}
+
+/* ----------------------------------------------------------------- hero */
+
+html[data-theme="observatory"] [data-ui~="hero-kicker"] {
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="obs-clock"] {
+  color: var(--obs-ink-muted);
+}
+
+html[data-theme="observatory"] [data-ui~="hero-headline"] {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 24px rgba(45, 226, 255, 0.15);
+}
+
+html[data-theme="observatory"] [data-ui~="type-cursor"] {
+  color: var(--obs-cyan);
+  text-shadow: 0 0 12px var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="hero-note"] {
+  padding: 18px 20px 16px;
+}
+
+html[data-theme="observatory"] [data-ui~="hero-note"] h2 {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+  text-shadow: 0 0 10px var(--obs-cyan-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="hero-note"] .link-arrow {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="status-dot"] {
+  background: var(--obs-green);
+  box-shadow: 0 0 8px var(--obs-green);
+  animation: obs-blink 2.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------- projects */
+
+html[data-theme="observatory"] [data-ui~="project-group-label"] {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--obs-magenta);
+  text-shadow: 0 0 10px var(--obs-magenta-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="project-group-rule"] {
+  position: relative;
+  background: linear-gradient(90deg, var(--obs-magenta-dim), transparent);
+}
+
+html[data-theme="observatory"] [data-ui~="project-group-rule"]::after {
+  content: "// " attr(data-count) " NODES";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--obs-ink-muted);
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+/* Long group labels leave no room for the count on phones. */
+@media (max-width: 639px) {
+  html[data-theme="observatory"] [data-ui~="project-group-rule"]::after {
+    content: none;
+  }
+}
+
+/* Each row is its own HUD panel. The frame lives on ::before so the row itself
+   isn't clipped (link previews pop out above it); ticks sit just outside. */
+html[data-theme="observatory"] [data-ui~="project-row"][data-kind] {
+  isolation: isolate;
+  padding: 14px 16px 14px 18px;
+  border-width: 0;
+}
+
+html[data-theme="observatory"]
+  [data-ui~="project-row"]
+  + [data-ui~="project-row"] {
+  margin-top: 10px;
+}
+
+html[data-theme="observatory"] [data-ui~="project-row"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transition: filter var(--hover-out) var(--ease-soft);
+}
+
+html[data-theme="observatory"] [data-ui~="project-row"]:nth-child(2n)::before {
+  animation-delay: -3s;
+}
+
+html[data-theme="observatory"] [data-ui~="project-row"]:nth-child(3n)::before {
+  animation-delay: -6s;
+}
+
+html[data-theme="observatory"] [data-ui~="project-row"]::after {
+  inset: -3px;
+  z-index: -1;
+  opacity: 0.85;
+}
+
+@media (hover: hover) {
+  html[data-theme="observatory"] [data-ui~="project-row"]:hover::before {
+    filter: brightness(1.35) drop-shadow(0 0 10px var(--tone-dim));
+    transition-duration: var(--hover-in);
+  }
+
+  html[data-theme="observatory"]
+    [data-ui~="project-row"]:hover
+    [data-ui~="project-thumb"]
+    > * {
+    animation: obs-glitch 0.16s steps(2, end) 2;
+  }
+}
+
+html[data-theme="observatory"] [data-ui~="project-thumb"] {
+  border-color: var(--tone-dim);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px var(--tone-dim);
+  clip-path: polygon(
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%,
+    0 8px
+  );
+}
+
+html[data-theme="observatory"] [data-ui~="project-name"] {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+html[data-theme="observatory"] [data-ui~="project-meta"] {
+  color: var(--obs-ink-muted);
+}
+
+html[data-theme="observatory"] [data-ui~="project-stack"] {
+  color: color-mix(in srgb, var(--tone) 55%, rgb(var(--color-neutral-500)));
+}
+
+/* Actions become World Observatory's bracketed HUD buttons. */
+html[data-theme="observatory"] [data-ui~="project-actions"] {
+  gap: 6px;
+  margin-top: 8px;
+}
+
+html[data-theme="observatory"] [data-ui~="project-actions"] a[data-action] {
+  min-height: 28px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--tone-dim);
+  border-radius: 0;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tone);
+  transition:
+    background-color var(--hover-out) var(--ease-soft),
+    color var(--hover-out) var(--ease-soft);
+}
+
+html[data-theme="observatory"]
+  [data-ui~="project-actions"]
+  a[data-action]
+  > span {
+  background-image: none;
+}
+
+html[data-theme="observatory"]
+  [data-ui~="project-actions"]
+  a[data-action="case-study"] {
+  border-color: var(--tone);
+  background: var(--tone);
+  color: #120414;
+}
+
+@media (hover: hover) {
+  html[data-theme="observatory"]
+    [data-ui~="project-actions"]
+    a[data-action]:hover {
+    background: color-mix(in srgb, var(--tone) 14%, transparent);
+    color: rgb(var(--color-ink));
+  }
+
+  html[data-theme="observatory"]
+    [data-ui~="project-actions"]
+    a[data-action="case-study"]:hover {
+    background: var(--tone);
+    color: #120414;
+    box-shadow: 0 0 14px var(--tone-dim);
+  }
+}
+
+html[data-theme="observatory"] [data-ui~="link-preview"] {
+  border-color: var(--obs-cyan-dim);
+  border-radius: 0;
+  background: var(--obs-panel-strong);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    0 0 18px rgba(45, 226, 255, 0.12);
+}
+
+/* ------------------------------------------------- experience / education */
+
+html[data-theme="observatory"] [data-ui~="entry-period"] {
+  position: relative;
+  padding-left: 14px;
+  border-left: 1px solid var(--obs-cyan-dim);
+  color: var(--obs-cyan);
+  text-wrap: balance;
+}
+
+html[data-theme="observatory"] [data-ui~="entry-period"]::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  background: var(--obs-cyan);
+  box-shadow: 0 0 8px var(--obs-cyan);
+  transform: rotate(45deg);
+}
+
+html[data-theme="observatory"] [data-ui~="entry"] h3 {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+html[data-theme="observatory"] [data-ui~="entry-details"] > summary.link-arrow {
+  min-height: 32px;
+  margin-top: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--obs-cyan-dim);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"]
+  [data-ui~="entry-details"]
+  > summary.link-arrow
+  > span:not(.sr-only) {
+  background-image: none;
+}
+
+/* -------------------------------------------------------------- contact */
+
+html[data-theme="observatory"] [data-ui~="contact"] h3 {
+  font-weight: 600;
+}
+
+html[data-theme="observatory"]
+  :is([data-ui~="hero"], [data-ui~="contact"])
+  a.link-quiet {
+  color: var(--obs-cyan);
+  text-shadow: 0 0 12px var(--obs-cyan-dim);
+  background-image:
+    linear-gradient(var(--obs-magenta), var(--obs-magenta)),
+    linear-gradient(var(--obs-magenta-dim), var(--obs-magenta-dim));
+}
+
+html[data-theme="observatory"] [data-ui~="colophon-extra"]::after {
+  content: "  // END OF TRANSMISSION";
+  white-space: pre;
+  color: var(--obs-ink-muted);
+}
+
+/* ------------------------------------------------------------ case study */
+
+html[data-theme="observatory"] [data-ui~="cs-header"] [data-ui~="column"] > a,
+html[data-theme="observatory"] [data-ui~="cs-nav"] > a {
+  min-height: 32px;
+  margin-left: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--obs-cyan-dim);
+  border-radius: 0;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-header"] [data-ui~="column"] > a {
+  margin-left: 0;
+}
+
+html[data-theme="observatory"] [data-ui~="cs-kicker"] {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--obs-ink-muted);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-kicker"]::before {
+  content: "PRJ // ";
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-title"] {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+  text-shadow: 0 0 18px var(--obs-cyan-dim);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-actions"] a {
+  border-color: var(--obs-cyan-dim);
+  border-radius: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-actions"] a[data-action="live"] {
+  border-color: var(--obs-cyan);
+  background: var(--obs-cyan);
+  color: #120414;
+}
+
+@media (hover: hover) {
+  html[data-theme="observatory"] [data-ui~="cs-actions"] a:hover {
+    background: rgba(45, 226, 255, 0.14);
+    color: rgb(var(--color-ink));
+  }
+
+  html[data-theme="observatory"]
+    [data-ui~="cs-actions"]
+    a[data-action="live"]:hover {
+    background: var(--obs-cyan);
+    color: #120414;
+    box-shadow: 0 0 16px var(--obs-cyan-dim);
+  }
+}
+
+/* The main screenshot reads as a live feed: cut corners, a label, a scan band. */
+html[data-theme="observatory"] [data-ui~="cs-media"] {
+  border-color: var(--obs-cyan-dim);
+  border-radius: 0;
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+}
+
+html[data-theme="observatory"] [data-ui~="cs-media"]::before {
+  content: "FEED // LIVE";
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 1;
+  padding: 2px 6px;
+  background: rgba(5, 4, 13, 0.75);
+  font-family: var(--font-label);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--obs-cyan);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-media"]::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: 0;
+  left: 0;
+  height: 40%;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(45, 226, 255, 0.07),
+    transparent
+  );
+  animation: obs-scan-top 9s linear infinite;
+}
+
+html[data-theme="observatory"] [data-ui~="panel"]::before {
+  content: attr(data-code) " //";
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-label);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--tone);
+}
+
+html[data-theme="observatory"] [data-ui~="panel"] > h2:not(.sr-only) {
+  padding-bottom: 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--tone) 30%, transparent);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tone);
+  text-shadow: 0 0 10px var(--tone-dim);
+}
+
+/* Metrics become telemetry cells with a glowing underline that powers on. */
+html[data-theme="observatory"] [data-ui~="cs-metric"] {
+  position: relative;
+  border-color: var(--obs-line);
+  border-radius: 0;
+  background: var(--obs-panel);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-metric"]::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  left: 14px;
+  height: 2px;
+  background: var(--obs-magenta);
+  box-shadow: 0 0 10px var(--obs-magenta);
+  transform-origin: left;
+  animation: obs-power-on 0.3s 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+html[data-theme="observatory"] [data-ui~="cs-metric"] > p:first-child {
+  font-family: var(--font-label);
+  font-weight: 500;
+  color: var(--obs-cyan);
+  text-shadow: 0 0 18px rgba(45, 226, 255, 0.35);
+}
+
+html[data-theme="observatory"] [data-ui~="cs-metric"] > p + p {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(var(--color-neutral-600));
+}
+
+html[data-theme="observatory"] [data-ui~="cs-decision"] {
+  --cut: 8px;
+}
+
+html[data-theme="observatory"] [data-ui~="cs-decision"] h3 {
+  font-weight: 600;
+  color: rgb(var(--color-ink));
+}
+
+html[data-theme="observatory"] [data-ui~="diagram-node"] {
+  border-color: var(--obs-cyan-dim);
+  border-radius: 0;
+  background: var(--obs-panel-strong);
+  box-shadow: 0 0 12px rgba(45, 226, 255, 0.1);
+}
+
+/* ------------------------------------------------- switching into the theme */
+/* Content already on screen flickers once as the HUD powers on. */
+
+html[data-theme="observatory"].theme-entering
+  :is([data-ui~="cs-metric"], [data-ui~="cs-media"]) {
+  animation: obs-flicker 0.45s linear;
+}
+
+html[data-theme="observatory"].theme-entering [data-ui~="panel"] {
+  animation:
+    obs-scan 9s linear infinite,
+    obs-flicker 0.45s linear;
+}
+
+/* ------------------------------------------------------------ keyframes */
+
+@keyframes obs-scan {
+  to {
+    --obs-scan: 170%;
+  }
+}
+
+@keyframes obs-scan-top {
+  to {
+    top: 140%;
+  }
+}
+
+@keyframes obs-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes obs-flicker {
+  0%,
+  40%,
+  100% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes obs-power-on {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes obs-glitch {
+  0% {
+    transform: translate(-2px, 1px);
+    filter: drop-shadow(2px 0 0 rgba(255, 43, 214, 0.8))
+      drop-shadow(-2px 0 0 rgba(45, 226, 255, 0.8));
+  }
+  100% {
+    transform: translate(2px, -1px);
+    filter: drop-shadow(-2px 0 0 rgba(255, 43, 214, 0.8))
+      drop-shadow(2px 0 0 rgba(45, 226, 255, 0.8)) brightness(1.2);
+  }
+}

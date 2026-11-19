@@ -9,13 +9,19 @@ import {
 
 function Entry({ entry }: { entry: ExperienceEntry }) {
   return (
-    <article className="grid gap-3 sm:grid-cols-[8.5rem_1fr] sm:gap-10">
-      <p className="font-mono text-xs leading-6 text-neutral-500">
+    <article
+      data-ui="entry"
+      className="grid gap-3 sm:grid-cols-[8.5rem_1fr] sm:gap-10"
+    >
+      <p
+        data-ui="entry-period"
+        className="font-mono text-xs leading-6 text-neutral-500"
+      >
         {entry.period}
       </p>
 
       <div className="min-w-0">
-        <h3 className="text-lg font-medium leading-snug tracking-tight">
+        <h3 className="font-display text-lg font-medium leading-snug tracking-tight">
           {entry.role}
         </h3>
         <p className="mt-1.5 font-mono text-xs text-neutral-500">
@@ -34,7 +40,10 @@ function Entry({ entry }: { entry: ExperienceEntry }) {
         )}
 
         {!!entry.details?.length && (
-          <details className="group mt-4 border-t border-neutral-200 pt-2">
+          <details
+            data-ui="entry-details"
+            className="group mt-4 border-t border-neutral-200 pt-2"
+          >
             <summary className="link-arrow w-fit cursor-pointer font-mono text-xs text-neutral-600">
               <span>Technical details</span>
               <span className="sr-only"> for {entry.org}</span>
@@ -85,7 +94,7 @@ export default function Experience() {
             <div className="space-y-6">
               {earlierExperience.map((entry) => (
                 <article key={`${entry.role}-${entry.org}`}>
-                  <h3 className="text-[0.9375rem] font-medium leading-snug tracking-tight">
+                  <h3 className="font-display text-[0.9375rem] font-medium leading-snug tracking-tight">
                     {entry.role}
                     <span className="font-normal text-neutral-500">
                       {" "}

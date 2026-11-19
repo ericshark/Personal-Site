@@ -39,7 +39,7 @@ export default function Home() {
       />
       <ScrollProgress />
       <Header />
-      <main className="mx-auto w-full max-w-site px-6 sm:px-8">
+      <main data-ui="column" className="mx-auto w-full max-w-site px-6 sm:px-8">
         <Hero hasResume={hasResume} />
         <Projects />
         <Experience />

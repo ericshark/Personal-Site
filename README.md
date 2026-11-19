@@ -28,7 +28,9 @@ incrementing until a port is available.
 
 - `src/data/portfolio.ts`: profile, project, experience, and education content.
 - `src/app/`: page composition, layout, metadata, and global styles.
-- `src/components/`: page sections, theme controls, and animation helpers.
+- `src/components/`: page sections, the theme menu, and animation helpers.
+- `src/themes/`: site themes. `registry.ts` lists them; each theme's styles and
+  effects live in its own folder (see `docs/tickets/site-themes/`).
 - `public/`: static assets. Add `resume.pdf` here to enable the resume link
   on the next build.
 

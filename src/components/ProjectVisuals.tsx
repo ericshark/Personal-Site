@@ -59,7 +59,7 @@ function TraceVisual({ compact }: { compact: boolean }) {
           >
             {!compact && (
               <span
-                className={`truncate ${s.error ? "text-red-600 dark:text-red-400" : ""}`}
+                className={`truncate ${s.error ? "text-danger" : ""}`}
                 style={{ paddingLeft: `${s.depth * 0.75}rem` }}
               >
                 {s.error ? "✕ " : ""}
@@ -106,11 +106,7 @@ const authSteps: { req: string; res: string; tone: "ok" | "bad" | "note" }[] = [
 /** A request/response sequence showing AuthCore's refresh-token rotation. */
 function AuthVisual({ compact }: { compact: boolean }) {
   const tone = (t: "ok" | "bad" | "note") =>
-    t === "bad"
-      ? "text-red-600 dark:text-red-400"
-      : t === "note"
-        ? "text-accent"
-        : "";
+    t === "bad" ? "text-danger" : t === "note" ? "text-accent" : "";
 
   if (compact) {
     return (

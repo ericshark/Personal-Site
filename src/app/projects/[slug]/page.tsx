@@ -8,7 +8,8 @@ import ProjectMedia, {
   Screenshot,
 } from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
-import ThemeToggle from "@/components/ThemeToggle";
+import MetricValue from "@/components/MetricValue";
+import ThemeMenu from "@/components/ThemeMenu";
 import { projects, siteMeta, type Project } from "@/data/portfolio";
 
 // Static export: only the listed slugs exist; anything else is the 404 page.
@@ -84,6 +85,7 @@ function Actions({ project }: { project: Project }) {
           href={project.live}
           {...external}
           aria-label={`${project.name} live site`}
+          data-action="live"
           className={`${button} border-ink text-ink`}
         >
           Live
@@ -95,6 +97,7 @@ function Actions({ project }: { project: Project }) {
           href={project.repo}
           {...external}
           aria-label={`${project.name} on GitHub`}
+          data-action="github"
           className={button}
         >
           GitHub
@@ -134,8 +137,14 @@ export default async function CaseStudy({ params }: Params) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-neutral-200 bg-paper/85 backdrop-blur-md">
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-6 sm:px-8">
+      <header
+        data-ui="site-header cs-header"
+        className="sticky top-0 z-50 border-b border-neutral-200 bg-paper/85 backdrop-blur-md"
+      >
+        <div
+          data-ui="column"
+          className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-6 sm:px-8"
+        >
           <Link
             href="/#projects"
             className="action-quiet -ml-2 font-mono text-xs"
@@ -143,7 +152,11 @@ export default async function CaseStudy({ params }: Params) {
             <ArrowLeft size={14} strokeWidth={1.5} aria-hidden="true" />
             All projects
           </Link>
-          <nav aria-label="Project navigation" className="flex items-center">
+          <nav
+            aria-label="Project navigation"
+            data-ui="cs-nav"
+            className="flex items-center"
+          >
             <Link
               href={`/projects/${previous.slug}`}
               aria-label={`Previous project: ${previous.name}`}
@@ -160,18 +173,27 @@ export default async function CaseStudy({ params }: Params) {
               <span className="hidden sm:inline">{next.name}</span>
               <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
             </Link>
-            <ThemeToggle />
+            <ThemeMenu />
           </nav>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-6 pb-16 pt-6 sm:px-8 sm:pt-8">
+      <main
+        data-ui="column"
+        className="mx-auto w-full max-w-6xl px-6 pb-16 pt-6 sm:px-8 sm:pt-8"
+      >
         <Reveal className="grid gap-x-8 gap-y-4 pb-5 lg:grid-cols-12">
           <div className="min-w-0 lg:col-span-8">
-            <p className="font-mono text-xs text-neutral-500">
+            <p
+              data-ui="cs-kicker"
+              className="font-mono text-xs text-neutral-500"
+            >
               {project.category} · {project.year}
             </p>
-            <h1 className="mt-3 text-3xl font-medium leading-[1.1] tracking-tight sm:text-4xl">
+            <h1
+              data-ui="cs-title"
+              className="mt-3 font-display text-3xl font-medium leading-[1.1] tracking-tight sm:text-4xl"
+            >
               {project.name}
             </h1>
             <p className="mt-2 max-w-[60ch] text-pretty text-base leading-snug text-neutral-700">
@@ -181,20 +203,28 @@ export default async function CaseStudy({ params }: Params) {
               {caseStudy.summary}
             </p>
           </div>
-          <div className="lg:col-span-4 lg:self-end lg:justify-self-end">
+          <div
+            data-ui="cs-actions"
+            className="lg:col-span-4 lg:self-end lg:justify-self-end"
+          >
             <Actions project={project} />
           </div>
         </Reveal>
 
         <div className="grid gap-3 lg:grid-cols-12">
           <figure className="min-w-0 lg:col-span-8">
-            <div className="aspect-[16/10] overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100">
+            <div
+              data-ui="cs-media"
+              className="relative aspect-[16/10] overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100"
+            >
               <ProjectMedia project={project} variant="media" eager />
             </div>
           </figure>
 
           <section
             aria-labelledby="facts"
+            data-ui="panel"
+            data-code="FCT"
             className={`${panel} min-w-0 lg:col-span-4`}
           >
             <h2 id="facts" className="sr-only">
@@ -258,10 +288,11 @@ export default async function CaseStudy({ params }: Params) {
               {caseStudy.metrics.map((metric) => (
                 <li
                   key={metric.label}
+                  data-ui="cs-metric"
                   className="min-w-0 rounded-lg border border-neutral-200 bg-neutral-100 px-4 py-3"
                 >
-                  <p className="text-2xl font-medium leading-none tracking-tight">
-                    {metric.value}
+                  <p className="font-display text-2xl font-medium leading-none tracking-tight">
+                    <MetricValue value={metric.value} />
                   </p>
                   <p className="mt-2 font-mono text-[11px] leading-snug text-neutral-500">
                     {metric.label}
@@ -275,7 +306,12 @@ export default async function CaseStudy({ params }: Params) {
         {(caseStudy.architecture || caseStudy.decisions.length > 0) && (
           <Reveal className="mt-3 grid gap-3">
             {caseStudy.architecture && (
-              <section aria-labelledby="architecture" className={panel}>
+              <section
+                aria-labelledby="architecture"
+                data-ui="panel"
+                data-code="ARC"
+                className={panel}
+              >
                 <h2 id="architecture" className={`${panelLabel} mb-3`}>
                   Architecture
                 </h2>
@@ -284,7 +320,12 @@ export default async function CaseStudy({ params }: Params) {
             )}
 
             {caseStudy.decisions.length > 0 && (
-              <section aria-labelledby="decisions" className={panel}>
+              <section
+                aria-labelledby="decisions"
+                data-ui="panel"
+                data-code="DEC"
+                className={panel}
+              >
                 <h2 id="decisions" className={`${panelLabel} mb-3`}>
                   Key decisions
                 </h2>
@@ -292,9 +333,10 @@ export default async function CaseStudy({ params }: Params) {
                   {caseStudy.decisions.map((decision) => (
                     <li
                       key={decision.title}
+                      data-ui="cs-decision"
                       className="rounded-md border border-neutral-200 bg-paper p-3.5"
                     >
-                      <h3 className="text-[0.9375rem] font-medium leading-snug tracking-tight">
+                      <h3 className="font-display text-[0.9375rem] font-medium leading-snug tracking-tight">
                         {decision.title}
                       </h3>
                       <p className="mt-1.5 text-pretty text-sm leading-relaxed text-neutral-600">
@@ -310,7 +352,12 @@ export default async function CaseStudy({ params }: Params) {
 
         {caseStudy.gallery && caseStudy.gallery.length > 0 && (
           <Reveal className="mt-3">
-            <section aria-labelledby="gallery" className={panel}>
+            <section
+              aria-labelledby="gallery"
+              data-ui="panel"
+              data-code="GAL"
+              className={panel}
+            >
               <h2 id="gallery" className={`${panelLabel} mb-3`}>
                 Gallery
               </h2>

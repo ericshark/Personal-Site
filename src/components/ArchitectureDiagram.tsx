@@ -4,6 +4,7 @@ import type { Architecture, ArchitectureNode } from "@/data/portfolio";
 function DiagramNode({ node }: { node: ArchitectureNode }) {
   return (
     <div
+      data-ui="diagram-node"
       className={`rounded-md border bg-paper px-3 py-2 text-center text-ink ${
         node.dashed ? "border-dashed border-neutral-400" : "border-neutral-300"
       }`}

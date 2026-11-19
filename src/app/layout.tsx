@@ -4,9 +4,13 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import SmoothScroll from "@/components/SmoothScroll";
 import { siteMeta } from "@/data/portfolio";
-import { themeColors, themeInitScript } from "@/lib/theme";
+import { ThemeLayer } from "@/themes/client";
+import { themeFontVariables } from "@/themes/fonts";
+import { themeInitScript } from "@/themes/init-script";
+import { DEFAULT_THEME, getTheme } from "@/themes/registry";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import "@/themes/observatory/theme.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMeta.url),
@@ -29,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: themeColors.light,
+  themeColor: getTheme(DEFAULT_THEME).themeColor,
 };
 
 // Motion renders its hidden initial states inline on the server; without
@@ -43,10 +47,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // The inline theme script adds the `dark` class before hydration.
+    // The inline theme script swaps data-theme (and adds `dark`) before hydration.
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      data-theme={DEFAULT_THEME}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${themeFontVariables}`}
       suppressHydrationWarning
     >
       <head>
@@ -54,6 +59,7 @@ export default function RootLayout({
         <noscript dangerouslySetInnerHTML={{ __html: noScriptRevealStyles }} />
       </head>
       <body className="bg-paper font-sans text-ink antialiased">
+        <ThemeLayer />
         <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
       </body>

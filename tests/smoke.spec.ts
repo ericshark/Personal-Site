@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
-import { projectKinds, projects } from "../src/data/portfolio";
+import { profile, projectKinds, projects } from "../src/data/portfolio";
+import { THEMES } from "../src/themes/registry";
 
 // Vercel Analytics injects /_vercel/insights/script.js, which only exists on
 // Vercel. Stub it so the static build served locally doesn't log a 404.
@@ -37,27 +38,6 @@ test("home page renders every section without console errors", async ({
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
   expect(errors).toEqual([]);
-});
-
-test("theme defaults to light and the toggle persists dark", async ({
-  page,
-}) => {
-  const html = page.locator("html");
-  const toggle = page.getByRole("button", { name: "Dark theme" });
-
-  await page.goto("/");
-  await expect(html).not.toHaveClass(/\bdark\b/);
-  await expect(toggle).toHaveAttribute("aria-pressed", "false");
-
-  await toggle.click();
-  await expect(html).toHaveClass(/\bdark\b/);
-  await expect(toggle).toHaveAttribute("aria-pressed", "true");
-
-  await page.reload();
-  await expect(html).toHaveClass(/\bdark\b/);
-
-  await toggle.click();
-  await expect(html).not.toHaveClass(/\bdark\b/);
 });
 
 test("View projects scrolls to the projects section", async ({ page }) => {
@@ -337,24 +317,155 @@ test("sitemap lists every project page", async ({ request }) => {
   }
 });
 
-test("theme choice persists from the homepage to a project page", async ({
-  page,
-}) => {
+/** Opens the theme menu and picks a theme by its menu label. */
+async function pickTheme(page: Page, label: string) {
+  await page.getByRole("button", { name: "Theme" }).click();
+  await page
+    .getByRole("menuitemradio", { name: new RegExp(`^${label}`) })
+    .click();
+}
+
+async function expectTheme(page: Page, theme: (typeof THEMES)[number]) {
   const html = page.locator("html");
-  const toggle = page.getByRole("button", { name: "Dark theme" });
+  await expect(html).toHaveAttribute("data-theme", theme.id);
+  if (theme.scheme === "dark") {
+    await expect(html).toHaveClass(/\bdark\b/);
+  } else {
+    await expect(html).not.toHaveClass(/\bdark\b/);
+  }
+  // Next can add a second theme-color tag after hydration; browsers use the first.
+  await expect(
+    page.locator('meta[name="theme-color"]').first(),
+  ).toHaveAttribute("content", theme.themeColor);
+}
 
-  await page.goto("/");
-  await toggle.click();
-  await expect(html).toHaveClass(/\bdark\b/);
+test.describe("themes", () => {
+  test("first visit uses the light theme", async ({ page }) => {
+    await page.goto("/");
+    await expectTheme(page, THEMES[0]);
+  });
 
-  await page.goto(`/projects/${projects[0].slug}`);
-  await expect(html).toHaveClass(/\bdark\b/);
-  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  test("an unknown saved theme falls back to light", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("theme", "bogus"));
+    await page.goto("/");
+    await expectTheme(page, THEMES[0]);
+  });
 
-  await toggle.click();
-  await expect(html).not.toHaveClass(/\bdark\b/);
-  await page.goto("/");
-  await expect(html).not.toHaveClass(/\bdark\b/);
+  test("the menu lists every theme in order and marks the active one", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Theme" }).click();
+    const options = page.getByRole("menuitemradio");
+    await expect(options).toHaveCount(THEMES.length);
+    for (const [index, theme] of THEMES.entries()) {
+      await expect(options.nth(index)).toContainText(theme.label);
+      await expect(options.nth(index)).toHaveAttribute(
+        "aria-checked",
+        String(index === 0),
+      );
+    }
+  });
+
+  test("the menu works from the keyboard", async ({ page }) => {
+    await page.goto("/");
+    const trigger = page.getByRole("button", { name: "Theme" });
+    await trigger.focus();
+    await page.keyboard.press("Enter");
+    const options = page.getByRole("menuitemradio");
+    await expect(options.first()).toBeFocused();
+
+    await page.keyboard.press("ArrowDown");
+    await expect(options.nth(1)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expectTheme(page, THEMES[1]);
+    await expect(page.getByRole("menu")).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(options.nth(1)).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("menu")).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  for (const theme of THEMES) {
+    test(`${theme.id} applies, persists and carries to a project page`, async ({
+      page,
+    }) => {
+      const errors = collectErrors(page);
+      await page.goto("/");
+      await pickTheme(page, theme.label);
+      await expectTheme(page, theme);
+
+      await page.reload();
+      await expectTheme(page, theme);
+
+      await page.goto(`/projects/${projects[0].slug}`);
+      await expectTheme(page, theme);
+      await page.getByRole("button", { name: "Theme" }).click();
+      await expect(
+        page.getByRole("menuitemradio", {
+          name: new RegExp(`^${theme.label}`),
+        }),
+      ).toHaveAttribute("aria-checked", "true");
+
+      expect(errors).toEqual([]);
+    });
+
+    test(`${theme.id} has no horizontal overflow at 390px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.addInitScript(
+        (id) => localStorage.setItem("theme", id),
+        theme.id,
+      );
+      await page.goto("/");
+      await expectTheme(page, theme);
+      const { scrollWidth, clientWidth } = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
+      expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
+    });
+  }
+
+  test("observatory metrics keep their real values for screen readers", async ({
+    page,
+  }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem("theme", "observatory"),
+    );
+    const project = projects.find((p) => p.slug === "authcore")!;
+    await page.goto(`/projects/${project.slug}`);
+    const metrics = page.locator('[data-ui~="cs-metric"]');
+    await expect(metrics).toHaveCount(project.caseStudy.metrics.length);
+    for (const [index, metric] of project.caseStudy.metrics.entries()) {
+      await expect(metrics.nth(index).locator(".sr-only")).toHaveText(
+        metric.value,
+      );
+    }
+    // The count-up starts when the metrics scroll into view; the visible number
+    // then lands on the real value.
+    await metrics.first().scrollIntoViewIfNeeded();
+    await expect(metrics.first().locator('[aria-hidden="true"]')).toHaveText(
+      project.caseStudy.metrics[0].value,
+    );
+  });
+
+  test("the hero headline stays readable in every theme", async ({ page }) => {
+    for (const theme of THEMES) {
+      await page.addInitScript(
+        (id) => localStorage.setItem("theme", id),
+        theme.id,
+      );
+      await page.goto("/");
+      await expect(
+        page.getByRole("heading", { level: 1 }),
+      ).toHaveAccessibleName(profile.headline);
+    }
+  });
 });
 
 test.describe("mobile", () => {

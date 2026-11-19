@@ -1,7 +1,12 @@
+"use client";
+
 import { InView } from "@/components/motion-primitives/in-view";
+import { revealPreset } from "@/themes/motion";
+import { useThemeId } from "@/themes/use-theme";
 
 /**
- * Blur-and-fade-up as content scrolls into view (motion-primitives InView, "Basic" example).
+ * Reveals content as it scrolls into view, in the active theme's style
+ * (default: blur-and-fade-up, the motion-primitives InView "Basic" example).
  * Plays regardless of prefers-reduced-motion (see CLAUDE.md).
  */
 export default function Reveal({
@@ -13,14 +18,12 @@ export default function Reveal({
   delay?: number;
   className?: string;
 }) {
+  const { variants, transition } = revealPreset(useThemeId());
   return (
     <InView
-      variants={{
-        hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
-        visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-      }}
+      variants={variants}
       viewOptions={{ margin: "0px 0px -200px 0px" }}
-      transition={{ duration: 0.3, ease: "easeInOut", delay }}
+      transition={{ ...transition, delay }}
       once
     >
       <div className={className}>{children}</div>

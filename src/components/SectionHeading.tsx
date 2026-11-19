@@ -11,12 +11,22 @@ export default function SectionHeading({
   id: string;
 }) {
   return (
-    <div className="border-t border-neutral-200 pt-6">
+    <div data-ui="section-heading" className="border-t border-neutral-200 pt-6">
       <h2 id={id} className="flex items-baseline gap-5 scroll-mt-28">
-        <span aria-hidden="true" className="font-mono text-xs text-neutral-400">
+        <span
+          aria-hidden="true"
+          data-ui="section-index"
+          data-code={index}
+          className="font-mono text-xs text-neutral-400"
+        >
           {index}
         </span>
-        <span className="text-xl font-medium tracking-tight">{title}</span>
+        <span
+          data-ui="section-title"
+          className="font-display text-xl font-medium tracking-tight"
+        >
+          {title}
+        </span>
       </h2>
     </div>
   );

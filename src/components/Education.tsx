@@ -8,13 +8,19 @@ export default function Education() {
       <SectionHeading index="03" title="Education" id="education" />
 
       <Reveal className="mt-8 sm:mt-10">
-        <article className="grid gap-3 sm:grid-cols-[8.5rem_1fr] sm:gap-10">
-          <p className="font-mono text-xs leading-6 text-neutral-500">
+        <article
+          data-ui="entry"
+          className="grid gap-3 sm:grid-cols-[8.5rem_1fr] sm:gap-10"
+        >
+          <p
+            data-ui="entry-period"
+            className="font-mono text-xs leading-6 text-neutral-500"
+          >
             {education.graduated}
           </p>
 
           <div className="min-w-0">
-            <h3 className="text-lg font-medium leading-snug tracking-tight">
+            <h3 className="font-display text-lg font-medium leading-snug tracking-tight">
               {education.degree}
             </h3>
             <p className="mt-1.5 font-mono text-xs text-neutral-500">
