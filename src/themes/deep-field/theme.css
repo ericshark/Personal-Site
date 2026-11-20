@@ -1,0 +1,732 @@
+/*
+ * Deep Field: Journey Through Space's quiet voyage over the portfolio's layout
+ * (source: ~/GitHub/design/journey-through-space/src/styles.css). An ink-blue
+ * void, an ice-cyan accent, JetBrains Mono throughout, glass instrument panels,
+ * and sections as observation stops from Earth to the galactic centre.
+ *
+ * Tokens are scoped to [data-theme="deep-field"] on any element; skins are scoped
+ * to html[data-theme="deep-field"] and target the data-ui hooks.
+ */
+
+[data-theme="deep-field"] {
+  color-scheme: dark;
+  --color-paper: 2 6 9;
+  --color-surface: 6 15 24;
+  --color-ink: 229 237 241;
+  --color-accent: 145 211 231;
+  --color-accent-2: 46 232 154;
+  --color-signal: 46 232 154;
+  --color-danger: 255 122 122;
+  --color-neutral-100: 7 17 27;
+  --color-neutral-200: 18 33 45;
+  --color-neutral-300: 33 52 66;
+  /* Raised from the source's #526779 so labels pass 4.5:1 on the void. */
+  --color-neutral-400: 106 130 150;
+  --color-neutral-500: 128 149 165;
+  --color-neutral-600: 169 188 200;
+  --color-neutral-700: 205 218 226;
+  --font-display: var(--font-jetbrains);
+  --font-body: var(--font-jetbrains);
+  --font-label: var(--font-jetbrains);
+  --radius-panel: 10px;
+
+  --df-glass-bg: rgba(7, 17, 27, 0.66);
+  --df-glass-bg-strong: rgba(6, 15, 24, 0.9);
+  --df-glass-border: rgba(145, 211, 231, 0.2);
+  --df-glass-border-hover: rgba(145, 211, 231, 0.52);
+  --df-glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.48);
+  --df-accent: #91d3e7;
+  --df-green: #2ee89a;
+}
+
+/* ------------------------------------------------------------- the void */
+
+html[data-theme="deep-field"] {
+  scrollbar-color: #526779 #020609;
+  scrollbar-width: thin;
+}
+
+html[data-theme="deep-field"] ::selection {
+  background: #295369;
+  color: #fff;
+}
+
+html[data-theme="deep-field"] body {
+  counter-reset: df-row;
+  background: #020609;
+}
+
+/* Below desktop the starfield is off; a static nebula wash stands in. */
+@media (max-width: 1023px) {
+  html[data-theme="deep-field"] body {
+    background:
+      radial-gradient(
+        ellipse 70% 50% at 20% 15%,
+        rgba(145, 211, 231, 0.06),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 60% 50% at 85% 80%,
+        rgba(120, 80, 200, 0.05),
+        transparent 70%
+      ),
+      #020609;
+    background-attachment: fixed;
+  }
+}
+
+html[data-theme="deep-field"] [data-ui~="df-starfield"] {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: none;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* The source's eased left and bottom falloffs keep text readable over stars. */
+html[data-theme="deep-field"] [data-ui~="df-vignette"] {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: none;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      #020609cc 0%,
+      #020609a3 12%,
+      #0206096b 24%,
+      #02060938 35%,
+      #02060914 45%,
+      #02060905 52%,
+      transparent 58%
+    ),
+    linear-gradient(
+      0deg,
+      #020609ed 0%,
+      #020609c2 10%,
+      #02060982 19%,
+      #02060945 27%,
+      #0206091a 35%,
+      #02060906 42%,
+      transparent 48%
+    );
+}
+
+@media (min-width: 1024px) {
+  html[data-theme="deep-field"]
+    :is([data-ui~="df-starfield"], [data-ui~="df-vignette"]) {
+    display: block;
+  }
+}
+
+/* ---------------------------------------------------- shared glass panel */
+
+html[data-theme="deep-field"]
+  :is(
+    [data-ui~="hero-note"],
+    [data-ui~="panel"],
+    [data-ui~="cs-metric"],
+    [data-ui~="cs-decision"],
+    [data-ui~="project-row"][data-kind],
+    [data-ui~="link-preview"],
+    [data-ui~="df-readout"]
+  ) {
+  border: 1px solid var(--df-glass-border);
+  border-radius: 10px;
+  background: var(--df-glass-bg);
+  box-shadow: var(--df-glass-shadow);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Glass buttons. */
+html[data-theme="deep-field"]
+  :is(
+    [data-ui~="project-actions"] a[data-action],
+    [data-ui~="cs-actions"] a,
+    [data-ui~="cs-nav"] > a,
+    [data-ui~="cs-header"] [data-ui~="column"] > a,
+    [data-ui~="entry-details"] > summary.link-arrow
+  ) {
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--df-glass-border);
+  border-radius: 6px;
+  background: var(--df-glass-bg);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-neutral-700));
+  transition:
+    color var(--hover-out) var(--ease-soft),
+    border-color var(--hover-out) var(--ease-soft);
+}
+
+html[data-theme="deep-field"]
+  :is(
+    [data-ui~="project-actions"] a[data-action],
+    [data-ui~="entry-details"] > summary.link-arrow
+  )
+  > span:not(.sr-only) {
+  background-image: none;
+}
+
+html[data-theme="deep-field"]
+  :is(
+    [data-ui~="project-actions"] a[data-action="case-study"],
+    [data-ui~="cs-actions"] a[data-action="live"]
+  ) {
+  border-color: var(--df-glass-border-hover);
+  color: var(--df-accent);
+}
+
+@media (hover: hover) {
+  html[data-theme="deep-field"]
+    :is(
+      [data-ui~="project-actions"] a[data-action],
+      [data-ui~="cs-actions"] a,
+      [data-ui~="cs-nav"] > a,
+      [data-ui~="cs-header"] [data-ui~="column"] > a,
+      [data-ui~="entry-details"] > summary.link-arrow
+    ):hover {
+    border-color: var(--df-glass-border-hover);
+    background: var(--df-glass-bg);
+    color: #fff;
+    transition-duration: var(--hover-in);
+  }
+}
+
+/* --------------------------------------------------------------- header */
+
+html[data-theme="deep-field"] [data-ui~="site-header"] {
+  border-bottom-color: var(--df-glass-border);
+  background: var(--df-glass-bg-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+html[data-theme="deep-field"] [data-ui~="site-name"] {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+html[data-theme="deep-field"] [data-ui~="site-nav"] a {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="site-nav"]
+  a:has([data-ui~="nav-pill"]) {
+  color: rgb(var(--color-ink));
+}
+
+html[data-theme="deep-field"] [data-ui~="nav-pill"] {
+  border: 1px solid var(--df-glass-border-hover);
+  border-radius: 6px;
+  background: transparent;
+}
+
+html[data-theme="deep-field"] [data-ui~="theme-menu"] {
+  border-color: var(--df-glass-border);
+  background: var(--df-glass-bg-strong);
+  box-shadow: var(--df-glass-shadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+html[data-theme="deep-field"] [data-ui~="scroll-progress"] > div {
+  height: 1px;
+  background-image: linear-gradient(90deg, transparent, var(--df-accent));
+  filter: drop-shadow(0 0 4px var(--df-accent));
+}
+
+/* ----------------------------------------- section headings: the stops */
+
+html[data-theme="deep-field"] [data-ui~="section-heading"] {
+  position: relative;
+  border-top-color: var(--df-glass-border);
+}
+
+/* Crop marks at both ends of the rule. */
+html[data-theme="deep-field"] [data-ui~="section-heading"]::before,
+html[data-theme="deep-field"] [data-ui~="section-heading"]::after {
+  content: "+";
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--df-accent);
+  transform: translateY(-55%);
+}
+
+html[data-theme="deep-field"] [data-ui~="section-heading"]::before {
+  left: 0;
+  transform: translate(-50%, -55%);
+}
+
+html[data-theme="deep-field"] [data-ui~="section-heading"]::after {
+  right: 0;
+  transform: translate(50%, -55%);
+}
+
+html[data-theme="deep-field"] [data-ui~="section-heading"] > h2 {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+html[data-theme="deep-field"] [data-ui~="section-index"] {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-neutral-500));
+}
+
+html[data-theme="deep-field"] [data-ui~="section-index"]::before {
+  content: "Stop ";
+}
+
+html[data-theme="deep-field"] [data-ui~="section-index"]::after {
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="section-index"][data-code="01"]::after {
+  content: " · Mars · 1.52 AU";
+  white-space: pre;
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="section-index"][data-code="02"]::after {
+  content: " · Voyager 1 · 169 AU";
+  white-space: pre;
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="section-index"][data-code="03"]::after {
+  content: " · Orion Nebula · 1,344 ly";
+  white-space: pre;
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="section-index"][data-code="04"]::after {
+  content: " · Sgr A* · 26,670 ly";
+  white-space: pre;
+}
+
+html[data-theme="deep-field"] [data-ui~="section-title"] {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* ----------------------------------------------------------------- hero */
+
+html[data-theme="deep-field"] [data-ui~="hero-kicker"] {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="hero-headline"] {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  html[data-theme="deep-field"] [data-ui~="hero-headline"] {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+}
+
+html[data-theme="deep-field"] [data-ui~="hero-note"] {
+  padding: 20px;
+}
+
+html[data-theme="deep-field"] [data-ui~="hero-note"] h2 {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--df-accent);
+}
+
+/* Mono runs wide: reading text steps down and opens up. */
+html[data-theme="deep-field"]
+  :is([data-ui~="hero-note"], [data-ui~="entry"])
+  p.leading-relaxed:not(.font-mono) {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+html[data-theme="deep-field"] [data-ui~="status-dot"] {
+  position: relative;
+  background: var(--df-green);
+}
+
+html[data-theme="deep-field"] [data-ui~="status-dot"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--df-green);
+  animation: df-pulse 2.4s ease-out infinite;
+}
+
+/* ------------------------------------------------------------- projects */
+
+html[data-theme="deep-field"] [data-ui~="project-group-label"] {
+  letter-spacing: 0.12em;
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="project-group-rule"] {
+  background: var(--df-glass-border);
+}
+
+html[data-theme="deep-field"] [data-ui~="project-row"][data-kind] {
+  counter-increment: df-row;
+  padding: 14px 16px;
+  transition:
+    border-color var(--hover-out) var(--ease-soft),
+    transform var(--hover-out) var(--ease-soft);
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="project-row"]
+  + [data-ui~="project-row"] {
+  margin-top: 10px;
+}
+
+@media (hover: hover) {
+  html[data-theme="deep-field"] [data-ui~="project-row"][data-kind]:hover {
+    border-color: var(--df-glass-border-hover);
+    transform: translateY(-1px);
+    transition-duration: var(--hover-in);
+  }
+}
+
+html[data-theme="deep-field"] [data-ui~="project-thumb"] {
+  border-color: var(--df-glass-border);
+  border-radius: 6px;
+}
+
+/* A telescope reticle: corner brackets, a centre cross and a coordinate. */
+html[data-theme="deep-field"]
+  :is([data-ui~="project-thumb"], [data-ui~="cs-media"])::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--df-accent), var(--df-accent)) top left / 12px 1px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) top left / 1px 12px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) top right / 12px 1px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) top right / 1px 12px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) bottom left / 12px 1px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) bottom left / 1px 12px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) bottom right / 12px 1px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) bottom right / 1px 12px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) center / 14px 1px
+      no-repeat,
+    linear-gradient(var(--df-accent), var(--df-accent)) center / 1px 14px
+      no-repeat;
+  opacity: 0;
+  filter: drop-shadow(0 0 2px rgba(2, 6, 9, 0.9));
+  transition: opacity 200ms var(--ease-soft);
+}
+
+html[data-theme="deep-field"] [data-ui~="project-thumb"]::after {
+  content: "RA " counter(df-row) "h · Dec +0" counter(df-row) "°";
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  z-index: 1;
+  font-family: var(--font-label);
+  font-size: 9px;
+  color: var(--df-accent);
+  text-shadow: 0 0 4px #020609;
+  opacity: 0;
+  transition: opacity 200ms var(--ease-soft);
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="project-row"]:is(:hover, :focus-within)
+  [data-ui~="project-thumb"]::before,
+html[data-theme="deep-field"]
+  [data-ui~="project-row"]:is(:hover, :focus-within)
+  [data-ui~="project-thumb"]::after {
+  opacity: 1;
+}
+
+html[data-theme="deep-field"] [data-ui~="project-name"] {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+html[data-theme="deep-field"] [data-ui~="project-actions"] {
+  gap: 6px;
+  margin-top: 8px;
+}
+
+html[data-theme="deep-field"] [data-ui~="project-actions"] a[data-action] {
+  margin-left: 8px;
+}
+
+html[data-theme="deep-field"] [data-ui~="link-preview"] {
+  background: var(--df-glass-bg-strong);
+}
+
+/* ------------------------------------------------- experience / education */
+
+html[data-theme="deep-field"] [data-ui~="entry-period"] {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="entry"] h3 {
+  font-weight: 500;
+}
+
+html[data-theme="deep-field"] [data-ui~="entry-details"] > summary.link-arrow {
+  margin-top: 6px;
+}
+
+/* -------------------------------------------------------------- contact */
+
+html[data-theme="deep-field"] [data-ui~="contact"] h3 {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  html[data-theme="deep-field"] [data-ui~="contact"] h3 {
+    font-size: 1.75rem;
+  }
+}
+
+html[data-theme="deep-field"]
+  :is([data-ui~="hero"], [data-ui~="contact"])
+  a.link-quiet {
+  color: var(--df-accent);
+  text-shadow: 0 0 12px rgba(145, 211, 231, 0.35);
+}
+
+html[data-theme="deep-field"] [data-ui~="colophon"] {
+  border-top-color: var(--df-glass-border);
+}
+
+html[data-theme="deep-field"] [data-ui~="colophon-extra"]::after {
+  content: "  ·  END OF TRANSMISSION · 26,670 ly";
+  white-space: pre;
+  color: rgb(var(--color-neutral-500));
+}
+
+/* ---------------------------------------------------- distance readout */
+
+html[data-theme="deep-field"] [data-ui~="df-readout"] {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 40;
+  display: none;
+  padding: 10px 12px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition:
+    opacity 300ms var(--ease-soft),
+    transform 300ms var(--ease-soft);
+}
+
+@media (min-width: 1024px) {
+  html[data-theme="deep-field"] [data-ui~="df-readout"] {
+    display: block;
+  }
+}
+
+html[data-theme="deep-field"] [data-ui~="df-readout"][data-docked] {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+html[data-theme="deep-field"] [data-ui~="df-readout"] dl > div {
+  display: grid;
+  grid-template-columns: 3.5rem auto;
+  line-height: 1.7;
+}
+
+html[data-theme="deep-field"] [data-ui~="df-readout"] dt {
+  color: rgb(var(--color-neutral-500));
+}
+
+html[data-theme="deep-field"] [data-ui~="df-readout"] dd {
+  margin: 0;
+  color: rgb(var(--color-ink));
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------ case study */
+
+html[data-theme="deep-field"] [data-ui~="cs-kicker"] {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-kicker"]::before {
+  content: "Observation · ";
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-title"] {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  html[data-theme="deep-field"] [data-ui~="cs-title"] {
+    font-size: 2.25rem;
+  }
+}
+
+/* The main image is an observation window: the reticle shows at half strength. */
+html[data-theme="deep-field"] [data-ui~="cs-media"] {
+  border-color: var(--df-glass-border);
+  border-radius: 10px;
+  box-shadow: var(--df-glass-shadow);
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-media"]::before {
+  inset: 12px;
+  opacity: 0.5;
+}
+
+@media (hover: hover) {
+  html[data-theme="deep-field"] [data-ui~="cs-media"]:hover::before {
+    opacity: 1;
+  }
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-media"]::after {
+  content: "Exposure 1/60 · Filter VIS";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  padding: 6px 14px;
+  background: linear-gradient(0deg, rgba(2, 6, 9, 0.85), transparent);
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-neutral-600));
+}
+
+html[data-theme="deep-field"] [data-ui~="panel"] > h2:not(.sr-only) {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-code="ARC"] > h2::before {
+  content: "ARC · ";
+}
+
+html[data-theme="deep-field"] [data-code="DEC"] > h2::before {
+  content: "DEC · ";
+}
+
+html[data-theme="deep-field"] [data-code="GAL"] > h2::before {
+  content: "GAL · ";
+}
+
+/* The facts panel has no visible heading; give it a decorative log label. */
+html[data-theme="deep-field"] [data-code="FCT"]::before {
+  content: "FCT · Observation log";
+  display: block;
+  margin-bottom: 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--df-accent);
+}
+
+/* Metrics read like instruments, with a meter that fills on arrival. */
+html[data-theme="deep-field"] [data-ui~="cs-metric"] {
+  position: relative;
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-metric"] > p:first-child {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-metric"] > p:first-child::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--df-accent), transparent);
+  transform-origin: left;
+  animation: df-meter 700ms 300ms var(--ease-soft) both;
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-decision"] {
+  border-left: 2px solid var(--df-accent);
+}
+
+html[data-theme="deep-field"] [data-ui~="cs-decision"] h3 {
+  font-weight: 500;
+}
+
+html[data-theme="deep-field"] [data-ui~="diagram-node"] {
+  border-color: var(--df-glass-border-hover);
+  background: var(--df-glass-bg-strong);
+}
+
+html[data-theme="deep-field"]
+  [data-ui~="panel"]
+  [role="img"]
+  .text-neutral-500 {
+  color: rgb(145 211 231 / 0.6);
+}
+
+/* ------------------------------------------------------------ keyframes */
+
+@keyframes df-pulse {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+@keyframes df-meter {
+  from {
+    transform: scaleX(0);
+  }
+}

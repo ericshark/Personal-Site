@@ -1,4 +1,9 @@
-import { Chakra_Petch, Newsreader, Schibsted_Grotesk } from "next/font/google";
+import {
+  Chakra_Petch,
+  JetBrains_Mono,
+  Newsreader,
+  Schibsted_Grotesk,
+} from "next/font/google";
 import localFont from "next/font/local";
 
 /*
@@ -40,10 +45,19 @@ const departureMono = localFont({
   preload: false,
 });
 
+// Deep Field: Journey Through Space sets everything in JetBrains Mono.
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+  preload: false,
+});
+
 /** Class names that expose every theme font as a CSS variable on <html>. */
 export const themeFontVariables = [
   chakraPetch.variable,
   newsreader.variable,
   schibstedGrotesk.variable,
   departureMono.variable,
+  jetbrainsMono.variable,
 ].join(" ");

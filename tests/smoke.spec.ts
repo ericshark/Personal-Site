@@ -549,6 +549,47 @@ test.describe("playground theme", () => {
   });
 });
 
+test.describe("deep field theme", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("theme", "deep-field"));
+  });
+
+  test("the distance readout follows the voyage on desktop", async ({
+    page,
+  }) => {
+    const errors = collectErrors(page);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    const readout = page.locator('[data-ui~="df-readout"]');
+    await expect(readout).toBeVisible();
+    await expect(readout).toContainText("EARTH");
+
+    await page.evaluate(() => {
+      const heading = document.getElementById("projects")!;
+      window.scrollTo(0, heading.getBoundingClientRect().top + window.scrollY);
+    });
+    await expect(readout).toContainText("MARS");
+    expect(errors).toEqual([]);
+  });
+
+  test("the starfield runs only on desktop widths", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await expect(page.locator('[data-ui~="df-starfield"]')).toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.locator('[data-ui~="df-starfield"]')).toBeHidden();
+    await expect(page.locator('[data-ui~="df-readout"]')).toBeHidden();
+  });
+
+  test("case studies have no distance readout", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`/projects/${projects[0].slug}`);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.locator('[data-ui~="df-readout"]')).toHaveCount(0);
+  });
+});
+
 test.describe("mobile", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

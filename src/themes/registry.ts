@@ -4,7 +4,8 @@
  * Add a theme by adding an entry here plus its folder under src/themes/<id>/.
  */
 
-export type ThemeId = "light" | "dark" | "observatory" | "playground";
+export type ThemeId =
+  "light" | "dark" | "observatory" | "playground" | "deep-field";
 
 export type ThemeDefinition = {
   id: ThemeId;
@@ -47,6 +48,13 @@ export const THEMES: readonly ThemeDefinition[] = [
     description: "Interface studies, jellyfish and glyphs",
     scheme: "light",
     themeColor: "#ffffff",
+  },
+  {
+    id: "deep-field",
+    label: "Deep Field",
+    description: "A quiet voyage through the stars",
+    scheme: "dark",
+    themeColor: "#020609",
   },
 ];
 
