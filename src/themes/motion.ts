@@ -74,38 +74,6 @@ const block: RevealPreset = {
   },
 };
 
-/**
- * Deep Field "focus pull": content sharpens out of a blur like a telescope coming
- * into focus, with a chromatic fringe that fades over the first 60%.
- */
-const focusPull: RevealPreset = {
-  variants: {
-    hidden: {
-      opacity: 0,
-      x: 0,
-      y: 0,
-      scale: 1.02,
-      filter: "blur(10px)",
-      textShadow:
-        "-1.5px 0px 0px rgba(255,80,80,0.35), 1.5px 0px 0px rgba(80,180,255,0.35)",
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-      filter: "blur(0px)",
-      textShadow:
-        "0px 0px 0px rgba(255,80,80,0), 0px 0px 0px rgba(80,180,255,0)",
-    },
-  },
-  transition: {
-    duration: 0.7,
-    ease: [0.22, 1, 0.36, 1],
-    textShadow: { duration: 0.42, ease: "easeOut" },
-  },
-};
-
 /** Forma "rise": Liquid Sculpture's reveal-rise, slow and soft, without blur. */
 const rise: RevealPreset = {
   variants: {
@@ -118,7 +86,6 @@ const rise: RevealPreset = {
 const presets: Partial<Record<ThemeId, RevealPreset>> = {
   observatory: boot,
   playground: block,
-  "deep-field": focusPull,
   forma: rise,
 };
 

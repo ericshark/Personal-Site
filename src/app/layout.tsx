@@ -12,7 +12,6 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/themes/observatory/theme.css";
 import "@/themes/playground/theme.css";
-import "@/themes/deep-field/theme.css";
 import "@/themes/forma/theme.css";
 
 export const metadata: Metadata = {

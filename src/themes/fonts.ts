@@ -1,7 +1,6 @@
 import {
   Chakra_Petch,
   Instrument_Serif,
-  JetBrains_Mono,
   Newsreader,
   Schibsted_Grotesk,
 } from "next/font/google";
@@ -46,14 +45,6 @@ const departureMono = localFont({
   preload: false,
 });
 
-// Deep Field: Journey Through Space sets everything in JetBrains Mono.
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-  preload: false,
-});
-
 // Forma: Liquid Sculpture's italic serif accent (body stays Geist).
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -70,6 +61,5 @@ export const themeFontVariables = [
   newsreader.variable,
   schibstedGrotesk.variable,
   departureMono.variable,
-  jetbrainsMono.variable,
   instrumentSerif.variable,
 ].join(" ");

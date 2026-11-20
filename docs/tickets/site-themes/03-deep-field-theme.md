@@ -1,12 +1,14 @@
 ---
 title: "Ticket 3 — Deep Field theme"
-status: done
+status: dropped
 created: 2026-11-19
 depends-on: 01-theme-foundation-menu-observatory.md
 read-first: docs/tickets/site-themes/README.md
 ---
 
 # Ticket 3: Deep Field theme
+
+> **Dropped (2026-11-20).** The theme was built and then removed at the owner's request. This ticket is kept for history only.
 
 ## Goal
 

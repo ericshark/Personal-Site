@@ -12,17 +12,18 @@ A palette button in the header replaces the moon/sun toggle. It opens a menu of 
 | --- | ---------------------------------------------------------------------------------- | ------------------------ | ---------------------------------------- |
 | 1   | [01-theme-foundation-menu-observatory.md](01-theme-foundation-menu-observatory.md) | Light, Dark, Observatory | `~/GitHub/design/world-observatory`      |
 | 2   | [02-playground-theme.md](02-playground-theme.md)                                   | Playground               | `~/GitHub/design/interaction-playground` |
-| 3   | [03-deep-field-theme.md](03-deep-field-theme.md)                                   | Deep Field               | `~/GitHub/design/journey-through-space`  |
+| 3   | [03-deep-field-theme.md](03-deep-field-theme.md)                                   | Deep Field (dropped)     | `~/GitHub/design/journey-through-space`  |
 | 4   | [04-forma-theme.md](04-forma-theme.md)                                             | Forma                    | `~/GitHub/design/liquid-sculpture`       |
 
 Tickets run in order. Ticket 1 builds the theme system that tickets 2–4 plug into. After each ticket, the owner runs `npm run dev`, picks the new theme from the menu, and reviews the homepage and a case-study page.
 
 ## Shared decisions (apply to every ticket)
 
-- **First visit is always Light.** It matches today's default, and the system color scheme is still ignored. The menu remembers the visitor's choice in `localStorage` under the existing `theme` key. Existing saved values `"light"` and `"dark"` keep working.
-- **One flat list, in this order:** Light, Dark, Observatory, Playground, Deep Field, Forma. Each theme has one fixed color scheme:
+- **First visit is always Light.** It matches today's default, and the system color scheme is still ignored. The menu remembers the visitor's choice in `localStorage` under the existing `theme` key. Existing saved values keep working (`"dark"` now maps to Forma).
+- **One flat list, in this order:** Light, Forma, Observatory, Playground. Each theme has one fixed color scheme:
   - Playground is a light theme.
-  - Observatory, Deep Field and Forma are dark themes.
+  - Forma and Observatory are dark themes.
+  - Dark and Deep Field were removed on 2026-11-20. Forma replaced Dark, and a saved `"dark"` opens as Forma.
   - No theme has light and dark variants.
 - **Desktop first.** Design and polish at 1440×900 and 1280×800. Phones get the bare minimum:
   - The menu must be usable.

@@ -77,11 +77,6 @@ const modules: Partial<Record<ThemeId, ThemeClientModule>> = {
       "media-overlay": lazy(() => import("@/themes/playground/AsciiDissolve")),
     },
   },
-  "deep-field": {
-    Background: lazy(() => import("@/themes/deep-field/Starfield")),
-    Overlay: lazy(() => import("@/themes/deep-field/DistanceReadout")),
-    headline: lazy(() => import("@/themes/deep-field/FocusHeadline")),
-  },
   forma: {
     Background: lazy(() => import("@/themes/forma/SilverSmoke")),
     headline: lazy(() => import("@/themes/forma/FormaHeadline")),
