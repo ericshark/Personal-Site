@@ -17,11 +17,16 @@ const SILVER_TONES: [number, number, number][] = [
   [0.64, 0.68, 0.76],
   [0.75, 0.78, 0.85],
 ];
-// The source's pointer strength, scaled down so the smoke stays behind the text.
-const STRENGTH = 0.6;
+// The source's pointer strength, scaled a little down so the smoke stays behind the text.
+const STRENGTH = 0.8;
 const POINTER_INTERVAL_MS = 40;
-const IDLE_AFTER_MS = 4000;
-const IDLE_EVERY_MS = 2500;
+// Plumes while the pointer rests…
+const IDLE_AFTER_MS = 1500;
+const IDLE_EVERY_MS = 1400;
+// …and a slow ambient plume even while it moves, so the page never runs empty.
+const AMBIENT_EVERY_MS = 3200;
+// Slower fading than the shared fluid default (0.95) so the smoke lingers.
+const DENSITY_DISSIPATION = 0.55;
 
 export default function SilverSmoke() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,6 +45,7 @@ export default function SilverSmoke() {
       setLive(false);
       return;
     }
+    fluid.settings.densityDissipation = DENSITY_DISSIPATION;
 
     let tone = 0;
     const nextTone = (scale: number) =>
@@ -55,7 +61,7 @@ export default function SilverSmoke() {
       { x: 0.56, y: 0.14, dx: -150, dy: 340 },
       { x: 0.8, y: 0.22, dx: -200, dy: 280 },
     ]) {
-      fluid.splat(seed.x, seed.y, seed.dx, seed.dy, nextTone(0.26), 1.4);
+      fluid.splat(seed.x, seed.y, seed.dx, seed.dy, nextTone(0.5), 1.5);
     }
 
     const pointer = { x: 0, y: 0, has: false, lastSplat: 0, lastMove: 0 };
@@ -71,7 +77,7 @@ export default function SilverSmoke() {
           y,
           dx * 6 * STRENGTH,
           dy * 6 * STRENGTH,
-          nextTone(0.055 * STRENGTH),
+          nextTone(0.1 * STRENGTH),
           0.48,
         );
         pointer.lastSplat = now;
@@ -90,6 +96,16 @@ export default function SilverSmoke() {
     let frame = 0;
     let last = performance.now();
     let lastIdle = 0;
+    let lastAmbient = performance.now();
+    const plume = (scale: number) =>
+      fluid.splat(
+        Math.random(),
+        Math.random() * 0.4 + 0.1,
+        (Math.random() - 0.5) * 300,
+        260 + Math.random() * 200,
+        nextTone(scale * STRENGTH),
+        1.5,
+      );
     const step = (now: number) => {
       frame = requestAnimationFrame(step);
       if (document.hidden) {
@@ -104,14 +120,11 @@ export default function SilverSmoke() {
         now - lastIdle > IDLE_EVERY_MS
       ) {
         lastIdle = now;
-        fluid.splat(
-          Math.random(),
-          Math.random() * 0.4 + 0.1,
-          (Math.random() - 0.5) * 300,
-          260 + Math.random() * 200,
-          nextTone(0.24 * STRENGTH),
-          1.4,
-        );
+        lastAmbient = now;
+        plume(0.45);
+      } else if (now - lastAmbient > AMBIENT_EVERY_MS) {
+        lastAmbient = now;
+        plume(0.3);
       }
       fluid.step(dt);
       fluid.render();

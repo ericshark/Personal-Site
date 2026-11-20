@@ -62,7 +62,7 @@ html[data-theme="forma"] [data-ui~="forma-smoke"] {
   display: block;
   width: 100vw;
   height: 100vh;
-  opacity: 0.55;
+  opacity: 0.9;
   pointer-events: none;
 }
 
@@ -75,12 +75,12 @@ html[data-theme="forma"] [data-ui~="forma-wash"] {
   background:
     radial-gradient(
       circle at 18% 70%,
-      rgba(200, 206, 216, 0.1),
+      rgba(200, 206, 216, 0.2),
       transparent 42%
     ),
     radial-gradient(
       circle at 84% 22%,
-      rgba(244, 245, 247, 0.07),
+      rgba(244, 245, 247, 0.14),
       transparent 40%
     );
   filter: blur(24px);
@@ -94,7 +94,7 @@ html[data-theme="forma"] [data-ui~="forma-scrim"] {
   pointer-events: none;
   background: radial-gradient(
     ellipse 60% 80% at 50% 40%,
-    rgba(7, 8, 10, 0.55),
+    rgba(7, 8, 10, 0.35),
     transparent 70%
   );
 }
