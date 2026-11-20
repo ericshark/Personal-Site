@@ -391,7 +391,12 @@ test.describe("themes", () => {
     const options = page.getByRole("menuitemradio");
     await expect(options.first()).toBeFocused();
 
+    // The menu is a two-column grid: right/left step, down/up move a row.
     await page.keyboard.press("ArrowDown");
+    await expect(options.nth(2)).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(options.first()).toBeFocused();
+    await page.keyboard.press("ArrowRight");
     await expect(options.nth(1)).toBeFocused();
     await page.keyboard.press("Enter");
     await expectTheme(page, THEMES[1]);

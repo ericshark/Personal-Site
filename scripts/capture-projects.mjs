@@ -5,6 +5,7 @@
  *   npm run screenshots -- --encode-only re-encode from assets/project-sources/ (no network)
  *   npm run screenshots -- --only geopractice
  *   npm run screenshots -- --previews [--base-url http://localhost:3002]
+ *   npm run screenshots -- --themes [--base-url http://localhost:3002]
  *
  * Capture: headless Chromium opens each project's live URL (from
  * src/data/portfolio.ts) at 1440×900 and saves assets/project-sources/<slug>.jpg.
@@ -12,6 +13,10 @@
  * sizes must match MEDIA_SIZES in src/components/ProjectMedia.tsx.
  * With --previews, also captures and encodes Live, GitHub, and Case study link
  * preview thumbnails into public/projects/previews/<slug>-{live,github,case-study}.{avif,webp}.
+ * With --themes, captures the homepage hero in every theme from the local static
+ * build (run `npm run build` first) and encodes the theme-menu previews into
+ * public/themes/<id>.{avif,webp}. The size must match THEME_PREVIEW in
+ * src/components/ThemeMenu.tsx.
  */
 import { mkdir, access, readFile } from "node:fs/promises";
 import http from "node:http";
@@ -20,12 +25,21 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import sharp from "sharp";
 import { projects } from "../src/data/portfolio.ts";
+import { THEMES } from "../src/themes/registry.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDir = path.join(root, "assets", "project-sources");
 const previewSourceDir = path.join(sourceDir, "previews");
 const outDir = path.join(root, "public", "projects");
 const previewOutDir = path.join(outDir, "previews");
+const themeSourceDir = path.join(root, "assets", "theme-sources");
+const themeOutDir = path.join(root, "public", "themes");
+const THEME_PREVIEW = { width: 640, height: 400 };
+// The 1440×900 capture is cropped to the content column and hero (16:10), so the
+// headline stays legible in a ~260px menu card.
+const THEME_CROP = { left: 280, top: 0, width: 880, height: 550 };
+// Theme canvases (Forma's smoke, Playground's jellyfish…) need time to fill in.
+const THEME_SETTLE_MS = 6000;
 
 const SIZES = {
   thumb: { width: 480, height: 300 },
@@ -37,6 +51,7 @@ const SETTLE_MS = 4000;
 const args = process.argv.slice(2);
 const encodeOnly = args.includes("--encode-only");
 const previewsMode = args.includes("--previews");
+const themesMode = args.includes("--themes");
 const localOnly = args.includes("--local-only");
 const force = args.includes("--force");
 const onlyIndex = args.indexOf("--only");
@@ -104,7 +119,7 @@ const targets = projects.filter(
 );
 const previewTargets = projects.filter((p) => !only || p.slug === only);
 
-if (!previewsMode && targets.length === 0) {
+if (!previewsMode && !themesMode && targets.length === 0) {
   console.error(
     only ? `No image project with slug "${only}".` : "Nothing to do.",
   );
@@ -330,7 +345,83 @@ async function encodePreviews() {
   }
 }
 
-if (previewsMode) {
+async function captureThemes() {
+  await mkdir(themeSourceDir, { recursive: true });
+  const staticServer = explicitBaseUrl ? null : await startStaticOutServer();
+  const baseUrl = explicitBaseUrl ?? staticServer.url;
+  // Headless Chromium renders WebGL in software, and the site skips its WebGL
+  // backgrounds on software renderers. Report a GPU so the screenshots show them.
+  const browser = await chromium.launch({
+    headless: true,
+    args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+  });
+  try {
+    for (const theme of THEMES) {
+      const page = await browser.newPage({
+        viewport: { width: 1440, height: 900 },
+        deviceScaleFactor: 1,
+      });
+      await page.addInitScript((id) => {
+        localStorage.setItem("theme", id);
+        const UNMASKED_RENDERER = 0x9246;
+        for (const Context of [WebGLRenderingContext, WebGL2RenderingContext]) {
+          const getParameter = Context.prototype.getParameter;
+          Context.prototype.getParameter = function (name) {
+            return name === UNMASKED_RENDERER
+              ? "Screenshot GPU"
+              : getParameter.call(this, name);
+          };
+        }
+      }, theme.id);
+      await page.goto(`${baseUrl}/`, {
+        waitUntil: "networkidle",
+        timeout: 45_000,
+      });
+      await page.waitForTimeout(THEME_SETTLE_MS);
+      await page.screenshot({
+        path: path.join(themeSourceDir, `${theme.id}.jpg`),
+        type: "jpeg",
+        quality: 92,
+      });
+      await page.close();
+      console.log(`captured theme ${theme.id}`);
+    }
+  } finally {
+    await browser.close();
+    if (staticServer) await staticServer.close();
+  }
+}
+
+async function encodeThemes() {
+  await mkdir(themeOutDir, { recursive: true });
+  for (const theme of THEMES) {
+    const source = path.join(themeSourceDir, `${theme.id}.jpg`);
+    if (!(await fileExists(source))) {
+      console.warn(
+        `skip theme ${theme.id}: missing ${path.relative(root, source)}`,
+      );
+      continue;
+    }
+    const resized = sharp(source)
+      .extract(THEME_CROP)
+      .resize(THEME_PREVIEW.width, THEME_PREVIEW.height, {
+        fit: "cover",
+        position: "top",
+      });
+    const base = path.join(themeOutDir, theme.id);
+    await resized
+      .clone()
+      .avif({ quality: 55, effort: 6 })
+      .toFile(`${base}.avif`);
+    await resized.clone().webp({ quality: 78 }).toFile(`${base}.webp`);
+    console.log(`encoded theme ${theme.id}`);
+  }
+}
+
+if (themesMode) {
+  if (!encodeOnly) await captureThemes();
+  await encodeThemes();
+} else if (previewsMode) {
   if (!encodeOnly) await capturePreviews();
   await encodePreviews();
 } else {
