@@ -10,7 +10,7 @@ A palette button in the header replaces the moon/sun toggle. It opens a menu of 
 
 | #   | Ticket                                                                             | Adds to the menu         | Inspired by                              |
 | --- | ---------------------------------------------------------------------------------- | ------------------------ | ---------------------------------------- |
-| 1   | [01-theme-foundation-menu-observatory.md](01-theme-foundation-menu-observatory.md) | Light, Dark, Observatory | `~/GitHub/interactive/world-observatory` |
+| 1   | [01-theme-foundation-menu-observatory.md](01-theme-foundation-menu-observatory.md) | Light, Dark, Observatory | `~/GitHub/design/world-observatory`      |
 | 2   | [02-playground-theme.md](02-playground-theme.md)                                   | Playground               | `~/GitHub/design/interaction-playground` |
 | 3   | [03-deep-field-theme.md](03-deep-field-theme.md)                                   | Deep Field               | `~/GitHub/design/journey-through-space`  |
 | 4   | [04-forma-theme.md](04-forma-theme.md)                                             | Forma                    | `~/GitHub/design/liquid-sculpture`       |

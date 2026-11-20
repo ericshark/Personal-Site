@@ -199,7 +199,7 @@ Themes restyle the shared markup through `data-ui` attributes. They never fork c
 
 ## Part C: The Observatory theme
 
-The goal is World Observatory's command-center HUD applied to the portfolio's existing layout. Source: `~/GitHub/interactive/world-observatory/app/globals.css` (tokens at the top; `.hud-topbar`, `.telemetry-cell`, `.hud-panel`, `.hud-frame`, `.hud-inner`, `.hud-head`, `.hud-code`, `.hud-tick`, and the keyframes `hud-boot`, `scan`, `blink`) and `app/components/hud/HudPanel.tsx`.
+The goal is World Observatory's command-center HUD applied to the portfolio's existing layout. Source: `~/GitHub/design/world-observatory/app/globals.css` (tokens at the top; `.hud-topbar`, `.telemetry-cell`, `.hud-panel`, `.hud-frame`, `.hud-inner`, `.hud-head`, `.hud-code`, `.hud-tick`, and the keyframes `hud-boot`, `scan`, `blink`) and `app/components/hud/HudPanel.tsx`.
 
 ### C1. Tokens
 

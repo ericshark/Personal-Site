@@ -1,6 +1,6 @@
 /*
  * Observatory: World Observatory's command-centre HUD over the portfolio's
- * layout (source: ~/GitHub/interactive/world-observatory/app/globals.css).
+ * layout (source: ~/GitHub/design/world-observatory/app/globals.css).
  *
  * Tokens are scoped to [data-theme="observatory"] on any element (menu swatches
  * re-scope with it); skins are scoped to html[data-theme="observatory"] and target

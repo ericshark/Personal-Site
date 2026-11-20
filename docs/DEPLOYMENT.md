@@ -4,7 +4,7 @@
 
 |                 |                                                                     |
 | --------------- | ------------------------------------------------------------------- |
-| Application     | Eric Zwierzynski — Personal Site (`main-site`)                      |
+| Application     | Eric Zwierzynski — Personal Site (`personal-website`)               |
 | Status          | Live                                                                |
 | Production URL  | https://ericzwierzynski.dev                                         |
 | Redirect domain | https://www.ericzwierzynski.dev (308 → https://ericzwierzynski.dev) |
