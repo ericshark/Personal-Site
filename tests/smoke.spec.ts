@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { profile, projectKinds, projects } from "../src/data/portfolio";
-import { THEMES } from "../src/themes/registry";
+import { THEMES, getTheme } from "../src/themes/registry";
 
 // Vercel Analytics injects /_vercel/insights/script.js, which only exists on
 // Vercel. Stub it so the static build served locally doesn't log a 404.
@@ -349,6 +349,22 @@ test.describe("themes", () => {
     await page.addInitScript(() => localStorage.setItem("theme", "bogus"));
     await page.goto("/");
     await expectTheme(page, THEMES[0]);
+  });
+
+  test("a saved Dark theme opens as Forma, which replaced it", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      if (!sessionStorage.getItem("seeded")) {
+        localStorage.setItem("theme", "dark");
+        sessionStorage.setItem("seeded", "1");
+      }
+    });
+    await page.goto("/");
+    await expectTheme(page, getTheme("forma"));
+    expect(await page.evaluate(() => localStorage.getItem("theme"))).toBe(
+      "forma",
+    );
   });
 
   test("the menu lists every theme in order and marks the active one", async ({

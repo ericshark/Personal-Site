@@ -4,7 +4,7 @@
  * Add a theme by adding an entry here plus its folder under src/themes/<id>/.
  */
 
-export type ThemeId = "light" | "dark" | "observatory" | "playground" | "forma";
+export type ThemeId = "light" | "forma" | "observatory" | "playground";
 
 export type ThemeDefinition = {
   id: ThemeId;
@@ -28,11 +28,11 @@ export const THEMES: readonly ThemeDefinition[] = [
     themeColor: "#fafaf9",
   },
   {
-    id: "dark",
-    label: "Dark",
-    description: "The same site, after hours",
+    id: "forma",
+    label: "Forma",
+    description: "Obsidian, alabaster and liquid silver",
     scheme: "dark",
-    themeColor: "#0c0c0d",
+    themeColor: "#07080a",
   },
   {
     id: "observatory",
@@ -48,18 +48,16 @@ export const THEMES: readonly ThemeDefinition[] = [
     scheme: "light",
     themeColor: "#ffffff",
   },
-  {
-    id: "forma",
-    label: "Forma",
-    description: "Obsidian, alabaster and liquid silver",
-    scheme: "dark",
-    themeColor: "#07080a",
-  },
 ];
 
 export const DEFAULT_THEME: ThemeId = "light";
 
 export const THEME_STORAGE_KEY = "theme";
+
+/** Saved values from removed themes, mapped to the theme that replaced them. */
+export const LEGACY_THEMES: Readonly<Record<string, ThemeId>> = {
+  dark: "forma",
+};
 
 export function isThemeId(value: unknown): value is ThemeId {
   return THEMES.some((theme) => theme.id === value);
