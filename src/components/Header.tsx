@@ -80,6 +80,7 @@ export default function Header() {
     <header
       id="top"
       data-ui="site-header"
+      data-scrolled={isScrolled || undefined}
       className={`sticky top-0 z-50 border-b transition-[background-color,border-color] duration-200 ${
         isScrolled
           ? "border-neutral-200 bg-paper/85 backdrop-blur-md"

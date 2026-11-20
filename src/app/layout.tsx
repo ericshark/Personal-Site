@@ -11,6 +11,7 @@ import { DEFAULT_THEME, getTheme } from "@/themes/registry";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/themes/observatory/theme.css";
+import "@/themes/playground/theme.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMeta.url),

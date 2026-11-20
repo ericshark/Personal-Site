@@ -31,10 +31,23 @@ type ThemeClientModule = {
   Overlay?: Lazy<object>;
   /** Replaces the hero headline's default word rise. */
   headline?: Lazy<HeadlineProps>;
+  /** Effect for titles wrapped in <ThemeText> (section titles, project names…). */
+  text?: Lazy<TextProps>;
+  /** Effect for short action labels wrapped in <ThemeLabel>. */
+  label?: Lazy<TextProps>;
   slots?: Partial<Record<SlotName, Lazy<SlotProps>>>;
 };
 
-export type SlotName = "hero-kicker-extra";
+/** Props for text effects; they must keep `text` readable to screen readers. */
+export type TextProps = { text: string };
+
+export type SlotName =
+  /** Inside the hero kicker line. */
+  | "hero-kicker-extra"
+  /** Between the Projects heading and the first project group. */
+  | "projects-intro"
+  /** Over a project thumbnail or case-study media (positioned parent). */
+  | "media-overlay";
 
 const modules: Partial<Record<ThemeId, ThemeClientModule>> = {
   observatory: {
@@ -42,6 +55,26 @@ const modules: Partial<Record<ThemeId, ThemeClientModule>> = {
     headline: lazy(() => import("@/themes/observatory/TypedHeadline")),
     slots: {
       "hero-kicker-extra": lazy(() => import("@/themes/observatory/UtcClock")),
+    },
+  },
+  playground: {
+    Background: lazy(() => import("@/themes/playground/JellyfishBackground")),
+    headline: lazy(() =>
+      import("@/themes/playground/DecodeText").then((m) => ({
+        default: m.DecodeHeadline,
+      })),
+    ),
+    text: lazy(() => import("@/themes/playground/DecodeText")),
+    label: lazy(() =>
+      import("@/themes/playground/RollingText").then((m) => ({
+        default: m.RollLabel,
+      })),
+    ),
+    slots: {
+      "projects-intro": lazy(
+        () => import("@/themes/playground/ProjectCarousel"),
+      ),
+      "media-overlay": lazy(() => import("@/themes/playground/AsciiDissolve")),
     },
   },
 };
@@ -85,6 +118,30 @@ export function HeroHeadline({ text, delay }: HeadlineProps) {
     // Holds the headline's space while the effect's code loads.
     <Suspense fallback={<span className="invisible">{text}</span>}>
       <Effect key={theme} text={text} delay={delay} />
+    </Suspense>
+  );
+}
+
+/** A title in the active theme's text effect (e.g. Playground's decode), or plain. */
+export function ThemeText({ text }: TextProps) {
+  const theme = useThemeId();
+  const Effect = modules[theme]?.text;
+  if (!Effect) return <>{text}</>;
+  return (
+    <Suspense fallback={text}>
+      <Effect key={theme} text={text} />
+    </Suspense>
+  );
+}
+
+/** A short action label in the active theme's label effect, or plain. */
+export function ThemeLabel({ text }: TextProps) {
+  const theme = useThemeId();
+  const Effect = modules[theme]?.label;
+  if (!Effect) return <>{text}</>;
+  return (
+    <Suspense fallback={text}>
+      <Effect text={text} />
     </Suspense>
   );
 }

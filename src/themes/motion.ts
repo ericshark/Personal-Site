@@ -50,8 +50,30 @@ const boot: RevealPreset = {
   },
 };
 
+/**
+ * Playground "block": opacity steps in like a screen redraw rather than easing,
+ * with a short rise. Titles inside decode separately (see ThemeText).
+ */
+const block: RevealPreset = {
+  variants: {
+    hidden: { opacity: 0, x: 0, y: 8, filter: "blur(0px)" },
+    visible: {
+      opacity: [null, 0.4, 0.4, 1],
+      x: 0,
+      y: 0,
+      filter: "blur(0px)",
+    },
+  },
+  transition: {
+    duration: 0.35,
+    ease: [0.22, 1, 0.36, 1],
+    opacity: { duration: 0.35, times: [0, 0.34, 0.67, 1], ease: "linear" },
+  },
+};
+
 const presets: Partial<Record<ThemeId, RevealPreset>> = {
   observatory: boot,
+  playground: block,
 };
 
 export function revealPreset(id: ThemeId): RevealPreset {

@@ -468,6 +468,87 @@ test.describe("themes", () => {
   });
 });
 
+test.describe("playground theme", () => {
+  const imageProjects = projects.filter((p) => p.media.type === "image");
+
+  test("the project gallery sits above the list and navigates", async ({
+    page,
+  }) => {
+    const errors = collectErrors(page);
+    await page.addInitScript(() => localStorage.setItem("theme", "playground"));
+    await page.goto("/");
+
+    const gallery = page.getByRole("region", { name: "Project gallery" });
+    await gallery.scrollIntoViewIfNeeded();
+    await expect(gallery).toBeVisible();
+    await expect(gallery.locator('[data-ui~="pg-ring-card"]')).toHaveCount(
+      imageProjects.length,
+    );
+
+    const firstGroup = page.locator('[data-ui~="project-group"]').first();
+    const galleryBox = await gallery.boundingBox();
+    const groupBox = await firstGroup.boundingBox();
+    expect(galleryBox!.y + galleryBox!.height).toBeLessThanOrEqual(groupBox!.y);
+
+    // Hovering stops the auto-rotation, so the front card only moves on request.
+    await gallery.hover();
+    const name = gallery.locator('[data-ui~="pg-carousel-name"]');
+    await expect(name).toHaveText(
+      new RegExp(`^(${imageProjects.map((p) => p.name).join("|")})$`),
+    );
+    const before = await name.textContent();
+    await gallery.getByRole("button", { name: "Next project" }).click();
+    await expect(name).not.toHaveText(before!);
+
+    const front = gallery.getByRole("link", { name: /^Open .+ case study$/ });
+    await expect(front).toHaveCount(1);
+    const href = await front.getAttribute("href");
+    expect(imageProjects.map((p) => `/projects/${p.slug}`)).toContain(href);
+    expect((await page.request.get(href!)).status()).toBe(200);
+    expect(errors).toEqual([]);
+  });
+
+  test("the light theme has no project gallery", async ({ page }) => {
+    await page.goto("/");
+    await expect(
+      page.locator('[data-ui~="project-group"]').first(),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Project gallery" }),
+    ).toHaveCount(0);
+  });
+
+  test("decoded titles keep their exact text for assistive tech", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => localStorage.setItem("theme", "playground"));
+    await page.goto("/");
+    for (const name of [
+      "Projects",
+      "Selected Experience",
+      "Education",
+      "Contact",
+    ]) {
+      await expect(
+        page.getByRole("heading", { level: 2, name, exact: true }),
+      ).toHaveCount(1);
+    }
+    for (const project of projects) {
+      await expect(
+        page.getByRole("heading", {
+          level: 4,
+          name: project.name,
+          exact: true,
+        }),
+      ).toHaveCount(1);
+    }
+    await page.goto(`/projects/${projects[1].slug}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+      projects[1].name,
+    );
+  });
+});
+
 test.describe("mobile", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

@@ -9,6 +9,7 @@ import ProjectMedia, {
 } from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import MetricValue from "@/components/MetricValue";
+import { ThemeSlot, ThemeText } from "@/themes/client";
 import ThemeMenu from "@/components/ThemeMenu";
 import { projects, siteMeta, type Project } from "@/data/portfolio";
 
@@ -194,7 +195,7 @@ export default async function CaseStudy({ params }: Params) {
               data-ui="cs-title"
               className="mt-3 font-display text-3xl font-medium leading-[1.1] tracking-tight sm:text-4xl"
             >
-              {project.name}
+              <ThemeText text={project.name} />
             </h1>
             <p className="mt-2 max-w-[60ch] text-pretty text-base leading-snug text-neutral-700">
               {project.oneLiner}
@@ -218,6 +219,7 @@ export default async function CaseStudy({ params }: Params) {
               className="relative aspect-[16/10] overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100"
             >
               <ProjectMedia project={project} variant="media" eager />
+              <ThemeSlot name="media-overlay" />
             </div>
           </figure>
 
@@ -313,7 +315,7 @@ export default async function CaseStudy({ params }: Params) {
                 className={panel}
               >
                 <h2 id="architecture" className={`${panelLabel} mb-3`}>
-                  Architecture
+                  <ThemeText text="Architecture" />
                 </h2>
                 <ArchitectureDiagram architecture={caseStudy.architecture} />
               </section>
@@ -327,7 +329,7 @@ export default async function CaseStudy({ params }: Params) {
                 className={panel}
               >
                 <h2 id="decisions" className={`${panelLabel} mb-3`}>
-                  Key decisions
+                  <ThemeText text="Key decisions" />
                 </h2>
                 <ul className="grid gap-3 sm:grid-cols-2">
                   {caseStudy.decisions.map((decision) => (
@@ -359,7 +361,7 @@ export default async function CaseStudy({ params }: Params) {
               className={panel}
             >
               <h2 id="gallery" className={`${panelLabel} mb-3`}>
-                Gallery
+                <ThemeText text="Gallery" />
               </h2>
               <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {caseStudy.gallery.map((shot) => (

@@ -4,6 +4,8 @@ import ProjectMedia, { MEDIA_SIZES } from "@/components/ProjectMedia";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { projectKinds, projects } from "@/data/portfolio";
+import { ThemeLabel, ThemeSlot, ThemeText } from "@/themes/client";
+import type { CarouselItem } from "@/themes/playground/ProjectCarousel";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 const actionClass =
@@ -51,6 +53,21 @@ function ActionPreview({
   );
 }
 
+// Screenshot projects for themes that show a gallery (Playground's carousel).
+const carouselItems: CarouselItem[] = projects.flatMap((project) =>
+  project.media.type === "image"
+    ? [
+        {
+          slug: project.slug,
+          name: project.name,
+          category: project.category,
+          src: project.media.src,
+          alt: project.media.alt,
+        },
+      ]
+    : [],
+);
+
 /**
  * Compact ledger: one ruled row per project with an inline thumbnail. The three
  * actions are the only links in a row, so keyboard order is Live → GitHub → Case study.
@@ -59,6 +76,7 @@ export default function Projects() {
   return (
     <section aria-labelledby="projects" className="pb-14 sm:pb-20">
       <SectionHeading index="01" title="Projects" id="projects" />
+      <ThemeSlot name="projects-intro" data={carouselItems} />
 
       <div className="mt-6 space-y-8 sm:mt-8 sm:space-y-10">
         {projectKinds.map(({ kind, label }) => {
@@ -70,7 +88,9 @@ export default function Projects() {
                 data-ui="project-group-label"
                 className="mb-3 flex items-center gap-3 font-mono text-[11px] uppercase leading-none tracking-[0.2em] text-neutral-400"
               >
-                <span>{label}</span>
+                <span>
+                  <ThemeText text={label} />
+                </span>
                 <span
                   aria-hidden="true"
                   data-ui="project-group-rule"
@@ -92,9 +112,10 @@ export default function Projects() {
                     >
                       <div
                         data-ui="project-thumb"
-                        className="aspect-[16/10] self-start overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 md:row-span-2"
+                        className="relative aspect-[16/10] self-start overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 md:row-span-2"
                       >
                         <ProjectMedia project={project} variant="thumb" />
+                        <ThemeSlot name="media-overlay" />
                       </div>
 
                       <div className="min-w-0 md:col-start-2 md:flex md:items-baseline md:justify-between md:gap-6">
@@ -103,7 +124,7 @@ export default function Projects() {
                             data-ui="project-name"
                             className="font-display text-base font-medium leading-snug tracking-[-0.02em] sm:text-lg"
                           >
-                            {project.name}
+                            <ThemeText text={project.name} />
                           </h4>
                           <p className="mt-1 max-w-[56ch] text-pretty text-sm leading-snug text-neutral-600">
                             {project.oneLiner}
@@ -145,7 +166,9 @@ export default function Projects() {
                                 data-action="live"
                                 className={actionClass}
                               >
-                                <span>Live</span>
+                                <span>
+                                  <ThemeLabel text="Live" />
+                                </span>
                                 <ArrowUpRight
                                   size={13}
                                   strokeWidth={1.5}
@@ -168,7 +191,9 @@ export default function Projects() {
                                 data-action="github"
                                 className={actionClass}
                               >
-                                <span>GitHub</span>
+                                <span>
+                                  <ThemeLabel text="GitHub" />
+                                </span>
                                 <ArrowUpRight
                                   size={13}
                                   strokeWidth={1.5}
@@ -189,7 +214,9 @@ export default function Projects() {
                               data-action="case-study"
                               className={actionClass}
                             >
-                              <span>Case study</span>
+                              <span>
+                                <ThemeLabel text="Case study" />
+                              </span>
                               <ArrowRight
                                 size={13}
                                 strokeWidth={1.5}

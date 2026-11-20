@@ -1,3 +1,5 @@
+import { ThemeText } from "@/themes/client";
+
 /**
  * Numbered editorial section label: hairline rule, mono index, clear title.
  */
@@ -25,7 +27,7 @@ export default function SectionHeading({
           data-ui="section-title"
           className="font-display text-xl font-medium tracking-tight"
         >
-          {title}
+          <ThemeText text={title} />
         </span>
       </h2>
     </div>

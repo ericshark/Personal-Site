@@ -4,7 +4,7 @@
  * Add a theme by adding an entry here plus its folder under src/themes/<id>/.
  */
 
-export type ThemeId = "light" | "dark" | "observatory";
+export type ThemeId = "light" | "dark" | "observatory" | "playground";
 
 export type ThemeDefinition = {
   id: ThemeId;
@@ -40,6 +40,13 @@ export const THEMES: readonly ThemeDefinition[] = [
     description: "Cyberpunk command HUD",
     scheme: "dark",
     themeColor: "#05040d",
+  },
+  {
+    id: "playground",
+    label: "Playground",
+    description: "Interface studies, jellyfish and glyphs",
+    scheme: "light",
+    themeColor: "#ffffff",
   },
 ];
 
