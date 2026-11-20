@@ -5,7 +5,7 @@
  */
 
 export type ThemeId =
-  "light" | "dark" | "observatory" | "playground" | "deep-field";
+  "light" | "dark" | "observatory" | "playground" | "deep-field" | "forma";
 
 export type ThemeDefinition = {
   id: ThemeId;
@@ -55,6 +55,13 @@ export const THEMES: readonly ThemeDefinition[] = [
     description: "A quiet voyage through the stars",
     scheme: "dark",
     themeColor: "#020609",
+  },
+  {
+    id: "forma",
+    label: "Forma",
+    description: "Obsidian, alabaster and liquid silver",
+    scheme: "dark",
+    themeColor: "#07080a",
   },
 ];
 

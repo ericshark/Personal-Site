@@ -1,6 +1,6 @@
 ---
 title: "Ticket 4 — Forma theme"
-status: ready-for-agent
+status: done
 created: 2026-11-19
 depends-on: 01-theme-foundation-menu-observatory.md
 read-first: docs/tickets/site-themes/README.md

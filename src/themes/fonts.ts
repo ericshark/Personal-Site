@@ -1,5 +1,6 @@
 import {
   Chakra_Petch,
+  Instrument_Serif,
   JetBrains_Mono,
   Newsreader,
   Schibsted_Grotesk,
@@ -53,6 +54,16 @@ const jetbrainsMono = JetBrains_Mono({
   preload: false,
 });
 
+// Forma: Liquid Sculpture's italic serif accent (body stays Geist).
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument",
+  display: "swap",
+  preload: false,
+});
+
 /** Class names that expose every theme font as a CSS variable on <html>. */
 export const themeFontVariables = [
   chakraPetch.variable,
@@ -60,4 +71,5 @@ export const themeFontVariables = [
   schibstedGrotesk.variable,
   departureMono.variable,
   jetbrainsMono.variable,
+  instrumentSerif.variable,
 ].join(" ");

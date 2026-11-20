@@ -332,10 +332,11 @@ export default async function CaseStudy({ params }: Params) {
                   <ThemeText text="Key decisions" />
                 </h2>
                 <ul className="grid gap-3 sm:grid-cols-2">
-                  {caseStudy.decisions.map((decision) => (
+                  {caseStudy.decisions.map((decision, index) => (
                     <li
                       key={decision.title}
                       data-ui="cs-decision"
+                      data-index={String(index + 1).padStart(2, "0")}
                       className="rounded-md border border-neutral-200 bg-paper p-3.5"
                     >
                       <h3 className="font-display text-[0.9375rem] font-medium leading-snug tracking-tight">

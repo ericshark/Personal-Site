@@ -106,10 +106,20 @@ const focusPull: RevealPreset = {
   },
 };
 
+/** Forma "rise": Liquid Sculpture's reveal-rise, slow and soft, without blur. */
+const rise: RevealPreset = {
+  variants: {
+    hidden: { opacity: 0, x: 0, y: 28, scale: 1, filter: "blur(0px)" },
+    visible: { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)" },
+  },
+  transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+};
+
 const presets: Partial<Record<ThemeId, RevealPreset>> = {
   observatory: boot,
   playground: block,
   "deep-field": focusPull,
+  forma: rise,
 };
 
 export function revealPreset(id: ThemeId): RevealPreset {

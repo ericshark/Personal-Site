@@ -82,6 +82,13 @@ const modules: Partial<Record<ThemeId, ThemeClientModule>> = {
     Overlay: lazy(() => import("@/themes/deep-field/DistanceReadout")),
     headline: lazy(() => import("@/themes/deep-field/FocusHeadline")),
   },
+  forma: {
+    Background: lazy(() => import("@/themes/forma/SilverSmoke")),
+    headline: lazy(() => import("@/themes/forma/FormaHeadline")),
+    slots: {
+      "media-overlay": lazy(() => import("@/themes/forma/CurtainReveal")),
+    },
+  },
 };
 
 /** Mounted once in the root layout: the active theme's background and overlay. */

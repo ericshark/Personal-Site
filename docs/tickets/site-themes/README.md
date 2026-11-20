@@ -1,6 +1,6 @@
 ---
 title: Site themes — overview and shared decisions
-status: ready-for-agent
+status: done
 created: 2026-11-19
 ---
 

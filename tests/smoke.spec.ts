@@ -590,6 +590,37 @@ test.describe("deep field theme", () => {
   });
 });
 
+test.describe("forma theme", () => {
+  test("switching in and out never stacks smoke layers", async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    const layers = page.locator(
+      '[data-ui~="forma-smoke"], [data-ui~="forma-wash"]',
+    );
+    for (let round = 0; round < 3; round++) {
+      await pickTheme(page, "Forma");
+      await expect(layers).toHaveCount(1);
+      await pickTheme(page, "Light");
+      await expect(layers).toHaveCount(0);
+    }
+    await pickTheme(page, "Forma");
+    await expect(layers).toHaveCount(1);
+    expect(errors).toEqual([]);
+  });
+
+  test("case-study decisions keep their headings and text", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => localStorage.setItem("theme", "forma"));
+    const project = projects.find((p) => p.caseStudy.decisions.length > 0)!;
+    await page.goto(`/projects/${project.slug}`);
+    await expect(page.getByRole("main").locator("h3")).toHaveText(
+      project.caseStudy.decisions.map((d) => d.title),
+    );
+  });
+});
+
 test.describe("mobile", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
