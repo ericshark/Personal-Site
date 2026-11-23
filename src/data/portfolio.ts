@@ -357,6 +357,59 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "career-workspace",
+    name: "Career Workspace",
+    oneLiner:
+      "A local workspace for a job search: application tracking, AI job reviews, and truthful resume tailoring.",
+    category: "AI job-search workspace",
+    kind: "Product",
+    year: "2026",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Claude Agent SDK",
+      "OpenAI",
+      "Python",
+    ],
+    media: {
+      type: "image",
+      src: "/projects/career-workspace",
+      alt: "Career Workspace demo dashboard with fictional data: application counts, an application flow chart, updates and actions, and a calendar of upcoming deadlines.",
+    },
+    live: "https://career-workspace-demo.vercel.app",
+    repo: "https://github.com/ericshark/career-workspace",
+    caseStudy: {
+      summary:
+        "A job search spreads across trackers, emails, resumes and notes. Career Workspace puts it in one local app that I use daily: it tracks applications, reviews job posts with AI, tailors resumes, and organizes recruiting tasks. The live demo is a browser tour with fictional data and prepared AI results; the full app runs on your own computer.",
+      role: "Solo — design & build",
+      status: "Live demo · open source",
+      metrics: [
+        { value: "500+", label: "job postings reviewed and scored" },
+        { value: "979", label: "unit tests" },
+        { value: "3", label: "ways to connect AI: OpenAI, Claude, ChatGPT" },
+      ],
+      decisions: [
+        {
+          title: "The model scores, code decides",
+          body: "The model judges Fit and Match. Code derives the verdict and checks for duplicates. Job posts are treated as untrusted input, and model output must match a strict schema.",
+        },
+        {
+          title: "Every tailored change needs evidence",
+          body: "A tailored resume quotes the career record for each change. A sandboxed LaTeX build then checks for one page and clean ATS parsing before it publishes the PDF.",
+        },
+        {
+          title: "Plain files are the database",
+          body: "Applications, tasks and notes are local files, written with locks, hash checks and atomic renames. Personal data stays out of Git in the public edition.",
+        },
+        {
+          title: "The demo runs the real app",
+          body: "It reuses the app’s own screens and API code in the browser, with an in-memory file system and prepared answers in place of the model. It has no server, account, or AI calls.",
+        },
+      ],
+    },
+  },
+  {
     slug: "geopractice",
     name: "GeoGuessr Academy",
     oneLiner:
