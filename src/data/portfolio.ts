@@ -150,8 +150,8 @@ export const projects: Project[] = [
     slug: "agent-tracer",
     name: "Agent Tracer",
     oneLiner:
-      "Observability for AI agents: live timelines, model-call replay, and run comparison.",
-    category: "AI agent observability",
+      "Observability and evals for AI agents: live timelines, model-call replay, run comparison, and scored experiments.",
+    category: "AI agent observability & evals",
     kind: "Engineering",
     year: "2026",
     stack: [
@@ -171,17 +171,17 @@ export const projects: Project[] = [
     repo: "https://github.com/ericshark/agent-tracer",
     caseStudy: {
       summary:
-        "When an agent fails, the logs show that it failed, not why. Agent Tracer records every model call and tool call as a nested span, so you can find the step that went wrong, inspect its exact input and output, and re-run it.",
+        "When an agent fails, the logs show that it failed, not why. Agent Tracer records every model call and tool call as a nested span, so you can find the step that went wrong, inspect its exact input and output, and re-run it. Evals then score runs against a dataset, so you can tell whether a change helped.",
       role: "Solo — design & build",
       status: "Live demo",
       metrics: [
-        { value: "74", label: "tests in CI, on SQLite and PostgreSQL" },
+        { value: "138", label: "tests across the SDK, API, and web app" },
         { value: "OTLP", label: "OpenTelemetry / OpenInference ingest" },
-        { value: "SSE", label: "live trace list and timelines" },
-        { value: "256-bit", label: "revocable, expiring share links" },
+        { value: "25", label: "evaluators: code, tool-path, and LLM-judge" },
+        { value: "~45 µs", label: "SDK overhead per span, measured locally" },
       ],
       architecture: {
-        alt: "Architecture: the agent's Python SDK sends spans, or OTLP/HTTP JSON, to a FastAPI ingest service. The service upserts them into PostgreSQL and publishes Server-Sent Events to the React dashboard. Replay re-runs one model call against OpenAI, Anthropic, or an offline simulator.",
+        alt: "Architecture: the agent's Python SDK sends spans, or OTLP/HTTP JSON, to a FastAPI ingest service. The service upserts them into PostgreSQL and publishes Server-Sent Events to the React dashboard. Replay and evals call OpenAI, Anthropic, or an offline simulator; eval jobs are queued in PostgreSQL.",
         nodes: [
           {
             id: "sdk",
@@ -201,7 +201,13 @@ export const projects: Project[] = [
             detail: "waterfall · inspector",
             row: 0,
           },
-          { id: "db", label: "PostgreSQL", row: 1, col: 1 },
+          {
+            id: "db",
+            label: "PostgreSQL",
+            detail: "traces · eval jobs",
+            row: 1,
+            col: 1,
+          },
           {
             id: "llm",
             label: "OpenAI · Anthropic · simulator",
@@ -214,7 +220,7 @@ export const projects: Project[] = [
           { from: "sdk", to: "api", label: "spans / OTLP" },
           { from: "api", to: "ui", label: "SSE after commit" },
           { from: "api", to: "db" },
-          { from: "api", to: "llm", label: "replay one call" },
+          { from: "api", to: "llm", label: "replay · evals" },
         ],
       },
       decisions: [
@@ -223,8 +229,8 @@ export const projects: Project[] = [
           body: "The SDK sends a span when it starts and completes it later. The server upserts by (trace, span_id) and recomputes trace totals in one transaction; clients get an SSE event only after commit.",
         },
         {
-          title: "SSE over in-process pub/sub, not a queue",
-          body: "No Redis or queue to run at v1. The broker is a small interface, so it can move to Redis when the API runs on several workers.",
+          title: "Eval jobs queue in PostgreSQL, not a broker",
+          body: "Experiments are claimed with FOR UPDATE SKIP LOCKED, retried with backoff, and re-queued if a worker crashes. Live updates use in-process pub/sub, so there is no Redis to run.",
         },
         {
           title: "Replay never has side effects",
@@ -255,7 +261,7 @@ export const projects: Project[] = [
       status: "Open source · previously deployed",
       metrics: [
         { value: "29", label: "API endpoints" },
-        { value: "130+", label: "pytest tests" },
+        { value: "135", label: "pytest tests" },
         { value: "2", label: "auth strategies, switched by one env var" },
       ],
       architecture: {
@@ -317,7 +323,7 @@ export const projects: Project[] = [
     slug: "world-observatory",
     name: "World Observatory",
     oneLiner:
-      "A live global dashboard for population, economy, and emissions over a night-lights map.",
+      "A global dashboard for population, health, the economy, public debt, and emissions over a night-lights map.",
     category: "Data visualization",
     kind: "Product",
     year: "2026",
@@ -331,7 +337,7 @@ export const projects: Project[] = [
     repo: "https://github.com/ericshark/world-observatory",
     caseStudy: {
       summary:
-        "Global statistics usually arrive as static tables. World Observatory puts population, economy, and emissions on one night-lights map, so you can switch signals and compare countries in a single view.",
+        "Global statistics usually arrive as static tables. World Observatory puts population, health, the economy, public debt, and emissions on one night-lights map, so you can switch signals and compare countries in a single view.",
       role: "Solo — design & build",
       status: "Live",
       metrics: [
@@ -352,9 +358,9 @@ export const projects: Project[] = [
   },
   {
     slug: "geopractice",
-    name: "GeoPractice",
+    name: "GeoGuessr Academy",
     oneLiner:
-      "A local-first trainer for GeoGuessr clues, scheduled per clue with spaced repetition.",
+      "A course for recognizing GeoGuessr clues, scheduled per clue with spaced repetition.",
     category: "Learning app",
     kind: "Product",
     year: "2026",
@@ -362,28 +368,32 @@ export const projects: Project[] = [
     media: {
       type: "image",
       src: "/projects/geopractice",
-      alt: "GeoPractice dashboard: a welcome card with a skills-known progress ring, and skill cards for languages, driving side, coverage, and domains.",
+      alt: "GeoGuessr Academy Learn page: a suggested first lesson on driving side, progress counters, and a curriculum of clue topics.",
     },
     live: "https://geo-guesser-practice.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/geo-guesser-practice",
     caseStudy: {
       summary:
-        "Getting good at GeoGuessr means remembering hundreds of small clues. GeoPractice runs short rounds and schedules each clue with spaced repetition, so you spend time on the ones you’re about to forget.",
+        "Getting good at GeoGuessr means remembering hundreds of small clues, from road lines and signs to languages, plates, and driving side. GeoGuessr Academy teaches them in short lessons, mixes them in practice, and brings each clue back when you’re about to forget it.",
       role: "Solo — design & build",
       status: "Live",
       metrics: [
-        { value: "543", label: "skills tracked" },
+        { value: "400", label: "clues" },
+        { value: "93", label: "lessons in 15 topics" },
         { value: "FSRS", label: "per-clue scheduling" },
-        { value: "Offline", label: "no account needed" },
       ],
       decisions: [
         {
-          title: "Scheduling is per clue, not per deck",
-          body: "FSRS tracks each clue separately, and rounds pick the questions you need most.",
+          title: "Scheduling is per clue, not per prompt",
+          body: "FSRS schedules each clue across days at a 90% recall target. Every question shows a fresh example, so you learn the clue instead of memorizing one picture or sentence.",
         },
         {
-          title: "Local-first storage",
-          body: "Progress lives in the browser with Dexie, so the app works offline and needs no sign-up.",
+          title: "Lessons stay short, look-alikes stay together",
+          body: "A lesson teaches at most six clues. Practice mixes look-alikes, and wrong answers record which two clues you confuse so you can drill that pair.",
+        },
+        {
+          title: "Progress lives in the browser",
+          body: "The hosted app keeps progress in IndexedDB through Dexie, so there is no account to create.",
         },
       ],
     },
@@ -396,7 +406,7 @@ export const projects: Project[] = [
     category: "Browser games",
     kind: "Product",
     year: "2026",
-    stack: ["React", "Supabase", "Dexie", "PGlite"],
+    stack: ["React", "TypeScript", "Dexie", "Supabase", "PGlite"],
     media: {
       type: "image",
       src: "/projects/humanrank",
@@ -412,12 +422,12 @@ export const projects: Project[] = [
       metrics: [
         { value: "12", label: "games" },
         { value: "6", label: "skills" },
-        { value: "Optional", label: "accounts" },
+        { value: "Local", label: "history, no account needed" },
       ],
       decisions: [
         {
           title: "Accounts are optional",
-          body: "Results stay in the browser by default. Signing in with Supabase is a choice, not a gate.",
+          body: "Results stay in the browser, so every game works without signing in. The Supabase backend for accounts and population comparisons is built and optional; its SQL policies are tested with PGlite.",
         },
         {
           title: "Daily challenge is the same for everyone",
@@ -430,40 +440,56 @@ export const projects: Project[] = [
     slug: "world-game",
     name: "World Game",
     oneLiner:
-      "A geography game on a 3D globe with seven ways to play, from a daily puzzle to online battles.",
-    category: "3D geography game",
+      "A geography game on a 3D globe: lessons, daily puzzles, seven game modes, and ranked online duels.",
+    category: "Multiplayer 3D geography game",
     kind: "Product",
     year: "2026",
-    stack: ["React", "three.js", "Hono", "WebSockets", "TypeScript"],
+    stack: [
+      "React",
+      "three.js",
+      "TypeScript",
+      "Node.js",
+      "Hono",
+      "WebSockets",
+      "SQLite",
+    ],
     media: {
       type: "image",
       src: "/projects/world-game",
-      alt: "World Game home screen: a menu of game modes beside a realistic 3D globe centred on the Americas.",
+      alt: "World Game home screen: Learn, Daily, Play, and Compete tabs beside a realistic 3D globe centred on the Americas.",
     },
     live: "https://world-game.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/world-game",
     caseStudy: {
       summary:
-        "A geography game built around a realistic 3D globe. Find countries against the clock, close in on a hidden one hot-and-cold, cross the world one border at a time, or battle friends in private online rooms.",
+        "A geography game built around a realistic 3D globe. Learn countries, capitals, flags, cities, and states with spaced review, solve daily puzzles, race the clock, or battle others in private rooms and ranked duels. Version 2.0 installs for offline solo and Learn play.",
       role: "Solo — design & build",
-      status: "Live",
+      status: "Live · v2.0",
       metrics: [
         { value: "7", label: "game modes" },
-        { value: "Online", label: "battle rooms" },
-        { value: "52", label: "unit-test files" },
+        { value: "523", label: "unit tests" },
+        {
+          value: "300",
+          label: "simulated players in a local load test, 0 errors",
+        },
+        { value: "4 ms", label: "p95 move latency in that test" },
       ],
       decisions: [
         {
           title: "Game rules are pure and run anywhere",
-          body: "Every mode is plain-JSON state with no clock, randomness or rendering inside. The browser hosts solo games and the Node server hosts battles with the same code.",
+          body: "Every mode is plain-JSON state with no clock, randomness or rendering inside. The browser hosts solo games and the Node server hosts battles and ranked play with the same code.",
         },
         {
-          title: "Guests by default, sync only for accounts",
-          body: "Every browser gets an anonymous player, so guests cost the server nothing. Progress is uploaded only after signing in, and versioned so two devices never silently overwrite each other.",
+          title: "The server is the referee",
+          body: "Ranked dailies and battles send each player only what they’re allowed to see. A test plays every battle format to the end and checks each message for leaked answers.",
         },
         {
-          title: "Daily puzzles resume instead of restarting",
-          body: "State is saved after every move, so quitting a bad Daily to reroll it isn’t possible and an accidental reload loses nothing.",
+          title: "Quick Duel pairs players by Glicko-2 rating",
+          body: "The search window starts at ±100 and widens by 25 each second. After 20 seconds it offers a labelled bot match, which never changes a rating.",
+        },
+        {
+          title: "The globe loads fast and idles at zero",
+          body: "Splitting the bundle cut JavaScript from 1,392 KB to 329 KB and phone first paint from 1.8 s to 0.6 s. The globe renders only on demand, so idle phone CPU fell from 6.5% to 0%.",
         },
       ],
     },
@@ -472,35 +498,40 @@ export const projects: Project[] = [
     slug: "journey-through-space",
     name: "Journey Through Space",
     oneLiner:
-      "A scroll journey from Earth to Gaia BH1, the nearest known black hole, in 21 stops.",
-    category: "3D scroll experience",
+      "An interactive flight from Earth to the black hole Sagittarius A*, with 13 stops along the way.",
+    category: "3D interactive journey",
     kind: "Visual",
     year: "2026",
-    stack: ["three.js", "GSAP", "Lenis", "Vite"],
+    stack: ["three.js", "TypeScript", "GSAP", "Vite"],
     media: {
       type: "image",
       src: "/projects/journey-through-space",
-      alt: "Journey Through Space opening stop: a rendered Earth on a black starfield, with distance readouts and a tour-distance timeline.",
+      alt: "Journey Through Space opening stop: a rendered Earth against the Milky Way, with facts, distance from Earth, and a route of stops to Sagittarius A*.",
     },
     live: "https://journey-through-space.ericzwierzynski.dev",
     repo: "https://github.com/ericshark/journey-through-space",
     caseStudy: {
       summary:
-        "Astronomical distances are hard to feel. Journey Through Space turns the trip from Earth to the nearest confirmed black hole into a scroll, with 21 checkpoints that show how far you’ve gone.",
+        "Astronomical distances are hard to feel. Journey Through Space flies you from Earth to Sagittarius A*, about 26,000 light-years away. Inspect each world up close, take timed flights between stops, and finish with an optional descent past the event horizon.",
       role: "Solo — design & build",
       status: "Live",
       metrics: [
-        { value: "21", label: "checkpoints" },
-        { value: "Sourced", label: "astronomy data" },
+        { value: "13", label: "observation stops" },
+        { value: "12", label: "timed flights" },
+        { value: "26,000 ly", label: "to Sagittarius A*" },
       ],
       decisions: [
         {
-          title: "Scroll drives the journey",
-          body: "Scrolling moves the camera through the 21 stops, with Lenis smoothing the input and GSAP timing the transitions.",
+          title: "Timed flights, not scroll",
+          body: "Flights run on one pausable clock, so you can pause, skip, or fly back. Selecting a stop on the route jumps straight there.",
         },
         {
-          title: "Distances are kept to scale",
-          body: "Each stop uses sourced astronomy data, and a tour-distance timeline shows how far apart the stops really are.",
+          title: "Science and visuals are modelled separately",
+          body: "Distance and speed come from sourced, approximate positions. Visual space and flight times are compressed, and the route is a schematic, not a scale map.",
+        },
+        {
+          title: "Rendering adapts to the device",
+          body: "High, medium, and low quality tiers scale bloom, antialiasing, and the HDR pipeline to what the device can handle.",
         },
       ],
     },
@@ -589,6 +620,27 @@ export const projects: Project[] = [
 
 export const experience: Experience[] = [
   {
+    role: "Independent Software Engineer",
+    org: "Full-Stack & AI Applications",
+    location: "New York, NY",
+    period: "Sep 2025 – Present",
+    stack: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "Node.js",
+    ],
+    description:
+      "Designing, building, and deploying my own full-stack and AI applications end to end, from interface and backend to testing and hosting.",
+    details: [
+      "Built 12 web apps and deployed 9 via CI/CD; self-hosted a FastAPI service on a VPS with Nginx and TLS.",
+      "Engineered agentic coding workflows: repo-level context, reusable skills, parallel Git worktrees, and test gates.",
+      "Implemented authentication and authorization: OAuth/PKCE, RBAC, 2FA, revocable sessions, and rate limiting.",
+    ],
+  },
+  {
     role: "Software Developer Intern",
     org: "GeoComm",
     location: "Remote",
@@ -597,10 +649,10 @@ export const experience: Experience[] = [
     description:
       "Worked on backend software that helps emergency dispatch teams use accurate location data. I automated routine data checks, made service issues easier to investigate, and improved test coverage so the team could maintain its public-safety systems more confidently.",
     details: [
-      "Built backend Python and FastAPI services powering public-safety GIS workflows for 9-1-1 dispatch, processing real-time geospatial data to support accurate and timely emergency response routing.",
-      "Developed Airflow DAGs to track whether required files were present across all tenants, generating automated reports and reducing manual validation effort by ~30%.",
+      "Built backend Python and FastAPI services powering public-safety GIS workflows for a 9-1-1 provider serving agencies in 49 states, processing real-time geospatial data to support accurate and timely emergency response routing.",
+      "Developed Airflow DAGs to track whether required files were present across 100+ tenants, generating automated reports and reducing manual validation effort by ~30%.",
       "Added structured JSON logging with trace IDs across FastAPI services, cutting incident triage time by ~40%.",
-      "Wrote 40+ pytest unit tests, increasing code coverage from 32% to 90%.",
+      "Wrote 40+ pytest unit tests and refactored existing backend code, raising code coverage from 32% to 90%.",
     ],
   },
   {
@@ -634,7 +686,7 @@ export const experience: Experience[] = [
   },
   {
     role: "Software Developer Intern",
-    org: "Research Foundation of CUNY",
+    org: "Research Foundation of CUNY, AI Research Lab",
     location: "Queens, NY",
     period: "Jan 2024 – May 2024",
     stack: [
@@ -648,9 +700,9 @@ export const experience: Experience[] = [
     description:
       "Worked with a five-person research team to help students find internships and prepare their applications. I built tools for searching opportunities and tracking applications, along with an AI career advisor that offered resume feedback.",
     details: [
-      "Built a full-stack Next.js/TypeScript internship platform with keyword search, multi-filter sorting, and an application tracker used by dozens of students.",
-      "Aggregated scattered internship postings from GitHub internship lists and job sites into one searchable database.",
-      "Integrated the OpenAI API to normalize postings into structured, searchable fields and power a GPT-based career advisor that gave students resume feedback.",
+      "Built a full-stack Next.js/TypeScript internship platform with keyword search, multi-filter sorting, and an application tracker used by 50+ students.",
+      "Aggregated 1,000+ internship postings from GitHub internship lists and job sites into one searchable database.",
+      "Integrated the OpenAI API to normalize postings into structured, searchable fields, auto-tag them by role, and power a GPT-based career advisor that gave students resume feedback.",
     ],
   },
 ];
@@ -678,7 +730,7 @@ export const earlierExperience: Experience[] = [
     period: "May 2024 – Aug 2024",
     stack: [],
     description:
-      "Helped keep commercial interior construction projects organized by coordinating daily work across trades and subcontractors. I maintained project documents and schedules, keeping teams informed about upcoming work and changes.",
+      "Helped keep commercial interior construction projects organized by coordinating daily work across trades and subcontractors. I maintained project documents and schedules, keeping teams informed about upcoming work and changes. Streamlining documentation processes cut scheduling delays by 25%.",
     compact: true,
   },
 ];
